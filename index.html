@@ -97,6 +97,7 @@
   .legend span{display:inline-flex;align-items:center;gap:6px;}
   .swatch{width:20px;height:0;border-top:2.4px solid var(--outer);display:inline-block;}
   .swatch.part{border-top:2.4px solid var(--part-color);}
+  .swatch.offset{border-top:1.8px dashed var(--road);}
   .swatch.dot{border-top:1.8px dashed var(--inner);}
   
   canvas{
@@ -183,7 +184,7 @@
   <header>
     <div>
       <h1>ചെയിൻ സർവേ സ്കെച്ച് &amp; പാർട്ടീഷൻ CAD</h1>
-      <div class="subtitle">A4 ലാൻഡ് സ്കെച്ച്, ഇൻഡിപെൻഡന്റ് സബ് ഡിവിഷൻ &amp; വിസ്തീർണ്ണ കണക്കുകൂട്ടൽ</div>
+      <div class="subtitle">A4 ലാൻഡ് സ്കെച്ച്, ക്രോസ് ഓഫ്‌സെറ്റ് &amp; വിസ്തീർണ്ണ കണക്കുകൂട്ടൽ</div>
     </div>
     <span class="tag">SURVEY CAD PRO</span>
   </header>
@@ -193,6 +194,7 @@
       <button id="lockMainBtn">🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്</button>
       <button id="modeDraw" class="active">✏️ പ്ലോട്ട് വരയ്ക്കുക</button>
       <button id="modeRect">⬛ ചതുരം</button>
+      <button id="modeOffset">⟂ ക്രോസ് ഓഫ്‌സെറ്റ്</button>
       <button id="modePartition">✂️ പാർട്ടീഷൻ വരയ്ക്കുക</button>
       <button id="modeMovePart">📦 മൂവ് പാർട്ടീഷൻ</button>
       <button id="modeColor">🎨 ലൈൻ കളർ</button>
@@ -226,14 +228,15 @@
   <div class="a4-sheet-container">
     <div>
       <div class="legend">
-        <span><span class="swatch"></span> മെയിൻ പ്ലോട്ട് (Main Boundary)</span>
-        <span><span class="swatch part"></span> പാർട്ടീഷൻ പ്ലോട്ട് (Partition Plot)</span>
+        <span><span class="swatch"></span> മെയിൻ അതിർത്തി</span>
+        <span><span class="swatch part"></span> പാർട്ടീഷൻ പ്ലോട്ട്</span>
+        <span><span class="swatch offset"></span> ക്രോസ് ഓഫ്‌സെറ്റ് (90°)</span>
         <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ (Diagonal)</span>
       </div>
       <div class="canvas-box">
         <canvas id="canvas" width="1000" height="520"></canvas>
       </div>
-      <div class="status-bar" id="statusBar">✏️ മെയിൻ പ്ലോട്ട് വരയ്ക്കുക. പൂർത്തിയായ ശേഷം 'മെയിൻ പ്ലോട്ട് ലോക്ക്' ചെയ്യാം.</div>
+      <div class="status-bar" id="statusBar">✏️ മെയിൻ പ്ലോട്ട് വരയ്ക്കുക. ക്രോസ് ഓഫ്‌സെറ്റ് വരയ്ക്കാൻ '⟂ ക്രോസ് ഓഫ്‌സെറ്റ്' ക്ലിക്ക് ചെയ്യുക.</div>
     </div>
 
     <!-- Bottom Section -->
@@ -250,7 +253,7 @@
 
       <div class="note-box">
         <b>പ്ലോട്ട് വിവരണം &amp; സർട്ടിഫിക്കറ്റ്:</b><br>
-        ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും അളവുകളും കൃത്യമായ ചെയിൻ സർവേ രീതിയിൽ തയ്യാറാക്കിയതാണ്.<br>
+        ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും ഓഫ്‌സെറ്റുകളും കൃത്യമായ ചെയിൻ സർവേ രീതിയിൽ തയ്യാറാക്കിയതാണ്.<br>
         <div class="sign-space">
           <span>തയ്യാറാക്കിയത്: ലൈസൻസ്ഡ് സർവേയർ</span>
           <span>ഉടമസ്ഥന്റെ ഒപ്പ്</span>
@@ -277,6 +280,31 @@
   </div>
 </div>
 
+<!-- Modal Cross Offset -->
+<div class="modal-backdrop hidden" id="offsetModal">
+  <div class="modal">
+    <h3>⟂ ക്രോസ് ഓഫ്‌സെറ്റ് നൽകുക (90° Offset)</h3>
+    <p id="offsetLineInfo" style="font-size:12px;color:var(--accent-dark);margin:0 0 10px;font-weight:600;"></p>
+    
+    <label for="chainageInput">തുടക്കത്തിൽ നിന്നുള്ള ചെയിനേജ് ദൂരം (Chainage in meters):</label>
+    <input type="number" id="chainageInput" step="0.01" min="0" placeholder="ഉദാ: 12.5">
+
+    <label for="offsetLenInput">ഓഫ്‌സെറ്റ് നീളം (Offset Length in meters):</label>
+    <input type="number" id="offsetLenInput" step="0.01" min="0.01" placeholder="ഉദാ: 4.8">
+
+    <label for="offsetSideSelect">ഓഫ്‌സെറ്റ് വശം (Side):</label>
+    <select id="offsetSideSelect">
+      <option value="left">ഇടതുവശത്തേക്ക് (Left 90°)</option>
+      <option value="right">വലതുവശത്തേക്ക് (Right 90°)</option>
+    </select>
+
+    <div class="modal-actions">
+      <button id="cancelOffsetBtn">ക്യാൻസൽ</button>
+      <button id="saveOffsetBtn" class="primary">ഓഫ്‌സെറ്റ് വരയ്ക്കുക</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal Color Picker -->
 <div class="modal-backdrop hidden" id="colorModal">
   <div class="modal">
@@ -285,7 +313,7 @@
     <select id="lineColorSelect">
       <option value="#111A10">⚫ കറുപ്പ് (Default Outer)</option>
       <option value="#0066CC">🔵 നീല (Partition Blue)</option>
-      <option value="#C0392B">🔴 ചുവപ്പ് (Road / Boundary)</option>
+      <option value="#C0392B">🔴 ചുവപ്പ് (Road / Offset)</option>
       <option value="#276E2C">🟢 പച്ച (Green Line)</option>
       <option value="#C59B27">🟡 മഞ്ഞ / സ്വർണ്ണം (Yellow)</option>
     </select>
@@ -317,6 +345,7 @@
   let snapLinePoint = null;
   let currentMode = 'draw';
   let editingEdge = null;
+  let offsetBaseEdge = null;
 
   // Move / Drag Handlers
   let isDragging = false;
@@ -330,6 +359,7 @@
   const lockMainBtn = document.getElementById('lockMainBtn');
   const modeDrawBtn = document.getElementById('modeDraw');
   const modeRectBtn = document.getElementById('modeRect');
+  const modeOffsetBtn = document.getElementById('modeOffset');
   const modePartitionBtn = document.getElementById('modePartition');
   const modeMovePartBtn = document.getElementById('modeMovePart');
   const modeColorBtn = document.getElementById('modeColor');
@@ -345,6 +375,12 @@
   const lengthInput = document.getElementById('lengthInput');
   const lockPointSelect = document.getElementById('lockPointSelect');
   const modalTitle = document.getElementById('modalTitle');
+
+  const offsetModal = document.getElementById('offsetModal');
+  const offsetLineInfo = document.getElementById('offsetLineInfo');
+  const chainageInput = document.getElementById('chainageInput');
+  const offsetLenInput = document.getElementById('offsetLenInput');
+  const offsetSideSelect = document.getElementById('offsetSideSelect');
 
   const colorModal = document.getElementById('colorModal');
   const lineColorSelect = document.getElementById('lineColorSelect');
@@ -416,7 +452,7 @@
     return edges.find(e => (e.a === p1 && e.b === p2) || (e.a === p2 && e.b === p1));
   }
 
-  function addEdge(aId, bId, length=null, isPartition=false){
+  function addEdge(aId, bId, length=null, isPartition=false, isOffset=false){
     if(aId === bId || edgeExists(aId, bId)) return null;
     const p1 = points.find(p=>p.id===aId);
     const p2 = points.find(p=>p.id===bId);
@@ -424,7 +460,16 @@
       const d = dist(p1.x, p1.y, p2.x, p2.y);
       length = parseFloat((d / (BASE_PIXELS_PER_METER * currentScale)).toFixed(2));
     }
-    const e = { id: nextEdgeId++, a: aId, b: bId, length, isPartition, group: isPartition ? 'partition' : 'main', customColor: null };
+    const e = { 
+      id: nextEdgeId++, 
+      a: aId, 
+      b: bId, 
+      length, 
+      isPartition, 
+      isOffset,
+      group: isPartition ? 'partition' : 'main', 
+      customColor: null 
+    };
     edges.push(e);
     return e;
   }
@@ -551,7 +596,7 @@
     activeStartPoint = null;
     isDrawingRect = false;
 
-    [modeDrawBtn, modeRectBtn, modePartitionBtn, modeMovePartBtn, modeColorBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>b.classList.remove('active', 'active-part'));
+    [modeDrawBtn, modeRectBtn, modeOffsetBtn, modePartitionBtn, modeMovePartBtn, modeColorBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>b.classList.remove('active', 'active-part'));
 
     if(mode === 'draw'){
       modeDrawBtn.classList.add('active');
@@ -561,6 +606,10 @@
       modeRectBtn.classList.add('active');
       statusBar.textContent = '⬛ ചതുരം: ഡ്രാഗ് ചെയ്ത് ചതുര പ്ലോട്ട് വരയ്ക്കുക.';
       canvas.style.cursor = 'crosshair';
+    } else if(mode === 'offset'){
+      modeOffsetBtn.classList.add('active');
+      statusBar.textContent = '⟂ ക്രോസ് ഓഫ്‌സെറ്റ്: ഓഫ്‌സെറ്റ് എടുക്കേണ്ട ബേസ് ലൈനിൽ ക്ലിക്ക് ചെയ്യുക.';
+      canvas.style.cursor = 'pointer';
     } else if(mode === 'partition'){
       modePartitionBtn.classList.add('active-part');
       statusBar.textContent = '✂️ പാർട്ടീഷൻ: മെയിൻ പ്ലോട്ടിന് മുകളിൽ പൂർണ്ണ ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക.';
@@ -591,6 +640,7 @@
 
   modeDrawBtn.addEventListener('click', ()=>setMode('draw'));
   modeRectBtn.addEventListener('click', ()=>setMode('rect'));
+  modeOffsetBtn.addEventListener('click', ()=>setMode('offset'));
   modePartitionBtn.addEventListener('click', ()=>setMode('partition'));
   modeMovePartBtn.addEventListener('click', ()=>setMode('movePart'));
   modeColorBtn.addEventListener('click', ()=>setMode('color'));
@@ -635,6 +685,73 @@
   document.getElementById('cancelModalBtn').addEventListener('click', ()=>{
     lengthModal.classList.add('hidden');
     editingEdge = null;
+  });
+
+  // Cross Offset Modal Open
+  function openOffsetModal(edge){
+    offsetBaseEdge = edge;
+    const pA = points.find(p=>p.id===edge.a);
+    const pB = points.find(p=>p.id===edge.b);
+    const idxA = points.indexOf(pA)+1;
+    const idxB = points.indexOf(pB)+1;
+    
+    offsetLineInfo.textContent = `ബേസ് ലൈൻ: P${idxA} (തുടക്കം) ➔ P${idxB} (നീളം: ${edge.length || 0}m)`;
+    chainageInput.value = (edge.length ? (edge.length / 2).toFixed(2) : '');
+    offsetLenInput.value = '';
+    offsetModal.classList.remove('hidden');
+    setTimeout(()=>offsetLenInput.focus(), 50);
+  }
+
+  // Cross Offset Calculation
+  document.getElementById('saveOffsetBtn').addEventListener('click', ()=>{
+    const ch = parseFloat(chainageInput.value);
+    const offLen = parseFloat(offsetLenInput.value);
+    const side = offsetSideSelect.value;
+
+    if(offsetBaseEdge && !isNaN(ch) && !isNaN(offLen) && offLen > 0){
+      const pA = points.find(p=>p.id===offsetBaseEdge.a);
+      const pB = points.find(p=>p.id===offsetBaseEdge.b);
+      if(pA && pB){
+        saveSnapshot();
+        const ppm = BASE_PIXELS_PER_METER * currentScale;
+        const totalPxDist = dist(pA.x, pA.y, pB.x, pB.y);
+        const dx = (pB.x - pA.x) / totalPxDist;
+        const dy = (pB.y - pA.y) / totalPxDist;
+
+        // Base Chainage Point
+        const chainagePx = ch * ppm;
+        const basePtX = pA.x + dx * chainagePx;
+        const basePtY = pA.y + dy * chainagePx;
+
+        const basePt = { id: nextPtId++, x: basePtX, y: basePtY, group: offsetBaseEdge.group || 'main' };
+        points.push(basePt);
+
+        // 90 Degree Perpendicular Vector
+        let perpX = -dy, perpY = dx; // Left
+        if(side === 'right'){
+          perpX = dy; perpY = -dx; // Right
+        }
+
+        const offPx = offLen * ppm;
+        const targetPtX = basePtX + perpX * offPx;
+        const targetPtY = basePtY + perpY * offPx;
+
+        const offsetPt = { id: nextPtId++, x: targetPtX, y: targetPtY, group: offsetBaseEdge.group || 'main' };
+        points.push(offsetPt);
+
+        // Add Perpendicular Offset Line
+        addEdge(basePt.id, offsetPt.id, offLen, false, true);
+      }
+    }
+
+    offsetModal.classList.add('hidden');
+    offsetBaseEdge = null;
+    redraw();
+  });
+
+  document.getElementById('cancelOffsetBtn').addEventListener('click', ()=>{
+    offsetModal.classList.add('hidden');
+    offsetBaseEdge = null;
   });
 
   // Color Change Modal Handlers
@@ -682,6 +799,14 @@
       return;
     }
 
+    if(currentMode === 'offset'){
+      const edgeSnap = findSnapOnEdge(x, y);
+      if(edgeSnap && edgeSnap.edge){
+        openOffsetModal(edgeSnap.edge);
+      }
+      return;
+    }
+
     if(currentMode === 'delete'){
       const edge = findSnapOnEdge(x, y)?.edge;
       if(edge){
@@ -716,13 +841,11 @@
 
     // DRAW & PARTITION MODES
     if(currentMode === 'partition'){
-      // Look for partition's own points to close/continue loop
       let clickedPoint = findSnapVertex(x, y, 'partition');
 
       if(!clickedPoint){
-        // Create an INDEPENDENT partition point (Snap to edge coordinate without sharing node)
         const edgeSnap = findSnapOnEdge(x, y);
-        const ptSnap = findSnapVertex(x, y); // Snap to point coordinate
+        const ptSnap = findSnapVertex(x, y);
         
         saveSnapshot();
         const ptX = ptSnap ? ptSnap.x : (edgeSnap ? edgeSnap.x : x);
@@ -784,7 +907,6 @@
       if(currentMode === 'moveAll'){
         points.forEach(p => { p.x += dx; p.y += dy; });
       } else if(currentMode === 'movePart'){
-        // Move only the independent partition plot points
         points.forEach(p => {
           if(p.group === 'partition'){
             p.x += dx;
@@ -916,6 +1038,10 @@
       if(e.customColor){
         ctx.strokeStyle = e.customColor;
         ctx.lineWidth = 2.4;
+      } else if(e.isOffset){
+        ctx.strokeStyle = '#C0392B'; // Red Dashed for 90 Offset
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([4, 4]);
       } else if(e.isPartition || e.group === 'partition' || (p1.group === 'partition' && p2.group === 'partition')){
         ctx.strokeStyle = '#0066CC'; // Blue Partition Line
         ctx.lineWidth = 2.6;
@@ -928,8 +1054,8 @@
         ctx.lineWidth = 2.2;
       }
 
-      if(snapLinePoint && snapLinePoint.edge && snapLinePoint.edge.id === e.id && (currentMode === 'delete' || currentMode === 'value' || currentMode === 'color')){
-        ctx.strokeStyle = currentMode === 'delete' ? '#C0392B' : '#C59B27';
+      if(snapLinePoint && snapLinePoint.edge && snapLinePoint.edge.id === e.id && (currentMode === 'delete' || currentMode === 'value' || currentMode === 'color' || currentMode === 'offset')){
+        ctx.strokeStyle = (currentMode === 'delete') ? '#C0392B' : '#C59B27';
         ctx.lineWidth = 3.6;
       }
 
@@ -952,7 +1078,7 @@
       ctx.rotate(angle);
 
       ctx.font = "bold 11px 'JetBrains Mono', monospace";
-      ctx.fillStyle = e.customColor || (e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B'));
+      ctx.fillStyle = e.customColor || (e.isOffset ? '#C0392B' : (e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B')));
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
       ctx.fillText(text, 0, -4);
@@ -960,7 +1086,7 @@
     }
 
     // Line Snap Indicator
-    if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition')){
+    if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset')){
       ctx.save();
       ctx.beginPath();
       ctx.arc(snapLinePoint.x, snapLinePoint.y, 5, 0, Math.PI * 2);
