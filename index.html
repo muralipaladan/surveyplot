@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD - Full A4 Canvas</title>
+<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD & A4 ഷീറ്റ്</title>
 <meta name="theme-color" content="#1B261A">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -83,7 +83,7 @@
   button.lock-active{background:#8A6D14;border-color:#654E0B;color:#fff;}
   
   .scale-label{
-    font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:700;
+    font-family:Arial, sans-serif;font-size:11px;font-weight:700;
     padding:2px 4px;color:var(--accent-dark);
   }
 
@@ -184,7 +184,7 @@
     padding:5px 6px;border-bottom:1px solid #D5CEBD;
   }
   th{background:#EFECE2;font-weight:600;color:var(--ink);border-top:1px solid #D5CEBD;}
-  td.mono{font-family:'JetBrains Mono', monospace;font-weight:600;}
+  td.mono{font-family:Arial, sans-serif;font-weight:600;}
   .total-row{
     background:#EEF4EC;font-weight:700;font-size:11.5px;color:var(--accent-dark);
   }
@@ -193,7 +193,7 @@
     display:flex;
     justify-content:flex-end;
     align-items:center;
-    font-family:'JetBrains Mono', monospace;
+    font-family:Arial, sans-serif;
     font-size:10.5px;
     font-weight:600;
     color:#EEE;
@@ -214,7 +214,7 @@
   .modal h3{margin:0 0 6px;font-size:13.5px;}
   .modal label{display:block;font-size:11px;color:var(--ink-soft);margin-bottom:2px;font-weight:600;}
   .modal input, .modal select{
-    width:100%;font-family:'JetBrains Mono', monospace;font-size:13px;
+    width:100%;font-family:Arial, sans-serif;font-size:13px;
     padding:6px 8px;border-radius:4px;border:1px solid var(--border);margin-bottom:8px;
   }
   .modal-actions{display:flex;justify-content:flex-end;gap:5px;}
@@ -266,22 +266,22 @@
       <button id="undoBtn">↩ Undo</button>
       <button id="clearBtn" class="danger">🗑 ക്ലിയർ</button>
       <div style="flex:1;"></div>
-      <button id="pageZoomOutBtn1" title="പേജ് സൂം കുറയ്ക്കുക">🔎 -</button>
-      <span class="scale-label" id="pageScaleLabel1">100%</span>
-      <button id="pageZoomInBtn1" title="പേജ് സൂം കൂട്ടുക">🔎 +</button>
+      <button id="drawZoomOutBtn">🔍 -</button>
+      <span class="scale-label" id="drawScaleLabel1">100%</span>
+      <button id="drawZoomInBtn">🔍 +</button>
     </div>
 
     <!-- Panel 2: Edit & View -->
     <div class="tab-panel" id="tabEdit">
-      <button id="lockDrawingBtn" class="primary" style="background:#8A6D14;border-color:#654E0B;">🔒 ഡ്രോയിംഗ് ലോക്ക് (Pan)</button>
+      <button id="lockDrawingBtn" class="primary" style="background:#8A6D14;border-color:#654E0B;">🔒 ഡ്രോയിംഗ് ലോക്ക് (Pan/Zoom)</button>
       <button id="modeValue">📏 അളവ് മാറ്റുക</button>
       <button id="modeColor">🎨 കളർ</button>
       <button id="modeDelete" class="danger">❌ ഒഴിവാക്കുക</button>
       <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
-      <button id="pageZoomOutBtn2">🔎 -</button>
-      <span class="scale-label" id="pageScaleLabel2">100%</span>
-      <button id="pageZoomInBtn2">🔎 +</button>
-      <button id="pageZoomResetBtn">Reset Page</button>
+      <button id="zoomOutBtn">🔍 -</button>
+      <span class="scale-label" id="drawScaleLabel2">100%</span>
+      <button id="zoomInBtn">🔍 +</button>
+      <button id="zoomResetBtn">Reset</button>
     </div>
 
     <!-- Panel 3: Partition -->
@@ -289,10 +289,6 @@
       <button id="lockMainBtn">🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്</button>
       <button id="modePartition">✂️ പാർട്ട് വരയ്ക്കുക</button>
       <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
-      <div style="flex:1;"></div>
-      <button id="pageZoomOutBtn3">🔎 -</button>
-      <span class="scale-label" id="pageScaleLabel3">100%</span>
-      <button id="pageZoomInBtn3">🔎 +</button>
     </div>
 
     <!-- Panel 4: Report & Print -->
@@ -327,7 +323,7 @@
         </div>
         <canvas id="canvas" width="1000" height="920"></canvas>
       </div>
-      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്.</div>
+      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Mouse wheel / Pinch വഴി സൂം ചെയ്യാം.</div>
 
       <!-- Print-Only Bottom Area (Visible in PDF / Print) -->
       <div class="print-bottom-section">
@@ -442,13 +438,11 @@
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   const CW = canvas.width, CH = canvas.height;
-  const a4SheetElement = document.getElementById('a4SheetElement');
   
   const SNAP = 24;
   const LINE_SNAP = 18;
   const BASE_PIXELS_PER_METER = 12;
 
-  let pageZoom = 1.0;
   let currentScale = 1.0;
   let points = []; 
   let edges = [];  
@@ -489,7 +483,12 @@
   const modeDeleteBtn = document.getElementById('modeDelete');
   const modeValueBtn = document.getElementById('modeValue');
   
-  const pageZoomResetBtn = document.getElementById('pageZoomResetBtn');
+  const zoomInBtn = document.getElementById('zoomInBtn');
+  const zoomOutBtn = document.getElementById('zoomOutBtn');
+  const zoomResetBtn = document.getElementById('zoomResetBtn');
+  const drawZoomInBtn = document.getElementById('drawZoomInBtn');
+  const drawZoomOutBtn = document.getElementById('drawZoomOutBtn');
+
   const statusBar = document.getElementById('statusBar');
   const printTableContainer = document.getElementById('printTableContainer');
   const screenTableContainer = document.getElementById('screenTableContainer');
@@ -530,39 +529,9 @@
     isDrawingLocked = !!data.isDrawingLocked;
     updateLockUI();
     updateDrawingLockUI();
+    updateScaleLabel();
     activeStartPoint = null;
     redraw();
-  }
-
-  // Reliable Full Page Zoom Functions
-  function setPageZoom(newZoom){
-    pageZoom = Math.max(0.6, Math.min(2.5, newZoom));
-    
-    if('zoom' in a4SheetElement.style){
-      a4SheetElement.style.zoom = pageZoom;
-    } else {
-      a4SheetElement.style.transform = `scale(${pageZoom})`;
-    }
-    
-    const labelText = `${Math.round(pageZoom * 100)}%`;
-    ['pageScaleLabel1', 'pageScaleLabel2', 'pageScaleLabel3'].forEach(id => {
-      const el = document.getElementById(id);
-      if(el) el.textContent = labelText;
-    });
-  }
-
-  ['pageZoomInBtn1', 'pageZoomInBtn2', 'pageZoomInBtn3'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.addEventListener('click', ()=>setPageZoom(pageZoom + 0.15));
-  });
-
-  ['pageZoomOutBtn1', 'pageZoomOutBtn2', 'pageZoomOutBtn3'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.addEventListener('click', ()=>setPageZoom(pageZoom - 0.15));
-  });
-
-  if(pageZoomResetBtn){
-    pageZoomResetBtn.addEventListener('click', ()=>setPageZoom(1.0));
   }
 
   function dist(x1,y1,x2,y2){ return Math.hypot(x2-x1, y2-y1); }
@@ -652,6 +621,14 @@
     movingP.y = fixedP.y + (movingP.y - fixedP.y) * ratio;
   }
 
+  function updateScaleLabel(){
+    const text = `${Math.round(currentScale * 100)}%`;
+    const l1 = document.getElementById('drawScaleLabel1');
+    const l2 = document.getElementById('drawScaleLabel2');
+    if(l1) l1.textContent = text;
+    if(l2) l2.textContent = text;
+  }
+
   function updateLockUI(){
     if(isMainLocked){
       lockMainBtn.textContent = '🔒 മെയിൻ ലോക്ക്ഡ്';
@@ -664,9 +641,9 @@
 
   function updateDrawingLockUI(){
     if(isDrawingLocked){
-      lockDrawingBtn.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ് (Pan)';
+      lockDrawingBtn.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ് (Pan/Zoom)';
       lockDrawingBtn.classList.add('lock-active');
-      statusBar.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ്: കാൻവാസ് ഡ്രാഗ് ചെയ്ത് നീക്കാം.';
+      statusBar.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ്: കാൻവാസ് ഡ്രാഗ് ചെയ്ത് നീക്കാം, സൂം ചെയ്യാം.';
       canvas.style.cursor = 'grab';
     } else {
       lockDrawingBtn.textContent = '🔓 ഡ്രോയിംഗ് അൺലോക്ക്';
@@ -692,6 +669,53 @@
     updateLockUI();
     redraw();
   });
+
+  // Direct Drawing Zoom Function
+  function rescalePlot(factor, focusX = CW / 2, focusY = CH / 2){
+    if(!points.length){
+      currentScale = Math.max(0.3, Math.min(3.5, currentScale * factor));
+      updateScaleLabel();
+      return;
+    }
+    saveSnapshot();
+
+    const newScale = Math.max(0.3, Math.min(3.5, currentScale * factor));
+    const effectiveFactor = newScale / currentScale;
+
+    points.forEach(p => {
+      p.x = focusX + (p.x - focusX) * effectiveFactor;
+      p.y = focusY + (p.y - focusY) * effectiveFactor;
+    });
+
+    currentScale = newScale;
+    updateScaleLabel();
+    redraw();
+  }
+
+  if(zoomInBtn) zoomInBtn.addEventListener('click', ()=>rescalePlot(1.15));
+  if(zoomOutBtn) zoomOutBtn.addEventListener('click', ()=>rescalePlot(0.85));
+  if(drawZoomInBtn) drawZoomInBtn.addEventListener('click', ()=>rescalePlot(1.15));
+  if(drawZoomOutBtn) drawZoomOutBtn.addEventListener('click', ()=>rescalePlot(0.85));
+
+  if(zoomResetBtn){
+    zoomResetBtn.addEventListener('click', ()=>{
+      if(currentScale === 1.0) return;
+      rescalePlot(1.0 / currentScale);
+      currentScale = 1.0;
+      updateScaleLabel();
+    });
+  }
+
+  // Mouse Wheel Zoom
+  canvas.addEventListener('wheel', (e)=>{
+    e.preventDefault();
+    const {x, y} = getCanvasCoords(e.clientX, e.clientY);
+    if(e.deltaY < 0){
+      rescalePlot(1.08, x, y);
+    } else {
+      rescalePlot(0.92, x, y);
+    }
+  }, { passive: false });
 
   function analyzeTriangles(){
     const triangles = [];
@@ -1124,13 +1148,23 @@
   });
   window.addEventListener('mouseup', handlePointerUp);
 
-  // Mobile Touch Gestures
+  // Mobile Touch Gestures (Pinch Zoom & Drag)
   canvas.addEventListener('touchstart', (e)=>{
     if(e.touches.length === 1){
       isPinching = false;
       const t = e.touches[0];
       const {x, y} = getCanvasCoords(t.clientX, t.clientY);
       handlePointerDown(x, y);
+    } else if(e.touches.length === 2){
+      isPinching = true;
+      isDragging = false;
+      isDrawingRect = false;
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      initialPinchDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
+      initialScale = currentScale;
+      pinchMidX = (t1.clientX + t2.clientX) / 2;
+      pinchMidY = (t1.clientY + t2.clientY) / 2;
     }
     e.preventDefault();
   }, { passive: false });
@@ -1140,6 +1174,25 @@
       const t = e.touches[0];
       const {x, y} = getCanvasCoords(t.clientX, t.clientY);
       handlePointerMove(x, y);
+    } else if(e.touches.length === 2){
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const currentDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
+      if(initialPinchDist > 0){
+        const zoomRatio = currentDist / initialPinchDist;
+        const newScale = Math.max(0.3, Math.min(3.5, initialScale * zoomRatio));
+        const factor = newScale / currentScale;
+        
+        const {x: cx, y: cy} = getCanvasCoords(pinchMidX, pinchMidY);
+        points.forEach(p => {
+          p.x = cx + (p.x - cx) * factor;
+          p.y = cy + (p.y - cy) * factor;
+        });
+
+        currentScale = newScale;
+        updateScaleLabel();
+        redraw();
+      }
     }
     e.preventDefault();
   }, { passive: false });
@@ -1238,7 +1291,7 @@
       ctx.stroke();
       ctx.restore();
 
-      // Clear Solid High-Contrast Badge for Dimensions
+      // Clear Bold Arial Dimension (No Box, Sharp White Text Halo)
       const mx = (p1.x + p2.x) / 2;
       const my = (p1.y + p2.y) / 2;
       let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
@@ -1253,27 +1306,17 @@
       ctx.translate(mx, my);
       ctx.rotate(angle);
 
-      ctx.font = "bold 11px 'JetBrains Mono', monospace";
-      const textMetrics = ctx.measureText(text);
-      const textWidth = textMetrics.width;
-      const textHeight = 11;
-
-      ctx.fillStyle = "rgba(255, 255, 255, 0.96)";
-      ctx.strokeStyle = "rgba(180, 170, 150, 0.9)";
-      ctx.lineWidth = 1;
-      
-      const badgePaddingX = 3;
-      const badgePaddingY = 1.5;
-      const badgeY = -textHeight - 4;
-
-      ctx.beginPath();
-      ctx.roundRect(-textWidth / 2 - badgePaddingX, badgeY - badgePaddingY, textWidth + badgePaddingX * 2, textHeight + badgePaddingY * 2, 3);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.fillStyle = e.customColor || (e.isOffset ? '#C0392B' : (e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B')));
+      ctx.font = "bold 12px Arial, sans-serif";
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
+
+      // White outline for 100% clarity
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 3.5;
+      ctx.lineJoin = 'round';
+      ctx.strokeText(text, 0, -3);
+
+      ctx.fillStyle = e.customColor || (e.isOffset ? '#C0392B' : (e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B')));
       ctx.fillText(text, 0, -3);
       ctx.restore();
     }
@@ -1290,43 +1333,37 @@
       ctx.restore();
     }
 
-    // Ultra-Crisp Sharp Point Rendering (P1, P2)
+    // Points Rendering with Sharp Arial Font (No Box)
     points.forEach((p, idx)=>{
       const isActive = (activeStartPoint && activeStartPoint.id === p.id);
       const isPart = (p.group === 'partition');
 
       ctx.beginPath();
-      ctx.arc(p.x, p.y, isActive ? 5 : 3.5, 0, Math.PI*2);
+      ctx.arc(p.x, p.y, isActive ? 5.5 : 4, 0, Math.PI*2);
       ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? '#C59B27' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 1.4;
+      ctx.lineWidth = 1.5;
       ctx.stroke();
 
       const pText = `P${idx+1}`;
-      ctx.font = "bold 9px 'JetBrains Mono', monospace";
-      const pw = ctx.measureText(pText).width;
-      const ph = 10;
-      const labelX = p.x + 5;
-      const labelY = p.y - 12;
+      ctx.font = "bold 11px Arial, sans-serif";
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
 
-      ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
-      ctx.strokeStyle = isPart ? "#0066CC" : "#333333";
-      ctx.lineWidth = 0.8;
-      ctx.beginPath();
-      ctx.roundRect(labelX, labelY, pw + 4, ph + 1, 2);
-      ctx.fill();
-      ctx.stroke();
+      // White halo for point text
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 3.5;
+      ctx.lineJoin = 'round';
+      ctx.strokeText(pText, p.x + 5, p.y - 3);
 
       ctx.fillStyle = isPart ? '#0066CC' : '#111A10';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(pText, labelX + 2, labelY + (ph / 2));
+      ctx.fillText(pText, p.x + 5, p.y - 3);
     });
 
     if(isDrawingLocked){
       ctx.save();
-      ctx.font = "bold 11px 'Noto Sans Malayalam', sans-serif";
+      ctx.font = "bold 12px 'Noto Sans Malayalam', sans-serif";
       ctx.fillStyle = "rgba(138, 109, 20, 0.95)";
       ctx.fillText("🔒 VIEW / PAN MODE (LOCKED)", 10, 20);
       ctx.restore();
@@ -1449,7 +1486,7 @@
       updateLockUI();
       updateDrawingLockUI();
       currentScale = 1.0;
-      setPageZoom(1.0);
+      updateScaleLabel();
       redraw();
       screenTableContainer.innerHTML = '';
       printTableContainer.innerHTML = '';
