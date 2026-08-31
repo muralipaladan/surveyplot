@@ -3,554 +3,1018 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YT Downloader</title>
+<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD &amp; പാർട്ടീഷൻ മാനേജർ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0f0f13;
-    --surface: #1a1a24;
-    --border: #2a2a38;
-    --accent: #7c6af7;
-    --accent2: #a78bfa;
-    --text: #e8e8f0;
-    --muted: #8080a0;
-    --green: #22c55e;
-    --red: #ef4444;
-    --radius: 12px;
+  :root{
+    --bg:#F2EFE9;
+    --paper:#FFFFFF;
+    --grid:#E5DFC9;
+    --ink:#1B261A;
+    --ink-soft:#5A5747;
+    --outer:#111A10;
+    --inner:#7A5E2E;
+    --road:#C0392B;
+    --accent:#276E2C;
+    --accent-dark:#184A1C;
+    --part-color:#0066CC;
+    --brass:#C59B27;
+    --danger:#C0392B;
+    --card:#FFFFFF;
+    --border:#CDC1A7;
+    --shadow:0 4px 12px rgba(0,0,0,0.06);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:'Noto Sans Malayalam', sans-serif;
+    color:var(--ink);
+    padding:16px 12px;
+  }
+  .app{max-width:1180px;margin:0 auto;}
+  header{
+    display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;
+    border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:12px;
+  }
+  h1{margin:0;font-size:22px;font-weight:700;color:var(--ink);}
+  .tag{
+    background:var(--accent);color:#fff;font-size:11px;font-weight:700;
+    padding:3px 8px;border-radius:4px;letter-spacing:1px;
+  }
+  .subtitle{font-size:13px;color:var(--ink-soft);margin-top:2px;}
+  
+  .toolbar{
+    display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+    background:var(--card);border:1px solid var(--border);border-radius:8px;
+    padding:8px 12px;margin-bottom:12px;box-shadow:var(--shadow);
+  }
+  .btn-group{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+  .divider{width:1px;height:26px;background:var(--border);margin:0 4px;}
+  button, select{
+    font-family:inherit;font-size:12px;font-weight:600;
+    padding:7px 10px;border-radius:5px;border:1px solid var(--border);
+    background:#fff;color:var(--ink);cursor:pointer;transition:all .15s ease;
+  }
+  button:hover, select:hover{border-color:var(--accent);color:var(--accent-dark);}
+  button.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  button.active-part{background:var(--part-color);border-color:var(--part-color);color:#fff;}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+  button.primary:hover{background:var(--accent-dark);}
+  button.danger{color:var(--danger);border-color:var(--danger);}
+  button.danger:hover{background:var(--danger);color:#fff;}
+  button.lock-active{background:#444;border-color:#222;color:#fff;}
+  
+  .scale-label{
+    font-family:'JetBrains Mono', monospace;font-size:12px;font-weight:700;
+    padding:4px 6px;color:var(--accent-dark);
   }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 16px 80px;
+  .a4-sheet-container{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px;
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
   }
 
-  header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  .logo {
-    font-size: 2.2rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -1px;
-  }
-  .tagline {
-    color: var(--muted);
-    font-size: 0.9rem;
-    margin-top: 6px;
+  .canvas-box{
+    position:relative;
+    width:100%;
+    background:var(--paper);
+    border-radius:6px;
+    border:1px solid var(--grid);
+    overflow:hidden;
   }
 
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    width: 100%;
-    max-width: 640px;
+  .legend{
+    display:flex;gap:18px;font-size:12px;color:var(--ink-soft);padding:4px 8px 8px;flex-wrap:wrap;
+  }
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:20px;height:0;border-top:2.4px solid var(--outer);display:inline-block;}
+  .swatch.part{border-top:2.4px solid var(--part-color);}
+  .swatch.dot{border-top:1.8px dashed var(--inner);}
+  
+  canvas{
+    display:block;width:100%;height:auto;background:var(--paper);cursor:crosshair;touch-action:none;
+  }
+  .status-bar{
+    font-size:12.5px;color:var(--brass);margin-top:6px;padding:2px 4px;font-weight:600;
   }
 
-  /* URL input */
-  .input-row {
-    display: flex;
-    gap: 10px;
+  .bottom-section{
+    display:grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap:14px;
+    align-items:start;
   }
-  .url-input {
-    flex: 1;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 0.95rem;
-    padding: 12px 16px;
-    outline: none;
-    transition: border-color .2s;
+  .sheet-wrapper{
+    background:#FAFAF7;border:1px solid var(--border);border-radius:6px;
+    padding:12px;
   }
-  .url-input:focus { border-color: var(--accent); }
-  .url-input::placeholder { color: var(--muted); }
+  .table-header-block{
+    display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--ink);
+    padding-bottom:5px;margin-bottom:8px;
+  }
+  .table-header-block h2{margin:0;font-size:14px;color:var(--ink);}
+  .table-header-block .survey-date{font-size:11.5px;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;}
 
-  .btn {
-    background: linear-gradient(135deg, var(--accent), #9f7aea);
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 12px 22px;
-    transition: opacity .2s, transform .1s;
-    white-space: nowrap;
+  table{
+    width:100%;border-collapse:collapse;font-size:12px;text-align:left;
   }
-  .btn:hover { opacity: .88; }
-  .btn:active { transform: scale(.97); }
-  .btn:disabled { opacity: .4; cursor: not-allowed; }
-
-  /* Format tabs */
-  .fmt-tabs {
-    display: flex;
-    gap: 8px;
-    margin: 20px 0 16px;
+  th, td{
+    padding:6px 8px;border-bottom:1px solid var(--border);
   }
-  .fmt-tab {
-    flex: 1;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 10px;
-    text-align: center;
-    transition: all .2s;
+  th{background:#EFECE2;font-weight:600;color:var(--ink);border-top:1px solid var(--border);}
+  td.mono{font-family:'JetBrains Mono', monospace;font-weight:600;}
+  .total-row{
+    background:#EEF4EC;font-weight:700;font-size:12.5px;color:var(--accent-dark);
   }
-  .fmt-tab.active {
-    background: rgba(124,106,247,.15);
-    border-color: var(--accent);
-    color: var(--accent2);
+  
+  .note-box{
+    border:1px dashed var(--border);border-radius:6px;padding:12px;background:#fff;
+    font-size:12px;line-height:1.6;color:var(--ink-soft);
+  }
+  .sign-space{
+    margin-top:25px;display:flex;justify-content:space-between;font-weight:600;color:var(--ink);
   }
 
-  /* Quality pills */
-  .quality-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,0.45);
+    display:flex;align-items:center;justify-content:center;z-index:100;
   }
-  .q-pill {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 0.82rem;
-    padding: 5px 14px;
-    transition: all .2s;
+  .modal-backdrop.hidden{display:none;}
+  .modal{
+    background:#fff;border-radius:8px;padding:18px;width:340px;box-shadow:var(--shadow);
   }
-  .q-pill.active {
-    background: rgba(124,106,247,.15);
-    border-color: var(--accent);
-    color: var(--accent2);
+  .modal h3{margin:0 0 10px;font-size:15px;}
+  .modal label{display:block;font-size:12px;color:var(--ink-soft);margin-bottom:4px;font-weight:600;}
+  .modal input, .modal select{
+    width:100%;font-family:'JetBrains Mono', monospace;font-size:14px;
+    padding:8px 10px;border-radius:5px;border:1px solid var(--border);margin-bottom:12px;
   }
+  .modal-actions{display:flex;justify-content:flex-end;gap:8px;}
 
-  /* Video info */
-  #info-box {
-    display: none;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-top: 20px;
-    overflow: hidden;
-  }
-  .info-inner {
-    display: flex;
-    gap: 14px;
-    padding: 14px;
-    align-items: flex-start;
-  }
-  #thumb {
-    border-radius: 6px;
-    flex-shrink: 0;
-    height: 72px;
-    object-fit: cover;
-    width: 120px;
-  }
-  .info-text { flex: 1; min-width: 0; }
-  #vid-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    line-height: 1.4;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  #vid-meta { color: var(--muted); font-size: 0.8rem; margin-top: 4px; }
-
-  .dl-btn-wrap { padding: 0 14px 14px; }
-  #dl-btn {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 12px;
-    text-align: center;
-    width: 100%;
-    text-decoration: none;
-    display: block;
-    transition: opacity .2s;
-  }
-  #dl-btn:hover { opacity: .88; }
-
-  /* Status */
-  #status {
-    display: none;
-    border-radius: 8px;
-    font-size: 0.88rem;
-    margin-top: 16px;
-    padding: 10px 14px;
-  }
-  #status.loading { background: rgba(124,106,247,.1); border: 1px solid var(--accent); color: var(--accent2); }
-  #status.error   { background: rgba(239,68,68,.1);   border: 1px solid var(--red);    color: var(--red); }
-  #status.success { background: rgba(34,197,94,.1);   border: 1px solid var(--green);  color: var(--green); }
-
-  /* Spinner */
-  .spin {
-    display: inline-block;
-    width: 14px; height: 14px;
-    border: 2px solid var(--accent2);
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
-    vertical-align: middle;
-    margin-right: 6px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* How-to */
-  .steps {
-    display: flex;
-    gap: 16px;
-    margin-top: 36px;
-    max-width: 640px;
-    width: 100%;
-    flex-wrap: wrap;
-  }
-  .step {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    flex: 1;
-    min-width: 160px;
-    padding: 16px;
-    text-align: center;
-  }
-  .step-num {
-    background: rgba(124,106,247,.15);
-    border-radius: 50%;
-    color: var(--accent2);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 700;
-    height: 32px;
-    width: 32px;
-    margin-bottom: 10px;
-  }
-  .step p { color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
-  .step strong { color: var(--text); display: block; font-size: 0.88rem; margin-bottom: 4px; }
-
-  footer {
-    color: var(--muted);
-    font-size: 0.78rem;
-    margin-top: 48px;
-    text-align: center;
+  @media print{
+    @page { size: A4 portrait; margin: 8mm; }
+    body{background:#fff;padding:0;}
+    .toolbar, .modal-backdrop, .status-bar, .tag, button, select{display:none !important;}
+    .a4-sheet-container{
+      border:1.5px solid #333;box-shadow:none;padding:10px;margin:0;border-radius:0;
+      height:280mm;display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .canvas-box{border:1px solid #777;border-radius:0;}
+    canvas{max-height:145mm;}
+    .bottom-section{grid-template-columns:1.4fr 1fr;gap:10px;margin-top:auto;}
+    .sheet-wrapper{background:#fff;border:1px solid #777;padding:8px;border-radius:0;}
+    .note-box{border:1px solid #777;border-radius:0;padding:8px;}
+    table{font-size:10.5px;}
+    th, td{padding:4px 6px;}
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">⬇ YT Downloader</div>
-  <p class="tagline">YouTube videos — MP3 / MP4 ആയി download ചെയ്യൂ</p>
-</header>
+<div class="app" id="printArea">
+  <header>
+    <div>
+      <h1>ചെയിൻ സർവേ സ്കെച്ച് &amp; പാർട്ടീഷൻ CAD</h1>
+      <div class="subtitle">A4 ലാൻഡ് സ്കെച്ച്, ഇൻഡിപെൻഡന്റ് സബ് ഡിവിഷൻ &amp; വിസ്തീർണ്ണ കണക്കുകൂട്ടൽ</div>
+    </div>
+    <span class="tag">SURVEY CAD PRO</span>
+  </header>
 
-<div class="card">
-  <!-- URL input -->
-  <div class="input-row">
-    <input id="url-in" class="url-input" type="text"
-      placeholder="YouTube URL paste ചെയ്യൂ...">
-    <button class="btn" id="fetch-btn" onclick="fetchInfo()">Get</button>
+  <div class="toolbar">
+    <div class="btn-group">
+      <button id="lockMainBtn">🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്</button>
+      <button id="modeDraw" class="active">✏️ പ്ലോട്ട് വരയ്ക്കുക</button>
+      <button id="modeRect">⬛ ചതുരം</button>
+      <button id="modePartition">✂️ പാർട്ടീഷൻ വരയ്ക്കുക</button>
+      <button id="modeMovePart">📦 മൂവ് പാർട്ടീഷൻ</button>
+      <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
+      <button id="modeDelete">❌ ഒഴിവാക്കുക</button>
+      <button id="modeValue">📏 അളവ് മാറ്റുക</button>
+    </div>
+    <div class="divider"></div>
+    <div class="btn-group">
+      <button id="zoomOutBtn" title="Zoom Out">🔍 -</button>
+      <span class="scale-label" id="scaleLabel">100%</span>
+      <button id="zoomInBtn" title="Zoom In">🔍 +</button>
+      <button id="zoomResetBtn">Reset</button>
+    </div>
+    <div class="divider"></div>
+    <div class="btn-group">
+      <button id="undoBtn">↩ Undo</button>
+      <button id="clearBtn" class="danger">🗑 ക്ലിയർ</button>
+    </div>
+    <div style="flex:1;"></div>
+    <div class="btn-group">
+      <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണം</button>
+      <select id="pdfOrientation">
+        <option value="portrait">📄 A4 Portrait</option>
+        <option value="landscape">📑 A4 Landscape</option>
+      </select>
+      <button id="printBtn" class="primary">🖨️ PDF / Print</button>
+    </div>
   </div>
 
-  <!-- Format -->
-  <div class="fmt-tabs">
-    <div class="fmt-tab active" onclick="setFmt('mp3',this)">🎵 MP3</div>
-    <div class="fmt-tab" onclick="setFmt('mp4',this)">🎬 MP4</div>
-  </div>
+  <div class="a4-sheet-container">
+    <div>
+      <div class="legend">
+        <span><span class="swatch"></span> മെയിൻ പ്ലോട്ട് (Main Boundary)</span>
+        <span><span class="swatch part"></span> പാർട്ടീഷൻ പ്ലോട്ട് (Partition Plot)</span>
+        <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ (Diagonal)</span>
+      </div>
+      <div class="canvas-box">
+        <canvas id="canvas" width="1000" height="520"></canvas>
+      </div>
+      <div class="status-bar" id="statusBar">✏️ മെയിൻ പ്ലോട്ട് വരയ്ക്കുക. പൂർത്തിയായ ശേഷം 'മെയിൻ പ്ലോട്ട് ലോക്ക്' ചെയ്യാം.</div>
+    </div>
 
-  <!-- Quality (MP3) -->
-  <div class="quality-row" id="quality-row">
-    <span class="q-pill" onclick="setQ('128',this)">128 kbps</span>
-    <span class="q-pill active" onclick="setQ('192',this)">192 kbps</span>
-    <span class="q-pill" onclick="setQ('320',this)">320 kbps</span>
-  </div>
+    <!-- Bottom Section -->
+    <div class="bottom-section">
+      <div class="sheet-wrapper">
+        <div class="table-header-block">
+          <h2>വിസ്തീർണ്ണ പട്ടിക (Area Statement)</h2>
+          <div class="survey-date" id="surveyDateLabel">DATE: ---</div>
+        </div>
+        <div id="tableContainer">
+          <p style="color:var(--ink-soft);font-size:12px;margin:4px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>
+        </div>
+      </div>
 
-  <!-- MP4 quality -->
-  <div class="quality-row" id="qual-mp4" style="display:none">
-    <span class="q-pill active" onclick="setQ('1080',this)">1080p</span>
-    <span class="q-pill" onclick="setQ('720',this)">720p</span>
-    <span class="q-pill" onclick="setQ('480',this)">480p</span>
-    <span class="q-pill" onclick="setQ('360',this)">360p</span>
-  </div>
-
-  <!-- Status -->
-  <div id="status"></div>
-
-  <!-- Video info + download -->
-  <div id="info-box">
-    <div class="info-inner">
-      <img id="thumb" src="" alt="">
-      <div class="info-text">
-        <div id="vid-title"></div>
-        <div id="vid-meta"></div>
+      <div class="note-box">
+        <b>പ്ലോട്ട് വിവരണം &amp; സർട്ടിഫിക്കറ്റ്:</b><br>
+        ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും അളവുകളും കൃത്യമായ ചെയിൻ സർവേ രീതിയിൽ തയ്യാറാക്കിയതാണ്.<br>
+        <div class="sign-space">
+          <span>തയ്യാറാക്കിയത്: ലൈസൻസ്ഡ് സർവേയർ</span>
+          <span>ഉടമസ്ഥന്റെ ഒപ്പ്</span>
+        </div>
       </div>
     </div>
-    <div class="dl-btn-wrap">
-      <a id="dl-btn" href="#" onclick="startDownload(event)">⬇️ Download</a>
+  </div>
+</div>
+
+<!-- Modal with Anchor Point Lock Selection -->
+<div class="modal-backdrop hidden" id="lengthModal">
+  <div class="modal">
+    <h3 id="modalTitle">വരയുടെ അളവ് നൽകുക</h3>
+    <label for="lengthInput">പുതിയ അളവ് (മീറ്ററിൽ):</label>
+    <input type="number" id="lengthInput" step="0.01" min="0.01" placeholder="ഉദാ: 15.50">
+    
+    <label for="lockPointSelect">സ്ഥിരമായി ലോക്ക് ചെയ്യേണ്ട പോയിന്റ് (Anchor Point):</label>
+    <select id="lockPointSelect"></select>
+    
+    <div class="modal-actions">
+      <button id="cancelModalBtn">ഒഴിവാക്കുക</button>
+      <button id="saveModalBtn" class="primary">അളവ് മാറ്റുക</button>
     </div>
   </div>
 </div>
 
-<!-- Steps -->
-<div class="steps">
-  <div class="step">
-    <div class="step-num">1</div>
-    <strong>URL Paste</strong>
-    <p>YouTube video URL copy ചെയ്ത് box-ൽ paste ചെയ്യൂ</p>
-  </div>
-  <div class="step">
-    <div class="step-num">2</div>
-    <strong>Format Select</strong>
-    <p>MP3 (audio) അല്ലെങ്കിൽ MP4 (video) choose ചെയ്യൂ</p>
-  </div>
-  <div class="step">
-    <div class="step-num">3</div>
-    <strong>Download</strong>
-    <p>Download button click ചെയ്ത് file save ചെയ്യൂ</p>
-  </div>
-</div>
-
-<footer>Personal use only. Copyrighted content download ചെയ്യരുത്.</footer>
-
 <script>
-// ── State ──────────────────────────────────────────────
-let state = { fmt: 'mp3', quality: '192', videoId: '', title: '' };
+(function(){
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const CW = canvas.width, CH = canvas.height;
+  const SNAP = 16;
+  const LINE_SNAP = 12;
+  const BASE_PIXELS_PER_METER = 12;
 
-// Cobalt API instances (public, free, no key)
-const COBALT_APIS = [
-  'https://api.cobalt.tools',
-  'https://co.wuk.sh',
-  'https://cobalt.synzr.space',
-];
+  let currentScale = 1.0;
+  let points = []; 
+  let edges = [];  
+  let undoStack = [];
+  let nextPtId = 1, nextEdgeId = 1;
+  let isMainLocked = false;
+  
+  let activeStartPoint = null;
+  let hoverPoint = null;
+  let snapLinePoint = null;
+  let currentMode = 'draw';
+  let editingEdge = null;
 
-// ── Helpers ────────────────────────────────────────────
-function extractVideoId(url) {
-  const patterns = [
-    /(?:v=|\/embed\/|\/shorts\/|youtu\.be\/)([A-Za-z0-9_-]{11})/,
-    /^([A-Za-z0-9_-]{11})$/,
-  ];
-  for (const p of patterns) {
-    const m = url.trim().match(p);
-    if (m) return m[1];
-  }
-  return null;
-}
+  // Move / Drag Handlers
+  let isDragging = false;
+  let dragStartX = 0, dragStartY = 0;
 
-function fmtDur(s) {
-  if (!s) return '';
-  const m = Math.floor(s / 60), sec = s % 60;
-  return `${m}:${sec.toString().padStart(2,'0')}`;
-}
+  // Rect Tool
+  let isDrawingRect = false;
+  let rectStartX = 0, rectStartY = 0, rectCurX = 0, rectCurY = 0;
 
-function fmtViews(n) {
-  if (!n) return '';
-  if (n >= 1e6) return `${(n/1e6).toFixed(1)}M views`;
-  if (n >= 1e3) return `${(n/1e3).toFixed(0)}K views`;
-  return `${n} views`;
-}
+  // DOM Elements
+  const lockMainBtn = document.getElementById('lockMainBtn');
+  const modeDrawBtn = document.getElementById('modeDraw');
+  const modeRectBtn = document.getElementById('modeRect');
+  const modePartitionBtn = document.getElementById('modePartition');
+  const modeMovePartBtn = document.getElementById('modeMovePart');
+  const modeMoveAllBtn = document.getElementById('modeMoveAll');
+  const modeDeleteBtn = document.getElementById('modeDelete');
+  const modeValueBtn = document.getElementById('modeValue');
+  const scaleLabel = document.getElementById('scaleLabel');
+  const statusBar = document.getElementById('statusBar');
+  const tableContainer = document.getElementById('tableContainer');
+  const surveyDateLabel = document.getElementById('surveyDateLabel');
 
-function showStatus(msg, type='loading') {
-  const el = document.getElementById('status');
-  el.style.display = 'block';
-  el.className = type;
-  el.innerHTML = type === 'loading'
-    ? `<span class="spin"></span>${msg}`
-    : msg;
-}
+  const lengthModal = document.getElementById('lengthModal');
+  const lengthInput = document.getElementById('lengthInput');
+  const lockPointSelect = document.getElementById('lockPointSelect');
+  const modalTitle = document.getElementById('modalTitle');
 
-function hideStatus() {
-  document.getElementById('status').style.display = 'none';
-}
+  const now = new Date();
+  surveyDateLabel.textContent = `DATE: ${now.toLocaleDateString('en-GB')}`;
 
-function setFmt(fmt, el) {
-  state.fmt = fmt;
-  document.querySelectorAll('.fmt-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('quality-row').style.display = fmt === 'mp3' ? 'flex' : 'none';
-  document.getElementById('qual-mp4').style.display   = fmt === 'mp4' ? 'flex' : 'none';
-  state.quality = fmt === 'mp3' ? '192' : '1080';
-  // reset active quality pill
-  const activeRow = fmt === 'mp3' ? 'quality-row' : 'qual-mp4';
-  document.querySelectorAll(`#${activeRow} .q-pill`).forEach((p,i) => {
-    p.classList.toggle('active', i === (fmt==='mp3'?1:0));
-  });
-  updateDlBtn();
-}
-
-function setQ(q, el) {
-  state.quality = q;
-  const row = state.fmt === 'mp3' ? 'quality-row' : 'qual-mp4';
-  document.querySelectorAll(`#${row} .q-pill`).forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  updateDlBtn();
-}
-
-function updateDlBtn() {
-  const btn = document.getElementById('dl-btn');
-  if (!btn) return;
-  const label = state.fmt === 'mp3'
-    ? `⬇️ Download MP3 — ${state.quality} kbps`
-    : `⬇️ Download MP4 — ${state.quality}p`;
-  btn.textContent = label;
-}
-
-// ── Fetch video info (oEmbed — no API key) ─────────────
-async function fetchInfo() {
-  const url = document.getElementById('url-in').value.trim();
-  if (!url) return;
-
-  const vid = extractVideoId(url);
-  if (!vid) {
-    showStatus('❌ Valid YouTube URL അല്ല. ഒന്നുകൂടി check ചെയ്യൂ.', 'error');
-    return;
+  function saveSnapshot(){
+    undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked}));
+    if(undoStack.length > 50) undoStack.shift();
   }
 
-  state.videoId = vid;
-  showStatus('Video info fetch ചെയ്യുന്നു...');
-  document.getElementById('info-box').style.display = 'none';
-  document.getElementById('fetch-btn').disabled = true;
-
-  try {
-    // oEmbed — free, no CORS issue
-    const oembed = await fetch(
-      `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${vid}&format=json`
-    ).then(r => r.json());
-
-    state.title = oembed.title || 'Video';
-    document.getElementById('thumb').src =
-      `https://i.ytimg.com/vi/${vid}/mqdefault.jpg`;
-    document.getElementById('vid-title').textContent = oembed.title || '';
-    document.getElementById('vid-meta').textContent  =
-      oembed.author_name ? `📺 ${oembed.author_name}` : '';
-
-    document.getElementById('info-box').style.display = 'block';
-    updateDlBtn();
-    hideStatus();
-  } catch (e) {
-    showStatus('❌ Video info കിട്ടിയില്ല. URL valid ആണോ?', 'error');
-  } finally {
-    document.getElementById('fetch-btn').disabled = false;
+  function undo(){
+    if(!undoStack.length) return;
+    const data = JSON.parse(undoStack.pop());
+    points = data.points;
+    edges = data.edges;
+    nextPtId = data.nextPtId;
+    nextEdgeId = data.nextEdgeId;
+    currentScale = data.currentScale || 1.0;
+    isMainLocked = !!data.isMainLocked;
+    updateLockUI();
+    updateScaleLabel();
+    activeStartPoint = null;
+    redraw();
   }
-}
 
-// ── Download via Cobalt API ────────────────────────────
-async function startDownload(e) {
-  e.preventDefault();
-  if (!state.videoId) return;
+  function dist(x1,y1,x2,y2){ return Math.hypot(x2-x1, y2-y1); }
 
-  showStatus('Download link prepare ചെയ്യുന്നു...');
+  function findSnapVertex(x, y){
+    for(const p of points){
+      if(dist(x, y, p.x, p.y) < SNAP) return p;
+    }
+    return null;
+  }
 
-  const ytUrl = `https://www.youtube.com/watch?v=${state.videoId}`;
-  const isAudio = state.fmt === 'mp3';
+  function projectPointOnSegment(px, py, ax, ay, bx, by){
+    const dx = bx - ax, dy = by - ay;
+    const lenSq = dx * dx + dy * dy;
+    if(lenSq === 0) return { x: ax, y: ay, dist: dist(px, py, ax, ay), t: 0 };
+    let t = ((px - ax) * dx + (py - ay) * dy) / lenSq;
+    t = Math.max(0, Math.min(1, t));
+    return { x: ax + t * dx, y: ay + t * dy, dist: dist(px, py, ax + t * dx, ay + t * dy), t };
+  }
 
-  // Map quality
-  const qualMap = { '128':'128','192':'192','320':'320' };
-  const vQual = state.quality === '1080' ? '1080'
-              : state.quality === '720'  ? '720'
-              : state.quality === '480'  ? '480' : '360';
-
-  const body = {
-    url: ytUrl,
-    downloadMode: isAudio ? 'audio' : 'auto',
-    ...(isAudio
-      ? { audioFormat: 'mp3', audioBitrate: qualMap[state.quality] || '192' }
-      : { videoQuality: vQual }),
-  };
-
-  let lastErr = '';
-  for (const api of COBALT_APIS) {
-    try {
-      showStatus(`Connecting to server...`);
-      const res = await fetch(`${api}/`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-        signal: AbortSignal.timeout(15000),
-      });
-
-      if (!res.ok) { lastErr = `HTTP ${res.status}`; continue; }
-
-      const data = await res.json();
-
-      if (data.status === 'tunnel' || data.status === 'redirect') {
-        // Got a direct download URL
-        const dlUrl = data.url;
-        showStatus('✅ Download ready!', 'success');
-
-        // Trigger download
-        const a = document.createElement('a');
-        a.href = dlUrl;
-        a.download = `${state.title}.${state.fmt}`;
-        a.target = '_blank';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        return;
+  function findSnapOnEdge(x, y){
+    let best = null, minD = LINE_SNAP;
+    for(const e of edges){
+      const p1 = points.find(p => p.id === e.a);
+      const p2 = points.find(p => p.id === e.b);
+      if(!p1 || !p2) continue;
+      const proj = projectPointOnSegment(x, y, p1.x, p1.y, p2.x, p2.y);
+      if(proj.dist < minD){
+        if(dist(proj.x, proj.y, p1.x, p1.y) > SNAP && dist(proj.x, proj.y, p2.x, p2.y) > SNAP){
+          minD = proj.dist;
+          best = { edge: e, x: proj.x, y: proj.y, p1, p2 };
+        }
       }
+    }
+    return best;
+  }
 
-      if (data.status === 'error') {
-        lastErr = data.error?.code || 'Unknown error';
-        continue;
-      }
+  function edgeExists(p1, p2){
+    return edges.some(e => (e.a === p1 && e.b === p2) || (e.a === p2 && e.b === p1));
+  }
 
-      lastErr = `Unexpected response: ${data.status}`;
-    } catch (err) {
-      lastErr = err.message;
+  function getEdge(p1, p2){
+    return edges.find(e => (e.a === p1 && e.b === p2) || (e.a === p2 && e.b === p1));
+  }
+
+  function addEdge(aId, bId, length=null, isPartition=false){
+    if(aId === bId || edgeExists(aId, bId)) return null;
+    const p1 = points.find(p=>p.id===aId);
+    const p2 = points.find(p=>p.id===bId);
+    if(!length && p1 && p2){
+      const d = dist(p1.x, p1.y, p2.x, p2.y);
+      length = parseFloat((d / (BASE_PIXELS_PER_METER * currentScale)).toFixed(2));
+    }
+    const e = { id: nextEdgeId++, a: aId, b: bId, length, isPartition };
+    edges.push(e);
+    return e;
+  }
+
+  // Anchor Locked Length Adjustment
+  function applyEdgeLengthAdjustment(edge, newLengthMeters, anchorPointId){
+    const p1 = points.find(p=>p.id===edge.a);
+    const p2 = points.find(p=>p.id===edge.b);
+    if(!p1 || !p2) return;
+
+    // Determine Anchor (Fixed Point) and Target (Moving Point)
+    let fixedP = p1, movingP = p2;
+    if(anchorPointId === p2.id){
+      fixedP = p2;
+      movingP = p1;
+    }
+
+    const currentPxDist = dist(fixedP.x, fixedP.y, movingP.x, movingP.y);
+    if(currentPxDist === 0) return;
+
+    const targetPxDist = newLengthMeters * (BASE_PIXELS_PER_METER * currentScale);
+    const ratio = targetPxDist / currentPxDist;
+
+    // Moving point expands or contracts from the fixed anchor point
+    movingP.x = fixedP.x + (movingP.x - fixedP.x) * ratio;
+    movingP.y = fixedP.y + (movingP.y - fixedP.y) * ratio;
+  }
+
+  function updateScaleLabel(){
+    scaleLabel.textContent = `${Math.round(currentScale * 100)}%`;
+  }
+
+  function updateLockUI(){
+    if(isMainLocked){
+      lockMainBtn.textContent = '🔒 മെയിൻ പ്ലോട്ട് ലോക്ക്ഡ്';
+      lockMainBtn.classList.add('lock-active');
+    } else {
+      lockMainBtn.textContent = '🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്';
+      lockMainBtn.classList.remove('lock-active');
     }
   }
 
-  // All APIs failed — fallback to yt1s redirect
-  showStatus(
-    `⚠️ Auto-download failed (${lastErr}). ` +
-    `<a href="https://yt1s.com.co/?url=${encodeURIComponent(ytUrl)}" ` +
-    `target="_blank" style="color:var(--accent2);text-decoration:underline">` +
-    `yt1s-ൽ try ചെയ്യൂ →</a>`,
-    'error'
-  );
-}
-
-// Enter key support
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('url-in').addEventListener('keydown', e => {
-    if (e.key === 'Enter') fetchInfo();
+  lockMainBtn.addEventListener('click', ()=>{
+    isMainLocked = !isMainLocked;
+    if(isMainLocked){
+      points.forEach(p => { if(!p.group) p.group = 'main'; });
+      edges.forEach(e => { if(!e.group) e.group = 'main'; });
+      setMode('partition');
+    }
+    updateLockUI();
+    redraw();
   });
 
-  // Auto-detect pasted URL
-  document.getElementById('url-in').addEventListener('paste', () => {
-    setTimeout(() => {
-      const v = document.getElementById('url-in').value;
-      if (extractVideoId(v)) fetchInfo();
-    }, 100);
+  function rescalePlot(factor){
+    if(!points.length){
+      currentScale *= factor;
+      updateScaleLabel();
+      return;
+    }
+    saveSnapshot();
+    let sumX = 0, sumY = 0;
+    points.forEach(p => { sumX += p.x; sumY += p.y; });
+    const cx = sumX / points.length, cy = sumY / points.length;
+
+    points.forEach(p => {
+      p.x = cx + (p.x - cx) * factor;
+      p.y = cy + (p.y - cy) * factor;
+    });
+
+    currentScale *= factor;
+    updateScaleLabel();
+    redraw();
+  }
+
+  document.getElementById('zoomInBtn').addEventListener('click', ()=>rescalePlot(1.15));
+  document.getElementById('zoomOutBtn').addEventListener('click', ()=>rescalePlot(0.85));
+  document.getElementById('zoomResetBtn').addEventListener('click', ()=>{
+    if(currentScale === 1.0) return;
+    rescalePlot(1.0 / currentScale);
+    currentScale = 1.0;
+    updateScaleLabel();
   });
-});
+
+  canvas.addEventListener('wheel', (e)=>{
+    e.preventDefault();
+    if(e.deltaY < 0) rescalePlot(1.08);
+    else rescalePlot(0.92);
+  }, { passive: false });
+
+  function analyzeTriangles(){
+    const triangles = [];
+    for(let i=0; i<points.length; i++){
+      for(let j=i+1; j<points.length; j++){
+        for(let k=j+1; k<points.length; k++){
+          const p1 = points[i], p2 = points[j], p3 = points[k];
+          const e1 = getEdge(p1.id, p2.id);
+          const e2 = getEdge(p2.id, p3.id);
+          const e3 = getEdge(p3.id, p1.id);
+          if(e1 && e2 && e3){
+            triangles.push({
+              p1, p2, p3,
+              edges: [e1, e2, e3],
+              idx1: points.indexOf(p1)+1,
+              idx2: points.indexOf(p2)+1,
+              idx3: points.indexOf(p3)+1,
+              isPartition: (p1.group === 'partition' || p2.group === 'partition' || p3.group === 'partition')
+            });
+          }
+        }
+      }
+    }
+
+    const edgeUsage = {};
+    triangles.forEach(t=>{
+      t.edges.forEach(e=>{ edgeUsage[e.id] = (edgeUsage[e.id] || 0) + 1; });
+    });
+
+    edges.forEach(e=>{
+      e.isInner = (edgeUsage[e.id] || 0) >= 2;
+    });
+
+    return triangles;
+  }
+
+  function setMode(mode){
+    currentMode = mode;
+    activeStartPoint = null;
+    isDrawingRect = false;
+
+    [modeDrawBtn, modeRectBtn, modePartitionBtn, modeMovePartBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>b.classList.remove('active', 'active-part'));
+
+    if(mode === 'draw'){
+      modeDrawBtn.classList.add('active');
+      statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട് വരയ്ക്കുക: പോയിന്റുകൾ ക്ലിക്ക് ചെയ്യുക.';
+      canvas.style.cursor = 'crosshair';
+    } else if(mode === 'rect'){
+      modeRectBtn.classList.add('active');
+      statusBar.textContent = '⬛ ചതുരം: ഡ്രാഗ് ചെയ്ത് ചതുര പ്ലോട്ട് വരയ്ക്കുക.';
+      canvas.style.cursor = 'crosshair';
+    } else if(mode === 'partition'){
+      modePartitionBtn.classList.add('active-part');
+      statusBar.textContent = '✂️ പാർട്ടീഷൻ: മെയിൻ പ്ലോട്ടിന് മുകളിൽ പാർട്ടീഷൻ ഭാഗം ക്ലിക്ക് ചെയ്തു വരയ്ക്കുക (Snap ഓൺ ആണ്).';
+      canvas.style.cursor = 'crosshair';
+    } else if(mode === 'movePart'){
+      modeMovePartBtn.classList.add('active-part');
+      statusBar.textContent = '📦 മൂവ് പാർട്ടീഷൻ: പാർട്ടീഷൻ പ്ലോട്ടിൽ ക്ലിക്ക് ചെയ്ത് ഇഷ്ടമുള്ള ലൊക്കേഷനിലേക്ക് മാറ്റി സ്ഥാപിക്കുക.';
+      canvas.style.cursor = 'grab';
+    } else if(mode === 'moveAll'){
+      modeMoveAllBtn.classList.add('active');
+      statusBar.textContent = '✋ മൂവ് ഓൾ: മുഴുവൻ പ്ലോട്ടുകളും ഒരുമിച്ച് നീക്കുക.';
+      canvas.style.cursor = 'grab';
+    } else if(mode === 'delete'){
+      modeDeleteBtn.classList.add('active');
+      statusBar.textContent = '❌ ഒഴിവാക്കുക: ഒഴിവാക്കേണ്ട വരയിലോ അതിർത്തിയിലോ ക്ലിക്ക് ചെയ്യുക.';
+      canvas.style.cursor = 'pointer';
+    } else if(mode === 'value'){
+      modeValueBtn.classList.add('active');
+      statusBar.textContent = '📏 അളവ് മാറ്റുക: അളവ് തിരുത്തേണ്ട വരയിൽ ക്ലിക്ക് ചെയ്യുക.';
+      canvas.style.cursor = 'pointer';
+    }
+    redraw();
+  }
+
+  modeDrawBtn.addEventListener('click', ()=>setMode('draw'));
+  modeRectBtn.addEventListener('click', ()=>setMode('rect'));
+  modePartitionBtn.addEventListener('click', ()=>setMode('partition'));
+  modeMovePartBtn.addEventListener('click', ()=>setMode('movePart'));
+  modeMoveAllBtn.addEventListener('click', ()=>setMode('moveAll'));
+  modeDeleteBtn.addEventListener('click', ()=>setMode('delete'));
+  modeValueBtn.addEventListener('click', ()=>setMode('value'));
+
+  function openLengthModal(edge){
+    editingEdge = edge;
+    const pA = points.find(p=>p.id===edge.a);
+    const pB = points.find(p=>p.id===edge.b);
+    const idxA = points.indexOf(pA)+1;
+    const idxB = points.indexOf(pB)+1;
+    
+    modalTitle.textContent = `വര P${idxA} - P${idxB} ന്റെ അളവ് മാറ്റുക`;
+    lengthInput.value = edge.length || '';
+
+    // Populate Lock Anchor Point Select Options
+    lockPointSelect.innerHTML = `
+      <option value="${pA.id}">🔒 P${idxA} ലോക്ക് ചെയ്യുക (P${idxB} നീങ്ങും)</option>
+      <option value="${pB.id}">🔒 P${idxB} ലോക്ക് ചെയ്യുക (P${idxA} നീങ്ങും)</option>
+    `;
+
+    lengthModal.classList.remove('hidden');
+    setTimeout(()=>lengthInput.focus(), 50);
+  }
+
+  document.getElementById('saveModalBtn').addEventListener('click', ()=>{
+    if(editingEdge){
+      const val = parseFloat(lengthInput.value);
+      const anchorId = parseInt(lockPointSelect.value);
+      if(!isNaN(val) && val > 0){
+        saveSnapshot();
+        editingEdge.length = val;
+        applyEdgeLengthAdjustment(editingEdge, val, anchorId);
+      }
+    }
+    lengthModal.classList.add('hidden');
+    editingEdge = null;
+    redraw();
+  });
+
+  document.getElementById('cancelModalBtn').addEventListener('click', ()=>{
+    lengthModal.classList.add('hidden');
+    editingEdge = null;
+  });
+
+  function getCanvasCoords(e){
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.left) * (CW / rect.width),
+      y: (e.clientY - rect.top) * (CH / rect.height)
+    };
+  }
+
+  // Pointer Handlers
+  canvas.addEventListener('mousedown', (e)=>{
+    const {x, y} = getCanvasCoords(e);
+
+    if(currentMode === 'moveAll' || currentMode === 'movePart'){
+      isDragging = true;
+      dragStartX = x;
+      dragStartY = y;
+      canvas.style.cursor = 'grabbing';
+      return;
+    }
+
+    if(currentMode === 'rect'){
+      isDrawingRect = true;
+      rectStartX = x;
+      rectStartY = y;
+      rectCurX = x;
+      rectCurY = y;
+      return;
+    }
+
+    if(currentMode === 'delete'){
+      const edge = findSnapOnEdge(x, y)?.edge;
+      if(edge){
+        if(isMainLocked && edge.group === 'main'){
+          alert('മെയിൻ പ്ലോട്ട് ലോക്ക് ചെയ്തിരിക്കുന്നു. ഒഴിവാക്കാൻ സാധ്യമല്ല.');
+          return;
+        }
+        saveSnapshot();
+        edges = edges.filter(item => item.id !== edge.id);
+        points = points.filter(p => edges.some(ed => ed.a === p.id || ed.b === p.id));
+        redraw();
+      }
+      return;
+    }
+
+    if(currentMode === 'value'){
+      const edgeSnap = findSnapOnEdge(x, y);
+      if(edgeSnap && edgeSnap.edge){
+        openLengthModal(edgeSnap.edge);
+      }
+      return;
+    }
+
+    // DRAW & PARTITION MODES
+    let clickedPoint = findSnapVertex(x, y);
+
+    if(!clickedPoint){
+      const edgeSnap = findSnapOnEdge(x, y);
+      saveSnapshot();
+      if(edgeSnap){
+        clickedPoint = { 
+          id: nextPtId++, 
+          x: edgeSnap.x, 
+          y: edgeSnap.y, 
+          group: currentMode === 'partition' ? 'partition' : 'main' 
+        };
+        points.push(clickedPoint);
+      } else {
+        clickedPoint = { 
+          id: nextPtId++, 
+          x, 
+          y, 
+          group: currentMode === 'partition' ? 'partition' : 'main' 
+        };
+        points.push(clickedPoint);
+      }
+    }
+
+    if(currentMode === 'partition' || currentMode === 'draw'){
+      if(activeStartPoint === null){
+        activeStartPoint = clickedPoint;
+      } else {
+        if(activeStartPoint.id !== clickedPoint.id && !edgeExists(activeStartPoint.id, clickedPoint.id)){
+          saveSnapshot();
+          const isPart = (currentMode === 'partition');
+          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, isPart);
+          if(edge) edge.group = isPart ? 'partition' : 'main';
+        }
+        activeStartPoint = clickedPoint;
+      }
+      redraw();
+    }
+  });
+
+  canvas.addEventListener('mousemove', (e)=>{
+    const {x, y} = getCanvasCoords(e);
+
+    if(isDragging){
+      const dx = x - dragStartX;
+      const dy = y - dragStartY;
+
+      if(currentMode === 'moveAll'){
+        points.forEach(p => { p.x += dx; p.y += dy; });
+      } else if(currentMode === 'movePart'){
+        points.forEach(p => {
+          if(p.group === 'partition'){
+            p.x += dx;
+            p.y += dy;
+          }
+        });
+      }
+
+      dragStartX = x;
+      dragStartY = y;
+      redraw();
+      return;
+    }
+
+    if(isDrawingRect && currentMode === 'rect'){
+      rectCurX = x;
+      rectCurY = y;
+      redraw();
+      return;
+    }
+
+    hoverPoint = findSnapVertex(x, y);
+    snapLinePoint = findSnapOnEdge(x, y);
+    redraw();
+  });
+
+  window.addEventListener('mouseup', ()=>{
+    if(isDragging){
+      isDragging = false;
+      canvas.style.cursor = 'grab';
+    }
+
+    if(isDrawingRect && currentMode === 'rect'){
+      isDrawingRect = false;
+      const w = Math.abs(rectCurX - rectStartX);
+      const h = Math.abs(rectCurY - rectStartY);
+      if(w > 20 && h > 20){
+        saveSnapshot();
+        const minX = Math.min(rectStartX, rectCurX);
+        const minY = Math.min(rectStartY, rectCurY);
+        const maxX = Math.max(rectStartX, rectCurX);
+        const maxY = Math.max(rectStartY, rectCurY);
+
+        const group = isMainLocked ? 'partition' : 'main';
+        const p1 = { id: nextPtId++, x: minX, y: minY, group };
+        const p2 = { id: nextPtId++, x: maxX, y: minY, group };
+        const p3 = { id: nextPtId++, x: maxX, y: maxY, group };
+        const p4 = { id: nextPtId++, x: minX, y: maxY, group };
+        points.push(p1, p2, p3, p4);
+
+        const ppm = BASE_PIXELS_PER_METER * currentScale;
+        const lenL = parseFloat((w / ppm).toFixed(2));
+        const lenW = parseFloat((h / ppm).toFixed(2));
+        const diag = parseFloat((Math.hypot(lenL, lenW)).toFixed(2));
+
+        const isPart = (group === 'partition');
+        addEdge(p1.id, p2.id, lenL, isPart);
+        addEdge(p2.id, p3.id, lenW, isPart);
+        addEdge(p3.id, p4.id, lenL, isPart);
+        addEdge(p4.id, p1.id, lenW, isPart);
+        addEdge(p1.id, p3.id, diag, isPart);
+      }
+      redraw();
+    }
+  });
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      activeStartPoint = null;
+      isDrawingRect = false;
+      redraw();
+    }
+  });
+
+  function drawGrid(){
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0,0,CW,CH);
+    ctx.strokeStyle = '#EBE5D8';
+    ctx.lineWidth = 1;
+    for(let x=0; x<=CW; x+=30){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,CH); ctx.stroke(); }
+    for(let y=0; y<=CH; y+=30){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(CW,y); ctx.stroke(); }
+  }
+
+  function redraw(){
+    analyzeTriangles();
+    drawGrid();
+
+    // Rectangle Preview
+    if(isDrawingRect && currentMode === 'rect'){
+      ctx.save();
+      ctx.strokeStyle = isMainLocked ? '#0066CC' : '#276E2C';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 6]);
+      ctx.strokeRect(
+        Math.min(rectStartX, rectCurX),
+        Math.min(rectStartY, rectCurY),
+        Math.abs(rectCurX - rectStartX),
+        Math.abs(rectCurY - rectStartY)
+      );
+      ctx.restore();
+    }
+
+    // Draw Edges
+    for(const e of edges){
+      const p1 = points.find(p=>p.id===e.a);
+      const p2 = points.find(p=>p.id===e.b);
+      if(!p1 || !p2) continue;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+
+      if(e.isPartition || e.group === 'partition' || p1.group === 'partition' && p2.group === 'partition'){
+        ctx.strokeStyle = '#0066CC';
+        ctx.lineWidth = 2.4;
+      } else if(e.isInner){
+        ctx.strokeStyle = '#7A5E2E';
+        ctx.lineWidth = 1.6;
+        ctx.setLineDash([4, 4]);
+      } else {
+        ctx.strokeStyle = '#111A10';
+        ctx.lineWidth = 2.2;
+      }
+
+      if(snapLinePoint && snapLinePoint.edge && snapLinePoint.edge.id === e.id && (currentMode === 'delete' || currentMode === 'value')){
+        ctx.strokeStyle = currentMode === 'delete' ? '#C0392B' : '#C59B27';
+        ctx.lineWidth = 3.5;
+      }
+
+      ctx.stroke();
+      ctx.restore();
+
+      // Parallel Dimensioning
+      const mx = (p1.x + p2.x) / 2;
+      const my = (p1.y + p2.y) / 2;
+      let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+
+      if(angle > Math.PI/2 || angle < -Math.PI/2){
+        angle += Math.PI;
+      }
+
+      const text = e.length ? `${e.length} m` : '?';
+
+      ctx.save();
+      ctx.translate(mx, my);
+      ctx.rotate(angle);
+
+      ctx.font = "bold 11px 'JetBrains Mono', monospace";
+      ctx.fillStyle = e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B');
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(text, 0, -4);
+      ctx.restore();
+    }
+
+    // Line Snap Indicator
+    if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition')){
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(snapLinePoint.x, snapLinePoint.y, 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#C59B27';
+      ctx.fill();
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Draw Points
+    points.forEach((p, idx)=>{
+      const isActive = (activeStartPoint && activeStartPoint.id === p.id);
+      const isPart = (p.group === 'partition');
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, isActive ? 6 : 4, 0, Math.PI*2);
+      ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? '#C59B27' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
+      ctx.fill();
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+
+      ctx.font = "600 10.5px sans-serif";
+      ctx.fillStyle = isPart ? '#0066CC' : '#5A5747';
+      ctx.fillText(`P${idx+1}`, p.x+6, p.y-5);
+    });
+  }
+
+  function heronArea(a, b, c){
+    if(a+b<=c || a+c<=b || b+c<=a) return null;
+    const s = (a+b+c)/2;
+    return Math.sqrt(s*(s-a)*(s-b)*(s-c));
+  }
+
+  function calculateTable(){
+    const triangles = analyzeTriangles();
+    if(!triangles.length){
+      tableContainer.innerHTML = '<p style="color:var(--danger);font-size:12px;">പൂർണ്ണമായ ത്രികോണങ്ങളോ പ്ലോട്ടുകളോ കണ്ടെത്തിയില്ല. ഡയഗണലുകൾ നൽകി ബന്ധിപ്പിക്കുക.</p>';
+      return;
+    }
+
+    let totalSqm = 0;
+    let tableHtml = `
+      <table>
+        <thead>
+          <tr>
+            <th>വിവരണം / പാർട്ട്</th>
+            <th>വിസ്തീർണ്ണം (Sq.m)</th>
+            <th>സെന്റ് (Cent)</th>
+            <th>ആർ (Are)</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    triangles.forEach((t, i)=>{
+      const a = t.edges[0].length;
+      const b = t.edges[1].length;
+      const c = t.edges[2].length;
+
+      const partLabel = t.isPartition ? `പാർട്ടീഷൻ പ്ലോട്ട് ${i+1}` : `മെയിൻ പ്ലോട്ട് ${i+1}`;
+
+      if(!a || !b || !c){
+        tableHtml += `
+          <tr>
+            <td><b>${partLabel}</b> (P${t.idx1}-P${t.idx2}-P${t.idx3})</td>
+            <td colspan="3" style="color:var(--danger);">അളവ് പൂർണ്ണമല്ല</td>
+          </tr>
+        `;
+        return;
+      }
+
+      const area = heronArea(a, b, c);
+      if(area !== null){
+        totalSqm += area;
+        const cent = area / 40.4686;
+        const are = area / 100;
+        tableHtml += `
+          <tr>
+            <td><b>${partLabel} ഏരിയ</b> (P${t.idx1}-P${t.idx2}-P${t.idx3})</td>
+            <td class="mono"><b>${area.toFixed(2)} Sq.m</b></td>
+            <td class="mono">${cent.toFixed(3)}</td>
+            <td class="mono">${are.toFixed(3)}</td>
+          </tr>
+        `;
+      }
+    });
+
+    const totalCent = totalSqm / 40.4686;
+    const totalAre = totalSqm / 100;
+    const totalSqft = totalSqm * 10.7639;
+
+    tableHtml += `
+        <tr class="total-row">
+          <td>ആകെ വിസ്തീർണ്ണം (Total Area)</td>
+          <td>${totalSqm.toFixed(2)} Sq.m</td>
+          <td>${totalCent.toFixed(3)} Cent</td>
+          <td>${totalAre.toFixed(3)} Are</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;">ആകെ ചതുരശ്ര അടി: <b>${totalSqft.toFixed(2)} Sq.ft</b></div>
+    `;
+
+    tableContainer.innerHTML = tableHtml;
+    redraw();
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculateTable);
+
+  document.getElementById('printBtn').addEventListener('click', ()=>{
+    calculateTable();
+    const orient = document.getElementById('pdfOrientation').value;
+    let style = document.getElementById('dynamicPrintStyle');
+    if(!style){
+      style = document.createElement('style');
+      style.id = 'dynamicPrintStyle';
+      document.head.appendChild(style);
+    }
+    style.innerHTML = `@page { size: A4 ${orient}; margin: 8mm; }`;
+
+    setTimeout(()=>{
+      window.print();
+    }, 150);
+  });
+
+  document.getElementById('undoBtn').addEventListener('click', undo);
+  document.getElementById('clearBtn').addEventListener('click', ()=>{
+    if(confirm('എല്ലാം ക്ലിയർ ചെയ്യണോ?')){
+      points = []; edges = []; activeStartPoint = null;
+      isMainLocked = false;
+      updateLockUI();
+      currentScale = 1.0;
+      updateScaleLabel();
+      redraw();
+      tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:12px;margin:4px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
+    }
+  });
+
+  redraw();
+})();
 </script>
 </body>
 </html>
