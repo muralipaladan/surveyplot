@@ -62,6 +62,7 @@
     padding:3px 7px;border-radius:4px;border:none;cursor:pointer;display:none;
   }
 
+  /* Tool Tabs Header */
   .tabs-nav{
     display:flex;gap:4px;background:#E7E2D4;padding:3px;border-radius:6px;margin-bottom:6px;
     overflow-x:auto;white-space:nowrap;
@@ -74,6 +75,7 @@
     background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.08);
   }
 
+  /* Toolbar Container */
   .tab-panel{
     display:none;align-items:center;gap:4px;background:var(--card);
     border:1px solid var(--border);border-radius:6px;padding:5px 8px;margin-bottom:6px;
@@ -103,6 +105,7 @@
     padding:2px 4px;color:var(--accent-dark);
   }
 
+  /* Maximized Canvas Container */
   .a4-sheet-container{
     background:var(--card);
     border:1px solid var(--border);
@@ -396,7 +399,7 @@
 
 <script>
 (function(){
-  // Tab Switching Logic
+  // Tab Navigation
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabPanels = document.querySelectorAll('.tab-panel');
   tabBtns.forEach(btn => {
@@ -409,7 +412,7 @@
     });
   });
 
-  // PWA Install Prompt
+  // PWA Prompt
   let deferredPrompt;
   const installAppBtn = document.getElementById('installAppBtn');
   window.addEventListener('beforeinstallprompt', (e)=>{
@@ -443,7 +446,7 @@
   let undoStack = [];
   let nextPtId = 1, nextEdgeId = 1;
   let isMainLocked = false;
-  let isDrawingLocked = false; // Entire Drawing Locked for Pan & Zoom Mode
+  let isDrawingLocked = false;
   
   let activeStartPoint = null;
   let hoverPoint = null;
@@ -455,7 +458,7 @@
   let isDragging = false;
   let dragStartX = 0, dragStartY = 0;
 
-  // Two-Finger Pinch Zoom State
+  // Touch Pinch State
   let isPinching = false;
   let initialPinchDist = 0;
   let initialScale = 1.0;
@@ -625,7 +628,7 @@
     if(isDrawingLocked){
       lockDrawingBtn.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ് (Pan/Zoom)';
       lockDrawingBtn.classList.add('lock-active');
-      statusBar.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ്: വിരലുകൾ കൊണ്ട് കാൻവാസ് സുരക്ഷിതമായി സൂം ചെയ്യാനും പാൻ ചെയ്യാനും (Move Canvas) സാധിക്കും.';
+      statusBar.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ്: കാൻവാസ് സുരക്ഷിതമായി സൂം ചെയ്യാനും പാൻ ചെയ്യാനും സാധിക്കും.';
       canvas.style.cursor = 'grab';
     } else {
       lockDrawingBtn.textContent = '🔓 ഡ്രോയിംഗ് അൺലോക്ക്';
@@ -908,7 +911,6 @@
   }
 
   function handlePointerDown(x, y){
-    // When Drawing is Locked, clicking/touching acts as Canvas Pan
     if(isDrawingLocked){
       isDragging = true;
       dragStartX = x;
@@ -1152,7 +1154,7 @@
       const currentDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
       if(initialPinchDist > 0){
         const zoomRatio = currentDist / initialPinchDist;
-        const newScale = Math.max(0.3, Math.min(3.0, initialScale * zoomRatio));
+        const newScale = Math.max(0.3, Math.min(3.5, initialScale * zoomRatio));
         const factor = newScale / currentScale;
         
         const {x: cx, y: cy} = getCanvasCoords(pinchMidX, pinchMidY);
@@ -1263,6 +1265,7 @@
       ctx.stroke();
       ctx.restore();
 
+      // Clear, Highly-Readable Dimension Tag Badge
       const mx = (p1.x + p2.x) / 2;
       const my = (p1.y + p2.y) / 2;
       let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
@@ -1277,7 +1280,25 @@
       ctx.translate(mx, my);
       ctx.rotate(angle);
 
-      ctx.font = "bold 11px 'JetBrains Mono', monospace";
+      ctx.font = "bold 11.5px 'JetBrains Mono', monospace";
+      const textMetrics = ctx.measureText(text);
+      const textWidth = textMetrics.width;
+      const textHeight = 12;
+
+      // Solid Badge Background for Ultra-Clear Measurement View
+      ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+      ctx.strokeStyle = "rgba(205, 193, 167, 0.7)";
+      ctx.lineWidth = 1;
+      
+      const badgePaddingX = 4;
+      const badgePaddingY = 2;
+      const badgeY = -textHeight - 6;
+
+      ctx.beginPath();
+      ctx.roundRect(-textWidth / 2 - badgePaddingX, badgeY - badgePaddingY, textWidth + badgePaddingX * 2, textHeight + badgePaddingY * 2, 3);
+      ctx.fill();
+      ctx.stroke();
+
       ctx.fillStyle = e.customColor || (e.isOffset ? '#C0392B' : (e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B')));
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
@@ -1309,17 +1330,21 @@
       ctx.lineWidth = 1.6;
       ctx.stroke();
 
-      ctx.font = "600 10.5px sans-serif";
-      ctx.fillStyle = isPart ? '#0066CC' : '#5A5747';
+      // Clear Point Label
+      ctx.font = "bold 10.5px 'JetBrains Mono', sans-serif";
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = '#1B261A';
+      ctx.lineWidth = 2.5;
+      ctx.strokeText(`P${idx+1}`, p.x+6, p.y-5);
+      ctx.fillStyle = isPart ? '#0066CC' : '#111A10';
       ctx.fillText(`P${idx+1}`, p.x+6, p.y-5);
     });
 
-    // Drawing Lock Watermark Indicator on Canvas
     if(isDrawingLocked){
       ctx.save();
-      ctx.font = "bold 13px 'Noto Sans Malayalam', sans-serif";
+      ctx.font = "bold 12.5px 'Noto Sans Malayalam', sans-serif";
       ctx.fillStyle = "rgba(138, 109, 20, 0.9)";
-      ctx.fillText("🔒 VIEW / PAN MODE (LOCKED)", 14, 26);
+      ctx.fillText("🔒 VIEW / PAN MODE (LOCKED)", 14, 24);
       ctx.restore();
     }
   }
