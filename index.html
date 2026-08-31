@@ -2,8 +2,8 @@
 <html lang="ml">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD & A4 ഷീറ്റ്</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD - Full A4 Canvas</title>
 <meta name="theme-color" content="#1B261A">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +11,7 @@
 
 <style>
   :root{
-    --desk-bg:#4A4E51;
+    --desk-bg:#3A3D40;
     --paper:#FFFFFF;
     --ink:#111A10;
     --ink-soft:#555244;
@@ -23,7 +23,7 @@
     --part-color:#0066CC;
     --brass:#C59B27;
     --border:#CDC1A7;
-    --shadow:0 8px 24px rgba(0,0,0,0.35);
+    --shadow:0 8px 30px rgba(0,0,0,0.45);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   body{
@@ -31,7 +31,7 @@
     background:var(--desk-bg);
     font-family:'Noto Sans Malayalam', sans-serif;
     color:var(--ink);
-    padding:6px;
+    padding:4px;
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -39,13 +39,16 @@
   }
   .app{width:100%;max-width:980px;}
 
-  /* Top Control Toolbar */
+  /* Floating Sticky Control Panel */
   .control-panel{
     background:#FFFFFF;
     border-radius:8px;
     padding:6px 8px;
-    margin-bottom:8px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+    margin-bottom:6px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.25);
+    position:sticky;
+    top:4px;
+    z-index:50;
   }
   .tabs-nav{
     display:flex;gap:4px;background:#EAE6DA;padding:3px;border-radius:6px;margin-bottom:6px;
@@ -84,20 +87,20 @@
     padding:2px 4px;color:var(--accent-dark);
   }
 
-  /* Real A4 Paper Viewport Container */
+  /* Full Real A4 Paper Viewport */
   .a4-page-shadow-wrapper{
     width:100%;
     display:flex;
     justify-content:center;
-    padding:6px 0 30px;
+    padding:4px 0 30px;
     overflow:auto;
   }
   .a4-sheet{
     background:var(--paper);
     width:100%;
     max-width:820px;
-    min-height:1100px;
-    padding:24px 20px;
+    min-height:1160px;
+    padding:16px 14px;
     box-shadow:var(--shadow);
     display:flex;
     flex-direction:column;
@@ -106,31 +109,33 @@
     border-radius:2px;
     box-sizing:border-box;
     transform-origin:top center;
-    transition:transform 0.15s ease-out;
+    position:relative;
   }
 
-  /* Sheet Header */
+  /* Compact Sheet Header */
   .sheet-header{
-    display:flex;justify-content:space-between;align-items:flex-end;
-    border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:8px;
+    display:flex;justify-content:space-between;align-items:center;
+    border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:4px;
   }
-  .sheet-header h1{margin:0;font-size:17px;font-weight:700;color:var(--ink);}
-  .sheet-header .sub{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+  .sheet-header h1{margin:0;font-size:15px;font-weight:700;color:var(--ink);}
   .sheet-tag{
     background:var(--accent);color:#fff;font-size:9.5px;font-weight:700;
-    padding:2px 6px;border-radius:3px;letter-spacing:0.5px;
+    padding:2px 6px;border-radius:3px;
   }
 
-  /* Canvas Boundary Box */
+  /* Full-Page Canvas Box */
   .canvas-box{
     position:relative;
     width:100%;
+    height:100%;
+    flex:1;
     background:#FFFFFF;
     border:1px solid #CCC;
     border-radius:4px;
     overflow:hidden;
     touch-action:none;
-    margin-bottom:8px;
+    display:flex;
+    flex-direction:column;
   }
   .legend{
     display:flex;gap:12px;font-size:10px;color:var(--ink-soft);padding:3px 6px;background:#FAF8F5;border-bottom:1px solid #E5E0D5;
@@ -142,49 +147,46 @@
   .swatch.dot{border-top:1.8px dashed var(--inner);}
   
   canvas{
-    display:block;width:100%;height:auto;background:#FFFFFF;cursor:crosshair;touch-action:none;
+    display:block;width:100%;height:100%;flex:1;background:#FFFFFF;cursor:crosshair;touch-action:none;
   }
   .status-bar{
     font-size:11px;color:var(--brass);margin-top:2px;padding:2px 4px;font-weight:600;
   }
 
-  /* Bottom Section inside A4 Sheet */
-  .bottom-section{
-    display:grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap:10px;
-    align-items:start;
-    margin-top:auto;
+  /* Print-only Bottom Section */
+  .print-bottom-section{
+    display:none;
+    margin-top:8px;
+    border-top:1.5px solid #222;
+    padding-top:6px;
   }
-  .sheet-wrapper{
-    background:#FAF8F5;border:1px solid #D5CEBD;border-radius:4px;
-    padding:8px;
+
+  /* Drawer / Modal Table for On-screen View */
+  .drawer-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,0.45);
+    display:flex;align-items:flex-end;justify-content:center;z-index:90;
   }
-  .table-header-block{
+  .drawer-backdrop.hidden{display:none;}
+  .drawer{
+    background:#fff;border-radius:12px 12px 0 0;padding:16px;width:100%;max-width:700px;
+    box-shadow:0 -4px 20px rgba(0,0,0,0.3);max-height:80vh;overflow-y:auto;
+  }
+  .drawer-header{
     display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--ink);
-    padding-bottom:3px;margin-bottom:4px;
+    padding-bottom:6px;margin-bottom:10px;
   }
-  .table-header-block h2{margin:0;font-size:12px;color:var(--ink);}
-  .table-header-block .survey-date{font-size:10px;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;}
+  .drawer-header h2{margin:0;font-size:14px;}
 
   table{
-    width:100%;border-collapse:collapse;font-size:10px;text-align:left;
+    width:100%;border-collapse:collapse;font-size:11px;text-align:left;
   }
   th, td{
-    padding:4px 5px;border-bottom:1px solid #D5CEBD;
+    padding:5px 6px;border-bottom:1px solid #D5CEBD;
   }
   th{background:#EFECE2;font-weight:600;color:var(--ink);border-top:1px solid #D5CEBD;}
   td.mono{font-family:'JetBrains Mono', monospace;font-weight:600;}
   .total-row{
-    background:#EEF4EC;font-weight:700;font-size:10.5px;color:var(--accent-dark);
-  }
-  
-  .note-box{
-    border:1px dashed #999;border-radius:4px;padding:8px;background:#fff;
-    font-size:10px;line-height:1.4;color:var(--ink-soft);
-  }
-  .sign-space{
-    margin-top:24px;display:flex;justify-content:space-between;font-weight:600;color:var(--ink);
+    background:#EEF4EC;font-weight:700;font-size:11.5px;color:var(--accent-dark);
   }
 
   .screen-footer-credits{
@@ -218,24 +220,29 @@
   .modal-actions{display:flex;justify-content:flex-end;gap:5px;}
 
   @media print{
-    @page { size: A4 portrait; margin: 6mm; }
+    @page { size: A4 portrait; margin: 5mm; }
     body{background:#fff;padding:0;}
-    .control-panel, .modal-backdrop, .status-bar, .screen-footer-credits{
+    .control-panel, .modal-backdrop, .drawer-backdrop, .status-bar, .screen-footer-credits{
       display:none !important;
     }
-    .a4-page-shadow-wrapper{padding:0;}
+    .a4-page-shadow-wrapper{padding:0;overflow:visible;}
     .a4-sheet{
-      border:1.5px solid #222;box-shadow:none;padding:12px;margin:0;max-width:100%;
-      min-height:280mm;height:280mm;display:flex;flex-direction:column;justify-content:space-between;
+      border:1.5px solid #222;box-shadow:none;padding:8px;margin:0;max-width:100%;
+      min-height:285mm;height:285mm;display:flex;flex-direction:column;justify-content:space-between;
       transform:none !important;
+      zoom:1 !important;
     }
-    .canvas-box{border:1px solid #777;}
-    canvas{max-height:165mm;}
-    .bottom-section{grid-template-columns:1.4fr 1fr;gap:6px;}
-    .sheet-wrapper{background:#fff;border:1px solid #777;padding:5px;}
-    .note-box{border:1px solid #777;padding:5px;}
+    .canvas-box{border:1px solid #555;flex:1;}
+    canvas{height:100% !important;}
+    .print-bottom-section{
+      display:grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap:8px;
+    }
+    .print-sheet-wrapper{background:#fff;border:1px solid #777;padding:4px;}
+    .print-note-box{border:1px solid #777;padding:4px;font-size:9.5px;}
     table{font-size:9.5px;}
-    th, td{padding:3px 5px;}
+    th, td{padding:3px 4px;}
   }
 </style>
 </head>
@@ -246,7 +253,7 @@
   <div class="control-panel">
     <div class="tabs-nav">
       <button class="tab-btn active-tab" data-tab="tabDraw">✏️ വരയ്ക്കൽ (Draw)</button>
-      <button class="tab-btn" data-tab="tabEdit">🛠️ എഡിറ്റ് &amp; വ്യൂ (Edit)</button>
+      <button class="tab-btn" data-tab="tabEdit">🛠️ എഡിറ്റ് &amp; സൂം (Edit)</button>
       <button class="tab-btn" data-tab="tabPartition">✂️ പാർട്ടീഷൻ (Part)</button>
       <button class="tab-btn" data-tab="tabReport">📊 റിപ്പോർട്ട് &amp; PDF</button>
     </div>
@@ -258,6 +265,10 @@
       <button id="modeOffset">⟂ ഓഫ്‌സെറ്റ് (90°)</button>
       <button id="undoBtn">↩ Undo</button>
       <button id="clearBtn" class="danger">🗑 ക്ലിയർ</button>
+      <div style="flex:1;"></div>
+      <button id="pageZoomOutBtn1" title="പേജ് സൂം കുറയ്ക്കുക">🔎 -</button>
+      <span class="scale-label" id="pageScaleLabel1">100%</span>
+      <button id="pageZoomInBtn1" title="പേജ് സൂം കൂട്ടുക">🔎 +</button>
     </div>
 
     <!-- Panel 2: Edit & View -->
@@ -267,9 +278,9 @@
       <button id="modeColor">🎨 കളർ</button>
       <button id="modeDelete" class="danger">❌ ഒഴിവാക്കുക</button>
       <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
-      <button id="pageZoomOutBtn">🔎 പേജ് -</button>
-      <span class="scale-label" id="pageScaleLabel">Page: 100%</span>
-      <button id="pageZoomInBtn">🔎 പേജ് +</button>
+      <button id="pageZoomOutBtn2">🔎 -</button>
+      <span class="scale-label" id="pageScaleLabel2">100%</span>
+      <button id="pageZoomInBtn2">🔎 +</button>
       <button id="pageZoomResetBtn">Reset Page</button>
     </div>
 
@@ -278,11 +289,15 @@
       <button id="lockMainBtn">🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്</button>
       <button id="modePartition">✂️ പാർട്ട് വരയ്ക്കുക</button>
       <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
+      <div style="flex:1;"></div>
+      <button id="pageZoomOutBtn3">🔎 -</button>
+      <span class="scale-label" id="pageScaleLabel3">100%</span>
+      <button id="pageZoomInBtn3">🔎 +</button>
     </div>
 
     <!-- Panel 4: Report & Print -->
     <div class="tab-panel" id="tabReport">
-      <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണം</button>
+      <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണ പട്ടിക (View Area)</button>
       <select id="pdfOrientation">
         <option value="portrait">📄 A4 Portrait</option>
         <option value="landscape">📑 A4 Landscape</option>
@@ -291,49 +306,40 @@
     </div>
   </div>
 
-  <!-- Real A4 Sheet Viewport -->
+  <!-- Real Full A4 Sheet Viewport -->
   <div class="a4-page-shadow-wrapper">
     <div class="a4-sheet" id="a4SheetElement">
       <!-- Sheet Header -->
       <div class="sheet-header">
         <div>
           <h1>ചെയിൻ സർവേ സ്കെച്ച് &amp; ഫീൽഡ് പ്ലാൻ</h1>
-          <div class="sub">A4 ലാൻഡ് സർവേ സ്കെച്ച്, സബ് ഡിവിഷൻ &amp; വിസ്തീർണ്ണ കണക്കുകൂട്ടൽ</div>
         </div>
-        <span class="sheet-tag">A4 PRO PLAN</span>
+        <span class="sheet-tag">A4 FULL CANVAS</span>
       </div>
 
-      <!-- Canvas Area inside Sheet -->
-      <div>
-        <div class="canvas-box">
-          <div class="legend">
-            <span><span class="swatch"></span> അതിർത്തി (Outer)</span>
-            <span><span class="swatch part"></span> പാർട്ടീഷൻ (Blue)</span>
-            <span><span class="swatch offset"></span> ഓഫ്‌സെറ്റ് (90°)</span>
-            <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ</span>
-          </div>
-          <canvas id="canvas" width="1000" height="660"></canvas>
+      <!-- Max Size Canvas Area inside Sheet -->
+      <div class="canvas-box">
+        <div class="legend">
+          <span><span class="swatch"></span> അതിർത്തി</span>
+          <span><span class="swatch part"></span> പാർട്ടീഷൻ</span>
+          <span><span class="swatch offset"></span> ഓഫ്‌സെറ്റ് (90°)</span>
+          <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ</span>
         </div>
-        <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്.</div>
+        <canvas id="canvas" width="1000" height="920"></canvas>
       </div>
+      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്.</div>
 
-      <!-- Bottom Report Section inside Sheet -->
-      <div class="bottom-section">
-        <div class="sheet-wrapper">
-          <div class="table-header-block">
-            <h2>വിസ്തീർണ്ണ പട്ടിക (Area Statement)</h2>
-            <div class="survey-date" id="surveyDateLabel">DATE: ---</div>
-          </div>
-          <div id="tableContainer">
-            <p style="color:var(--ink-soft);font-size:10.5px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>
-          </div>
+      <!-- Print-Only Bottom Area (Visible in PDF / Print) -->
+      <div class="print-bottom-section">
+        <div class="print-sheet-wrapper">
+          <div style="font-weight:700;font-size:11px;margin-bottom:3px;" id="printDateLabel">വിസ്തീർണ്ണ പട്ടിക (Area Statement)</div>
+          <div id="printTableContainer"></div>
         </div>
-
-        <div class="note-box">
+        <div class="print-note-box">
           <b>പ്ലോട്ട് സർട്ടിഫിക്കേഷൻ:</b><br>
-          ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും അളവുകളും കൃത്യമായ ചെയിൻ സർവേ രീതിയിൽ തയ്യാറാക്കിയതാണ്.<br>
-          <div class="sign-space">
-            <span>തയ്യാറാക്കിയത്: ലൈസൻസ്ഡ് സർവേയർ</span>
+          ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും അളവുകളും കൃത്യമായി തയ്യാറാക്കിയതാണ്.<br>
+          <div style="margin-top:20px;display:flex;justify-content:space-between;font-weight:600;">
+            <span>സർവേയർ ഒപ്പ്</span>
             <span>ഉടമസ്ഥന്റെ ഒപ്പ്</span>
           </div>
         </div>
@@ -346,7 +352,18 @@
   </div>
 </div>
 
-<!-- Modal: Dimension Edit with Anchor Selection -->
+<!-- On-Screen Area Statement Drawer -->
+<div class="drawer-backdrop hidden" id="areaDrawer">
+  <div class="drawer">
+    <div class="drawer-header">
+      <h2>ഫീൽഡ് ബുക്ക് വിസ്തീർണ്ണ പട്ടിക (Area Statement)</h2>
+      <button id="closeDrawerBtn">✕ അടയ്ക്കുക</button>
+    </div>
+    <div id="screenTableContainer"></div>
+  </div>
+</div>
+
+<!-- Modal: Dimension Edit -->
 <div class="modal-backdrop hidden" id="lengthModal">
   <div class="modal">
     <h3 id="modalTitle">വരയുടെ അളവ് നൽകുക</h3>
@@ -363,7 +380,7 @@
   </div>
 </div>
 
-<!-- Modal: Cross Offset (90 deg) -->
+<!-- Modal: Cross Offset -->
 <div class="modal-backdrop hidden" id="offsetModal">
   <div class="modal">
     <h3>⟂ ക്രോസ് ഓഫ്‌സെറ്റ് നൽകുക (90°)</h3>
@@ -472,14 +489,12 @@
   const modeDeleteBtn = document.getElementById('modeDelete');
   const modeValueBtn = document.getElementById('modeValue');
   
-  const pageZoomInBtn = document.getElementById('pageZoomInBtn');
-  const pageZoomOutBtn = document.getElementById('pageZoomOutBtn');
   const pageZoomResetBtn = document.getElementById('pageZoomResetBtn');
-  const pageScaleLabel = document.getElementById('pageScaleLabel');
-
   const statusBar = document.getElementById('statusBar');
-  const tableContainer = document.getElementById('tableContainer');
-  const surveyDateLabel = document.getElementById('surveyDateLabel');
+  const printTableContainer = document.getElementById('printTableContainer');
+  const screenTableContainer = document.getElementById('screenTableContainer');
+  const areaDrawer = document.getElementById('areaDrawer');
+  const closeDrawerBtn = document.getElementById('closeDrawerBtn');
 
   const lengthModal = document.getElementById('lengthModal');
   const lengthInput = document.getElementById('lengthInput');
@@ -496,7 +511,7 @@
   const lineColorSelect = document.getElementById('lineColorSelect');
 
   const now = new Date();
-  surveyDateLabel.textContent = `DATE: ${now.toLocaleDateString('en-GB')}`;
+  document.getElementById('printDateLabel').textContent = `വിസ്തീർണ്ണ പട്ടിക (DATE: ${now.toLocaleDateString('en-GB')})`;
 
   function saveSnapshot(){
     undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked, isDrawingLocked}));
@@ -519,16 +534,36 @@
     redraw();
   }
 
-  // Page Level Zoom Functions
+  // Reliable Full Page Zoom Functions
   function setPageZoom(newZoom){
     pageZoom = Math.max(0.6, Math.min(2.5, newZoom));
-    a4SheetElement.style.transform = `scale(${pageZoom})`;
-    pageScaleLabel.textContent = `Page: ${Math.round(pageZoom * 100)}%`;
+    
+    if('zoom' in a4SheetElement.style){
+      a4SheetElement.style.zoom = pageZoom;
+    } else {
+      a4SheetElement.style.transform = `scale(${pageZoom})`;
+    }
+    
+    const labelText = `${Math.round(pageZoom * 100)}%`;
+    ['pageScaleLabel1', 'pageScaleLabel2', 'pageScaleLabel3'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.textContent = labelText;
+    });
   }
 
-  pageZoomInBtn.addEventListener('click', ()=>setPageZoom(pageZoom + 0.15));
-  pageZoomOutBtn.addEventListener('click', ()=>setPageZoom(pageZoom - 0.15));
-  pageZoomResetBtn.addEventListener('click', ()=>setPageZoom(1.0));
+  ['pageZoomInBtn1', 'pageZoomInBtn2', 'pageZoomInBtn3'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('click', ()=>setPageZoom(pageZoom + 0.15));
+  });
+
+  ['pageZoomOutBtn1', 'pageZoomOutBtn2', 'pageZoomOutBtn3'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('click', ()=>setPageZoom(pageZoom - 0.15));
+  });
+
+  if(pageZoomResetBtn){
+    pageZoomResetBtn.addEventListener('click', ()=>setPageZoom(1.0));
+  }
 
   function dist(x1,y1,x2,y2){ return Math.hypot(x2-x1, y2-y1); }
 
@@ -1096,16 +1131,6 @@
       const t = e.touches[0];
       const {x, y} = getCanvasCoords(t.clientX, t.clientY);
       handlePointerDown(x, y);
-    } else if(e.touches.length === 2){
-      isPinching = true;
-      isDragging = false;
-      isDrawingRect = false;
-      const t1 = e.touches[0];
-      const t2 = e.touches[1];
-      initialPinchDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
-      initialScale = currentScale;
-      pinchMidX = (t1.clientX + t2.clientX) / 2;
-      pinchMidY = (t1.clientY + t2.clientY) / 2;
     }
     e.preventDefault();
   }, { passive: false });
@@ -1115,24 +1140,6 @@
       const t = e.touches[0];
       const {x, y} = getCanvasCoords(t.clientX, t.clientY);
       handlePointerMove(x, y);
-    } else if(e.touches.length === 2){
-      const t1 = e.touches[0];
-      const t2 = e.touches[1];
-      const currentDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
-      if(initialPinchDist > 0){
-        const zoomRatio = currentDist / initialPinchDist;
-        const newScale = Math.max(0.3, Math.min(3.5, initialScale * zoomRatio));
-        const factor = newScale / currentScale;
-        
-        const {x: cx, y: cy} = getCanvasCoords(pinchMidX, pinchMidY);
-        points.forEach(p => {
-          p.x = cx + (p.x - cx) * factor;
-          p.y = cy + (p.y - cy) * factor;
-        });
-
-        currentScale = newScale;
-        redraw();
-      }
     }
     e.preventDefault();
   }, { passive: false });
@@ -1283,39 +1290,38 @@
       ctx.restore();
     }
 
-    // Points Rendering (Neat, Crisp Compact Box for P1, P2...)
+    // Ultra-Crisp Sharp Point Rendering (P1, P2)
     points.forEach((p, idx)=>{
       const isActive = (activeStartPoint && activeStartPoint.id === p.id);
       const isPart = (p.group === 'partition');
 
       ctx.beginPath();
-      ctx.arc(p.x, p.y, isActive ? 5.5 : 4, 0, Math.PI*2);
+      ctx.arc(p.x, p.y, isActive ? 5 : 3.5, 0, Math.PI*2);
       ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? '#C59B27' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1.4;
       ctx.stroke();
 
-      // Compact Crisp Label Box
       const pText = `P${idx+1}`;
       ctx.font = "bold 9px 'JetBrains Mono', monospace";
       const pw = ctx.measureText(pText).width;
       const ph = 10;
-      const labelX = p.x + 6;
+      const labelX = p.x + 5;
       const labelY = p.y - 12;
 
       ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
-      ctx.strokeStyle = isPart ? "#0066CC" : "#222222";
+      ctx.strokeStyle = isPart ? "#0066CC" : "#333333";
       ctx.lineWidth = 0.8;
       ctx.beginPath();
-      ctx.roundRect(labelX, labelY, pw + 4, ph + 2, 2);
+      ctx.roundRect(labelX, labelY, pw + 4, ph + 1, 2);
       ctx.fill();
       ctx.stroke();
 
       ctx.fillStyle = isPart ? '#0066CC' : '#111A10';
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
-      ctx.fillText(pText, labelX + 2, labelY + (ph / 2) + 1);
+      ctx.fillText(pText, labelX + 2, labelY + (ph / 2));
     });
 
     if(isDrawingLocked){
@@ -1333,11 +1339,10 @@
     return Math.sqrt(s*(s-a)*(s-b)*(s-c));
   }
 
-  function calculateTable(){
+  function buildTableHTML(){
     const triangles = analyzeTriangles();
     if(!triangles.length){
-      tableContainer.innerHTML = '<p style="color:var(--danger);font-size:10.5px;">പൂർണ്ണമായ ത്രികോണങ്ങളോ പ്ലോട്ടുകളോ കണ്ടെത്തിയില്ല. ഡയഗണലുകൾ നൽകി ബന്ധിപ്പിക്കുക.</p>';
-      return;
+      return '<p style="color:var(--danger);font-size:11px;">പൂർണ്ണമായ ത്രികോണങ്ങളോ പ്ലോട്ടുകളോ കണ്ടെത്തിയില്ല. ഡയഗണലുകൾ നൽകി ബന്ധിപ്പിക്കുക.</p>';
     }
 
     let totalSqm = 0;
@@ -1403,14 +1408,24 @@
     <div style="font-size:10px;color:var(--ink-soft);margin-top:3px;">ആകെ ചതുരശ്ര അടി: <b>${totalSqft.toFixed(2)} Sq.ft</b></div>
     `;
 
-    tableContainer.innerHTML = tableHtml;
+    return tableHtml;
+  }
+
+  function calculateTable(){
+    const html = buildTableHTML();
+    screenTableContainer.innerHTML = html;
+    printTableContainer.innerHTML = html;
+    areaDrawer.classList.remove('hidden');
     redraw();
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculateTable);
+  closeDrawerBtn.addEventListener('click', ()=>areaDrawer.classList.add('hidden'));
 
   document.getElementById('printBtn').addEventListener('click', ()=>{
-    calculateTable();
+    const html = buildTableHTML();
+    printTableContainer.innerHTML = html;
+    
     const orient = document.getElementById('pdfOrientation').value;
     let style = document.getElementById('dynamicPrintStyle');
     if(!style){
@@ -1418,7 +1433,7 @@
       style.id = 'dynamicPrintStyle';
       document.head.appendChild(style);
     }
-    style.innerHTML = `@page { size: A4 ${orient}; margin: 6mm; }`;
+    style.innerHTML = `@page { size: A4 ${orient}; margin: 5mm; }`;
 
     setTimeout(()=>{
       window.print();
@@ -1436,7 +1451,8 @@
       currentScale = 1.0;
       setPageZoom(1.0);
       redraw();
-      tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:10.5px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
+      screenTableContainer.innerHTML = '';
+      printTableContainer.innerHTML = '';
     }
   });
 
