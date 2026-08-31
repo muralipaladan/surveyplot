@@ -195,6 +195,7 @@
       <button id="modeRect">⬛ ചതുരം</button>
       <button id="modePartition">✂️ പാർട്ടീഷൻ വരയ്ക്കുക</button>
       <button id="modeMovePart">📦 മൂവ് പാർട്ടീഷൻ</button>
+      <button id="modeColor">🎨 ലൈൻ കളർ</button>
       <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
       <button id="modeDelete">❌ ഒഴിവാക്കുക</button>
       <button id="modeValue">📏 അളവ് മാറ്റുക</button>
@@ -259,7 +260,7 @@
   </div>
 </div>
 
-<!-- Modal with Anchor Point Lock Selection -->
+<!-- Modal Length Adjustment -->
 <div class="modal-backdrop hidden" id="lengthModal">
   <div class="modal">
     <h3 id="modalTitle">വരയുടെ അളവ് നൽകുക</h3>
@@ -272,6 +273,25 @@
     <div class="modal-actions">
       <button id="cancelModalBtn">ഒഴിവാക്കുക</button>
       <button id="saveModalBtn" class="primary">അളവ് മാറ്റുക</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Color Picker -->
+<div class="modal-backdrop hidden" id="colorModal">
+  <div class="modal">
+    <h3>ലൈൻ കളർ മാറ്റുക (Line Color)</h3>
+    <label for="lineColorSelect">നിറം തിരഞ്ഞെടുക്കുക:</label>
+    <select id="lineColorSelect">
+      <option value="#111A10">⚫ കറുപ്പ് (Default Outer)</option>
+      <option value="#0066CC">🔵 നീല (Partition Blue)</option>
+      <option value="#C0392B">🔴 ചുവപ്പ് (Road / Boundary)</option>
+      <option value="#276E2C">🟢 പച്ച (Green Line)</option>
+      <option value="#C59B27">🟡 മഞ്ഞ / സ്വർണ്ണം (Yellow)</option>
+    </select>
+    <div class="modal-actions">
+      <button id="cancelColorBtn">ക്യാൻസൽ</button>
+      <button id="saveColorBtn" class="primary">നിറം മാറ്റുക</button>
     </div>
   </div>
 </div>
@@ -312,6 +332,7 @@
   const modeRectBtn = document.getElementById('modeRect');
   const modePartitionBtn = document.getElementById('modePartition');
   const modeMovePartBtn = document.getElementById('modeMovePart');
+  const modeColorBtn = document.getElementById('modeColor');
   const modeMoveAllBtn = document.getElementById('modeMoveAll');
   const modeDeleteBtn = document.getElementById('modeDelete');
   const modeValueBtn = document.getElementById('modeValue');
@@ -324,6 +345,9 @@
   const lengthInput = document.getElementById('lengthInput');
   const lockPointSelect = document.getElementById('lockPointSelect');
   const modalTitle = document.getElementById('modalTitle');
+
+  const colorModal = document.getElementById('colorModal');
+  const lineColorSelect = document.getElementById('lineColorSelect');
 
   const now = new Date();
   surveyDateLabel.textContent = `DATE: ${now.toLocaleDateString('en-GB')}`;
@@ -350,8 +374,9 @@
 
   function dist(x1,y1,x2,y2){ return Math.hypot(x2-x1, y2-y1); }
 
-  function findSnapVertex(x, y){
+  function findSnapVertex(x, y, targetGroup=null){
     for(const p of points){
+      if(targetGroup && p.group !== targetGroup) continue;
       if(dist(x, y, p.x, p.y) < SNAP) return p;
     }
     return null;
@@ -399,18 +424,16 @@
       const d = dist(p1.x, p1.y, p2.x, p2.y);
       length = parseFloat((d / (BASE_PIXELS_PER_METER * currentScale)).toFixed(2));
     }
-    const e = { id: nextEdgeId++, a: aId, b: bId, length, isPartition };
+    const e = { id: nextEdgeId++, a: aId, b: bId, length, isPartition, group: isPartition ? 'partition' : 'main', customColor: null };
     edges.push(e);
     return e;
   }
 
-  // Anchor Locked Length Adjustment
   function applyEdgeLengthAdjustment(edge, newLengthMeters, anchorPointId){
     const p1 = points.find(p=>p.id===edge.a);
     const p2 = points.find(p=>p.id===edge.b);
     if(!p1 || !p2) return;
 
-    // Determine Anchor (Fixed Point) and Target (Moving Point)
     let fixedP = p1, movingP = p2;
     if(anchorPointId === p2.id){
       fixedP = p2;
@@ -423,7 +446,6 @@
     const targetPxDist = newLengthMeters * (BASE_PIXELS_PER_METER * currentScale);
     const ratio = targetPxDist / currentPxDist;
 
-    // Moving point expands or contracts from the fixed anchor point
     movingP.x = fixedP.x + (movingP.x - fixedP.x) * ratio;
     movingP.y = fixedP.y + (movingP.y - fixedP.y) * ratio;
   }
@@ -505,7 +527,7 @@
               idx1: points.indexOf(p1)+1,
               idx2: points.indexOf(p2)+1,
               idx3: points.indexOf(p3)+1,
-              isPartition: (p1.group === 'partition' || p2.group === 'partition' || p3.group === 'partition')
+              isPartition: (p1.group === 'partition' && p2.group === 'partition' && p3.group === 'partition')
             });
           }
         }
@@ -529,7 +551,7 @@
     activeStartPoint = null;
     isDrawingRect = false;
 
-    [modeDrawBtn, modeRectBtn, modePartitionBtn, modeMovePartBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>b.classList.remove('active', 'active-part'));
+    [modeDrawBtn, modeRectBtn, modePartitionBtn, modeMovePartBtn, modeColorBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>b.classList.remove('active', 'active-part'));
 
     if(mode === 'draw'){
       modeDrawBtn.classList.add('active');
@@ -541,12 +563,16 @@
       canvas.style.cursor = 'crosshair';
     } else if(mode === 'partition'){
       modePartitionBtn.classList.add('active-part');
-      statusBar.textContent = '✂️ പാർട്ടീഷൻ: മെയിൻ പ്ലോട്ടിന് മുകളിൽ പാർട്ടീഷൻ ഭാഗം ക്ലിക്ക് ചെയ്തു വരയ്ക്കുക (Snap ഓൺ ആണ്).';
+      statusBar.textContent = '✂️ പാർട്ടീഷൻ: മെയിൻ പ്ലോട്ടിന് മുകളിൽ പൂർണ്ണ ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക.';
       canvas.style.cursor = 'crosshair';
     } else if(mode === 'movePart'){
       modeMovePartBtn.classList.add('active-part');
-      statusBar.textContent = '📦 മൂവ് പാർട്ടീഷൻ: പാർട്ടീഷൻ പ്ലോട്ടിൽ ക്ലിക്ക് ചെയ്ത് ഇഷ്ടമുള്ള ലൊക്കേഷനിലേക്ക് മാറ്റി സ്ഥാപിക്കുക.';
+      statusBar.textContent = '📦 മൂവ് പാർട്ടീഷൻ: പാർട്ടീഷൻ പ്ലോട്ടിൽ ക്ലിക്ക് ചെയ്ത് പൂർണ്ണമായി വേർപെടുത്തി നീക്കുക.';
       canvas.style.cursor = 'grab';
+    } else if(mode === 'color'){
+      modeColorBtn.classList.add('active');
+      statusBar.textContent = '🎨 കളർ മാറ്റുക: നിറം മാറ്റേണ്ട വരയിൽ ക്ലിക്ക് ചെയ്യുക.';
+      canvas.style.cursor = 'pointer';
     } else if(mode === 'moveAll'){
       modeMoveAllBtn.classList.add('active');
       statusBar.textContent = '✋ മൂവ് ഓൾ: മുഴുവൻ പ്ലോട്ടുകളും ഒരുമിച്ച് നീക്കുക.';
@@ -567,6 +593,7 @@
   modeRectBtn.addEventListener('click', ()=>setMode('rect'));
   modePartitionBtn.addEventListener('click', ()=>setMode('partition'));
   modeMovePartBtn.addEventListener('click', ()=>setMode('movePart'));
+  modeColorBtn.addEventListener('click', ()=>setMode('color'));
   modeMoveAllBtn.addEventListener('click', ()=>setMode('moveAll'));
   modeDeleteBtn.addEventListener('click', ()=>setMode('delete'));
   modeValueBtn.addEventListener('click', ()=>setMode('value'));
@@ -581,7 +608,6 @@
     modalTitle.textContent = `വര P${idxA} - P${idxB} ന്റെ അളവ് മാറ്റുക`;
     lengthInput.value = edge.length || '';
 
-    // Populate Lock Anchor Point Select Options
     lockPointSelect.innerHTML = `
       <option value="${pA.id}">🔒 P${idxA} ലോക്ക് ചെയ്യുക (P${idxB} നീങ്ങും)</option>
       <option value="${pB.id}">🔒 P${idxB} ലോക്ക് ചെയ്യുക (P${idxA} നീങ്ങും)</option>
@@ -608,6 +634,22 @@
 
   document.getElementById('cancelModalBtn').addEventListener('click', ()=>{
     lengthModal.classList.add('hidden');
+    editingEdge = null;
+  });
+
+  // Color Change Modal Handlers
+  document.getElementById('saveColorBtn').addEventListener('click', ()=>{
+    if(editingEdge){
+      saveSnapshot();
+      editingEdge.customColor = lineColorSelect.value;
+    }
+    colorModal.classList.add('hidden');
+    editingEdge = null;
+    redraw();
+  });
+
+  document.getElementById('cancelColorBtn').addEventListener('click', ()=>{
+    colorModal.classList.add('hidden');
     editingEdge = null;
   });
 
@@ -663,40 +705,68 @@
       return;
     }
 
-    // DRAW & PARTITION MODES
-    let clickedPoint = findSnapVertex(x, y);
-
-    if(!clickedPoint){
+    if(currentMode === 'color'){
       const edgeSnap = findSnapOnEdge(x, y);
-      saveSnapshot();
-      if(edgeSnap){
-        clickedPoint = { 
-          id: nextPtId++, 
-          x: edgeSnap.x, 
-          y: edgeSnap.y, 
-          group: currentMode === 'partition' ? 'partition' : 'main' 
-        };
-        points.push(clickedPoint);
-      } else {
-        clickedPoint = { 
-          id: nextPtId++, 
-          x, 
-          y, 
-          group: currentMode === 'partition' ? 'partition' : 'main' 
-        };
-        points.push(clickedPoint);
+      if(edgeSnap && edgeSnap.edge){
+        editingEdge = edgeSnap.edge;
+        colorModal.classList.remove('hidden');
       }
+      return;
     }
 
-    if(currentMode === 'partition' || currentMode === 'draw'){
+    // DRAW & PARTITION MODES
+    if(currentMode === 'partition'){
+      // Look for partition's own points to close/continue loop
+      let clickedPoint = findSnapVertex(x, y, 'partition');
+
+      if(!clickedPoint){
+        // Create an INDEPENDENT partition point (Snap to edge coordinate without sharing node)
+        const edgeSnap = findSnapOnEdge(x, y);
+        const ptSnap = findSnapVertex(x, y); // Snap to point coordinate
+        
+        saveSnapshot();
+        const ptX = ptSnap ? ptSnap.x : (edgeSnap ? edgeSnap.x : x);
+        const ptY = ptSnap ? ptSnap.y : (edgeSnap ? edgeSnap.y : y);
+
+        clickedPoint = { id: nextPtId++, x: ptX, y: ptY, group: 'partition' };
+        points.push(clickedPoint);
+      }
+
       if(activeStartPoint === null){
         activeStartPoint = clickedPoint;
       } else {
         if(activeStartPoint.id !== clickedPoint.id && !edgeExists(activeStartPoint.id, clickedPoint.id)){
           saveSnapshot();
-          const isPart = (currentMode === 'partition');
-          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, isPart);
-          if(edge) edge.group = isPart ? 'partition' : 'main';
+          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, true);
+          if(edge) edge.group = 'partition';
+        }
+        activeStartPoint = clickedPoint;
+      }
+      redraw();
+      return;
+    }
+
+    if(currentMode === 'draw'){
+      let clickedPoint = findSnapVertex(x, y);
+
+      if(!clickedPoint){
+        const edgeSnap = findSnapOnEdge(x, y);
+        saveSnapshot();
+        if(edgeSnap){
+          clickedPoint = { id: nextPtId++, x: edgeSnap.x, y: edgeSnap.y, group: 'main' };
+        } else {
+          clickedPoint = { id: nextPtId++, x, y, group: 'main' };
+        }
+        points.push(clickedPoint);
+      }
+
+      if(activeStartPoint === null){
+        activeStartPoint = clickedPoint;
+      } else {
+        if(activeStartPoint.id !== clickedPoint.id && !edgeExists(activeStartPoint.id, clickedPoint.id)){
+          saveSnapshot();
+          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, false);
+          if(edge) edge.group = 'main';
         }
         activeStartPoint = clickedPoint;
       }
@@ -714,6 +784,7 @@
       if(currentMode === 'moveAll'){
         points.forEach(p => { p.x += dx; p.y += dy; });
       } else if(currentMode === 'movePart'){
+        // Move only the independent partition plot points
         points.forEach(p => {
           if(p.group === 'partition'){
             p.x += dx;
@@ -798,8 +869,23 @@
   }
 
   function redraw(){
-    analyzeTriangles();
+    const triangles = analyzeTriangles();
     drawGrid();
+
+    // Fill Partition Polygons with Soft Blue tint
+    triangles.forEach(t=>{
+      if(t.isPartition){
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(t.p1.x, t.p1.y);
+        ctx.lineTo(t.p2.x, t.p2.y);
+        ctx.lineTo(t.p3.x, t.p3.y);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(0, 102, 204, 0.08)';
+        ctx.fill();
+        ctx.restore();
+      }
+    });
 
     // Rectangle Preview
     if(isDrawingRect && currentMode === 'rect'){
@@ -827,9 +913,12 @@
       ctx.moveTo(p1.x, p1.y);
       ctx.lineTo(p2.x, p2.y);
 
-      if(e.isPartition || e.group === 'partition' || p1.group === 'partition' && p2.group === 'partition'){
-        ctx.strokeStyle = '#0066CC';
+      if(e.customColor){
+        ctx.strokeStyle = e.customColor;
         ctx.lineWidth = 2.4;
+      } else if(e.isPartition || e.group === 'partition' || (p1.group === 'partition' && p2.group === 'partition')){
+        ctx.strokeStyle = '#0066CC'; // Blue Partition Line
+        ctx.lineWidth = 2.6;
       } else if(e.isInner){
         ctx.strokeStyle = '#7A5E2E';
         ctx.lineWidth = 1.6;
@@ -839,9 +928,9 @@
         ctx.lineWidth = 2.2;
       }
 
-      if(snapLinePoint && snapLinePoint.edge && snapLinePoint.edge.id === e.id && (currentMode === 'delete' || currentMode === 'value')){
+      if(snapLinePoint && snapLinePoint.edge && snapLinePoint.edge.id === e.id && (currentMode === 'delete' || currentMode === 'value' || currentMode === 'color')){
         ctx.strokeStyle = currentMode === 'delete' ? '#C0392B' : '#C59B27';
-        ctx.lineWidth = 3.5;
+        ctx.lineWidth = 3.6;
       }
 
       ctx.stroke();
@@ -863,7 +952,7 @@
       ctx.rotate(angle);
 
       ctx.font = "bold 11px 'JetBrains Mono', monospace";
-      ctx.fillStyle = e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B');
+      ctx.fillStyle = e.customColor || (e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B'));
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
       ctx.fillText(text, 0, -4);
@@ -875,7 +964,7 @@
       ctx.save();
       ctx.beginPath();
       ctx.arc(snapLinePoint.x, snapLinePoint.y, 5, 0, Math.PI * 2);
-      ctx.fillStyle = '#C59B27';
+      ctx.fillStyle = currentMode === 'partition' ? '#0066CC' : '#C59B27';
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
       ctx.lineWidth = 1.5;
