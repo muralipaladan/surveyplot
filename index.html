@@ -47,7 +47,6 @@
   }
   .app{max-width:1180px;margin:0 auto;position:relative;}
   
-  /* Compact Header */
   header{
     display:flex;justify-content:space-between;align-items:center;
     border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:6px;
@@ -63,7 +62,6 @@
     padding:3px 7px;border-radius:4px;border:none;cursor:pointer;display:none;
   }
 
-  /* Tool Tabs Header */
   .tabs-nav{
     display:flex;gap:4px;background:#E7E2D4;padding:3px;border-radius:6px;margin-bottom:6px;
     overflow-x:auto;white-space:nowrap;
@@ -76,7 +74,6 @@
     background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.08);
   }
 
-  /* Toolbar Container for Tab Panels */
   .tab-panel{
     display:none;align-items:center;gap:4px;background:var(--card);
     border:1px solid var(--border);border-radius:6px;padding:5px 8px;margin-bottom:6px;
@@ -99,14 +96,13 @@
   button.primary:hover{background:var(--accent-dark);}
   button.danger{color:var(--danger);border-color:var(--danger);}
   button.danger:hover{background:var(--danger);color:#fff;}
-  button.lock-active{background:#444;border-color:#222;color:#fff;}
+  button.lock-active{background:#8A6D14;border-color:#654E0B;color:#fff;}
   
   .scale-label{
     font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:700;
     padding:2px 4px;color:var(--accent-dark);
   }
 
-  /* Maximized Canvas Container */
   .a4-sheet-container{
     background:var(--card);
     border:1px solid var(--border);
@@ -137,7 +133,6 @@
   .swatch.offset{border-top:1.8px dashed var(--road);}
   .swatch.dot{border-top:1.8px dashed var(--inner);}
   
-  /* Large high-res canvas */
   canvas{
     display:block;width:100%;height:auto;background:var(--paper);cursor:crosshair;touch-action:none;
   }
@@ -262,6 +257,7 @@
 
   <!-- Panel 1: Draw -->
   <div class="tab-panel active-panel" id="tabDraw">
+    <button id="lockDrawingBtn" class="primary" style="background:#8A6D14;border-color:#654E0B;">🔒 ഡ്രോയിംഗ് ലോക്ക് (Pan/Zoom)</button>
     <button id="modeDraw" class="active">✏️ പ്ലോട്ട്</button>
     <button id="modeRect">⬛ ചതുരം</button>
     <button id="modeOffset">⟂ ഓഫ്‌സെറ്റ് (90°)</button>
@@ -283,7 +279,7 @@
 
   <!-- Panel 3: Partition -->
   <div class="tab-panel" id="tabPartition">
-    <button id="lockMainBtn">🔓 മെയിൻ ലോക്ക്</button>
+    <button id="lockMainBtn">🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്</button>
     <button id="modePartition">✂️ പാർട്ട് വരയ്ക്കുക</button>
     <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
   </div>
@@ -307,7 +303,6 @@
         <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ</span>
       </div>
       <div class="canvas-box">
-        <!-- Enlarged Canvas Dimension for crisp drawing -->
         <canvas id="canvas" width="1000" height="620"></canvas>
       </div>
       <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്.</div>
@@ -448,6 +443,7 @@
   let undoStack = [];
   let nextPtId = 1, nextEdgeId = 1;
   let isMainLocked = false;
+  let isDrawingLocked = false; // Entire Drawing Locked for Pan & Zoom Mode
   
   let activeStartPoint = null;
   let hoverPoint = null;
@@ -469,6 +465,7 @@
   let rectStartX = 0, rectStartY = 0, rectCurX = 0, rectCurY = 0;
 
   // DOM Elements
+  const lockDrawingBtn = document.getElementById('lockDrawingBtn');
   const lockMainBtn = document.getElementById('lockMainBtn');
   const modeDrawBtn = document.getElementById('modeDraw');
   const modeRectBtn = document.getElementById('modeRect');
@@ -502,7 +499,7 @@
   surveyDateLabel.textContent = `DATE: ${now.toLocaleDateString('en-GB')}`;
 
   function saveSnapshot(){
-    undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked}));
+    undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked, isDrawingLocked}));
     if(undoStack.length > 50) undoStack.shift();
   }
 
@@ -515,7 +512,9 @@
     nextEdgeId = data.nextEdgeId;
     currentScale = data.currentScale || 1.0;
     isMainLocked = !!data.isMainLocked;
+    isDrawingLocked = !!data.isDrawingLocked;
     updateLockUI();
+    updateDrawingLockUI();
     updateScaleLabel();
     activeStartPoint = null;
     redraw();
@@ -617,10 +616,30 @@
       lockMainBtn.textContent = '🔒 മെയിൻ ലോക്ക്ഡ്';
       lockMainBtn.classList.add('lock-active');
     } else {
-      lockMainBtn.textContent = '🔓 മെയിൻ ലോക്ക്';
+      lockMainBtn.textContent = '🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്';
       lockMainBtn.classList.remove('lock-active');
     }
   }
+
+  function updateDrawingLockUI(){
+    if(isDrawingLocked){
+      lockDrawingBtn.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ് (Pan/Zoom)';
+      lockDrawingBtn.classList.add('lock-active');
+      statusBar.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ്: വിരലുകൾ കൊണ്ട് കാൻവാസ് സുരക്ഷിതമായി സൂം ചെയ്യാനും പാൻ ചെയ്യാനും (Move Canvas) സാധിക്കും.';
+      canvas.style.cursor = 'grab';
+    } else {
+      lockDrawingBtn.textContent = '🔓 ഡ്രോയിംഗ് അൺലോക്ക്';
+      lockDrawingBtn.classList.remove('lock-active');
+      setMode(currentMode);
+    }
+  }
+
+  lockDrawingBtn.addEventListener('click', ()=>{
+    isDrawingLocked = !isDrawingLocked;
+    activeStartPoint = null;
+    updateDrawingLockUI();
+    redraw();
+  });
 
   lockMainBtn.addEventListener('click', ()=>{
     isMainLocked = !isMainLocked;
@@ -711,33 +730,47 @@
 
     [modeDrawBtn, modeRectBtn, modeOffsetBtn, modePartitionBtn, modeMovePartBtn, modeColorBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>b.classList.remove('active', 'active-part'));
 
+    if(isDrawingLocked){
+      canvas.style.cursor = 'grab';
+      return;
+    }
+
     if(mode === 'draw'){
       modeDrawBtn.classList.add('active');
       statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട്: പോയിന്റുകൾ ടച്ച് ചെയ്തു വരയ്ക്കുക.';
+      canvas.style.cursor = 'crosshair';
     } else if(mode === 'rect'){
       modeRectBtn.classList.add('active');
       statusBar.textContent = '⬛ ചതുരം: ഡ്രാഗ് ചെയ്തു വരയ്ക്കുക.';
+      canvas.style.cursor = 'crosshair';
     } else if(mode === 'offset'){
       modeOffsetBtn.classList.add('active');
       statusBar.textContent = '⟂ ക്രോസ് ഓഫ്‌സെറ്റ്: ബേസ് ലൈനിൽ ടച്ച് ചെയ്യുക.';
+      canvas.style.cursor = 'pointer';
     } else if(mode === 'partition'){
       modePartitionBtn.classList.add('active-part');
       statusBar.textContent = '✂️ പാർട്ടീഷൻ: ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക.';
+      canvas.style.cursor = 'crosshair';
     } else if(mode === 'movePart'){
       modeMovePartBtn.classList.add('active-part');
       statusBar.textContent = '📦 മൂവ് പാർട്ട്: പാർട്ടീഷൻ പ്ലോട്ട് ഡ്രാഗ് ചെയ്തു മാറ്റുക.';
+      canvas.style.cursor = 'grab';
     } else if(mode === 'color'){
       modeColorBtn.classList.add('active');
       statusBar.textContent = '🎨 കളർ: വരയിൽ ടച്ച് ചെയ്യുക.';
+      canvas.style.cursor = 'pointer';
     } else if(mode === 'moveAll'){
       modeMoveAllBtn.classList.add('active');
       statusBar.textContent = '✋ മൂവ് ഓൾ: പ്ലോട്ടുകൾ ഒരുമിച്ച് നീക്കുക.';
+      canvas.style.cursor = 'grab';
     } else if(mode === 'delete'){
       modeDeleteBtn.classList.add('active');
       statusBar.textContent = '❌ ഒഴിവാക്കുക: വരയിൽ ടച്ച് ചെയ്യുക.';
+      canvas.style.cursor = 'pointer';
     } else if(mode === 'value'){
       modeValueBtn.classList.add('active');
       statusBar.textContent = '📏 അളവ് മാറ്റുക: വരയിൽ ടച്ച് ചെയ്യുക.';
+      canvas.style.cursor = 'pointer';
     }
     redraw();
   }
@@ -875,6 +908,15 @@
   }
 
   function handlePointerDown(x, y){
+    // When Drawing is Locked, clicking/touching acts as Canvas Pan
+    if(isDrawingLocked){
+      isDragging = true;
+      dragStartX = x;
+      dragStartY = y;
+      canvas.style.cursor = 'grabbing';
+      return;
+    }
+
     if(currentMode === 'moveAll' || currentMode === 'movePart'){
       isDragging = true;
       dragStartX = x;
@@ -993,7 +1035,7 @@
       const dx = x - dragStartX;
       const dy = y - dragStartY;
 
-      if(currentMode === 'moveAll'){
+      if(isDrawingLocked || currentMode === 'moveAll'){
         points.forEach(p => { p.x += dx; p.y += dy; });
       } else if(currentMode === 'movePart'){
         points.forEach(p => {
@@ -1017,14 +1059,20 @@
       return;
     }
 
-    hoverPoint = findSnapVertex(x, y);
-    snapLinePoint = findSnapOnEdge(x, y);
+    if(!isDrawingLocked){
+      hoverPoint = findSnapVertex(x, y);
+      snapLinePoint = findSnapOnEdge(x, y);
+    } else {
+      hoverPoint = null;
+      snapLinePoint = null;
+    }
     redraw();
   }
 
   function handlePointerUp(){
     if(isDragging){
       isDragging = false;
+      if(isDrawingLocked) canvas.style.cursor = 'grab';
     }
 
     if(isDrawingRect && currentMode === 'rect'){
@@ -1237,7 +1285,7 @@
       ctx.restore();
     }
 
-    if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset')){
+    if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset') && !isDrawingLocked){
       ctx.save();
       ctx.beginPath();
       ctx.arc(snapLinePoint.x, snapLinePoint.y, 6, 0, Math.PI * 2);
@@ -1265,6 +1313,15 @@
       ctx.fillStyle = isPart ? '#0066CC' : '#5A5747';
       ctx.fillText(`P${idx+1}`, p.x+6, p.y-5);
     });
+
+    // Drawing Lock Watermark Indicator on Canvas
+    if(isDrawingLocked){
+      ctx.save();
+      ctx.font = "bold 13px 'Noto Sans Malayalam', sans-serif";
+      ctx.fillStyle = "rgba(138, 109, 20, 0.9)";
+      ctx.fillText("🔒 VIEW / PAN MODE (LOCKED)", 14, 26);
+      ctx.restore();
+    }
   }
 
   function heronArea(a, b, c){
@@ -1370,7 +1427,9 @@
     if(confirm('എല്ലാം ക്ലിയർ ചെയ്യണോ?')){
       points = []; edges = []; activeStartPoint = null;
       isMainLocked = false;
+      isDrawingLocked = false;
       updateLockUI();
+      updateDrawingLockUI();
       currentScale = 1.0;
       updateScaleLabel();
       redraw();
