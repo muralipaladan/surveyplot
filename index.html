@@ -2,8 +2,8 @@
 <html lang="ml">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD - Junction & Point Snap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD & A4 ഷീറ്റ്</title>
 <meta name="theme-color" content="#1B261A">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,6 +39,7 @@
   }
   .app{width:100%;max-width:980px;}
 
+  /* Floating Sticky Control Panel */
   .control-panel{
     background:#FFFFFF;
     border-radius:8px;
@@ -54,7 +55,7 @@
     overflow-x:auto;white-space:nowrap;
   }
   .tab-btn{
-    flex:1;text-align:center;padding:5px 8px;font-size:11.5px;font-weight:700;
+    flex:1;text-align:center;padding:6px 8px;font-size:12px;font-weight:700;
     background:transparent;border:none;border-radius:4px;color:var(--ink-soft);cursor:pointer;
   }
   .tab-btn.active-tab{
@@ -69,7 +70,7 @@
 
   button, select{
     font-family:inherit;font-size:11px;font-weight:600;
-    padding:5px 8px;border-radius:4px;border:1px solid var(--border);
+    padding:6px 9px;border-radius:4px;border:1px solid var(--border);
     background:#fff;color:var(--ink);cursor:pointer;transition:all .15s ease;
     flex-shrink:0;
   }
@@ -86,6 +87,7 @@
     padding:2px 4px;color:var(--accent-dark);
   }
 
+  /* Full Real A4 Paper Viewport */
   .a4-page-shadow-wrapper{
     width:100%;
     display:flex;
@@ -110,6 +112,7 @@
     position:relative;
   }
 
+  /* Compact Sheet Header */
   .sheet-header{
     display:flex;justify-content:space-between;align-items:center;
     border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:4px;
@@ -120,13 +123,12 @@
     padding:2px 6px;border-radius:3px;
   }
 
+  /* Full-Page Canvas Box */
   .canvas-box{
     position:relative;
     width:100%;
-    height:100%;
-    flex:1;
     background:#FFFFFF;
-    border:1px solid #CCC;
+    border:1px solid #BBB;
     border-radius:4px;
     overflow:hidden;
     touch-action:none;
@@ -134,7 +136,7 @@
     flex-direction:column;
   }
   .legend{
-    display:flex;gap:12px;font-size:10px;color:var(--ink-soft);padding:3px 6px;background:#FAF8F5;border-bottom:1px solid #E5E0D5;flex-wrap:wrap;
+    display:flex;gap:12px;font-size:10px;color:var(--ink-soft);padding:4px 6px;background:#FAF8F5;border-bottom:1px solid #E5E0D5;flex-wrap:wrap;
   }
   .legend span{display:inline-flex;align-items:center;gap:4px;}
   .swatch{width:14px;height:0;border-top:2.2px solid var(--outer);display:inline-block;}
@@ -145,12 +147,13 @@
   .swatch.junc{width:10px;height:10px;border-radius:50%;background:#27AE60;border:1.5px solid #fff;display:inline-block;}
   
   canvas{
-    display:block;width:100%;height:100%;flex:1;background:#FFFFFF;cursor:crosshair;touch-action:none;
+    display:block;width:100%;height:auto;background:#FFFFFF;cursor:crosshair;touch-action:none;
   }
   .status-bar{
-    font-size:11px;color:var(--brass);margin-top:2px;padding:2px 4px;font-weight:600;
+    font-size:11px;color:var(--brass);margin-top:4px;padding:2px 4px;font-weight:600;
   }
 
+  /* Print-only Bottom Section */
   .print-bottom-section{
     display:none;
     margin-top:8px;
@@ -158,6 +161,7 @@
     padding-top:6px;
   }
 
+  /* Drawer / Modal Table for On-screen View */
   .drawer-backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,0.45);
     display:flex;align-items:flex-end;justify-content:center;z-index:90;
@@ -197,6 +201,7 @@
     padding:2px 8px;
   }
 
+  /* Modals */
   .modal-backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,0.5);
     display:flex;align-items:center;justify-content:center;z-index:100;
@@ -227,8 +232,7 @@
       transform:none !important;
       zoom:1 !important;
     }
-    .canvas-box{border:1px solid #555;flex:1;}
-    canvas{height:100% !important;}
+    .canvas-box{border:1px solid #555;}
     .print-bottom-section{
       display:grid;
       grid-template-columns: 1.4fr 1fr;
@@ -447,7 +451,7 @@
   
   let activeStartPoint = null;
   let hoverPoint = null;
-  let hoverIntersection = null; // Intersection Junction Snap
+  let hoverIntersection = null;
   let snapLinePoint = null;
   let currentMode = 'draw';
   let editingEdge = null;
@@ -456,10 +460,11 @@
   let isDragging = false;
   let dragStartX = 0, dragStartY = 0;
 
-  let isPinching = false;
+  // Touch tracking for pinch
+  let touchPointers = new Map();
   let initialPinchDist = 0;
   let initialScale = 1.0;
-  let pinchMidX = 0, pinchMidY = 0;
+  let pinchMidX = CW / 2, pinchMidY = CH / 2;
 
   let isDrawingRect = false;
   let rectStartX = 0, rectStartY = 0, rectCurX = 0, rectCurY = 0;
@@ -507,10 +512,10 @@
   const now = new Date();
   document.getElementById('printDateLabel').textContent = `വിസ്തീർണ്ണ പട്ടിക (DATE: ${now.toLocaleDateString('en-GB')})`;
 
-  const STORAGE_KEY = 'survey_cad_app_data_v2';
+  const STORAGE_KEY = 'survey_cad_app_data_v3';
 
   function saveToLocalStorage(){
-    const state = { points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked, isDrawingLocked };
+    const state = { points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked };
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch(e) {}
@@ -527,7 +532,7 @@
         nextEdgeId = data.nextEdgeId || 1;
         currentScale = data.currentScale || 1.0;
         isMainLocked = !!data.isMainLocked;
-        isDrawingLocked = !!data.isDrawingLocked;
+        isDrawingLocked = false; // Always ensure drawing is unlocked on startup
         updateLockUI();
         updateDrawingLockUI();
         updateScaleLabel();
@@ -536,7 +541,7 @@
   }
 
   function saveSnapshot(){
-    undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked, isDrawingLocked}));
+    undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked}));
     if(undoStack.length > 50) undoStack.shift();
     saveToLocalStorage();
   }
@@ -550,9 +555,7 @@
     nextEdgeId = data.nextEdgeId;
     currentScale = data.currentScale || 1.0;
     isMainLocked = !!data.isMainLocked;
-    isDrawingLocked = !!data.isDrawingLocked;
     updateLockUI();
-    updateDrawingLockUI();
     activeStartPoint = null;
     saveToLocalStorage();
     redraw();
@@ -568,10 +571,9 @@
     return null;
   }
 
-  // Cross Intersection calculation between 2 line segments
   function getLineIntersection(p1, p2, p3, p4){
     const d = (p1.x - p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x - p4.x);
-    if(Math.abs(d) < 1e-6) return null; // Parallel
+    if(Math.abs(d) < 1e-6) return null;
 
     const t = ((p1.x - p3.x) * (p3.y - p4.y) - (p1.y - p3.y) * (p3.x - p4.x)) / d;
     const u = -((p1.x - p2.x) * (p1.y - p3.y) - (p1.y - p2.y) * (p1.x - p3.x)) / d;
@@ -585,13 +587,12 @@
     return null;
   }
 
-  // Find Nearest Cross Intersection Junction
   function findSnapIntersection(x, y){
     let best = null, minD = SNAP;
     for(let i = 0; i < edges.length; i++){
       for(let j = i + 1; j < edges.length; j++){
         const e1 = edges[i], e2 = edges[j];
-        if(e1.a === e2.a || e1.a === e2.b || e1.b === e2.a || e1.b === e2.b) continue; // Connected edges
+        if(e1.a === e2.a || e1.a === e2.b || e1.b === e2.a || e1.b === e2.b) continue;
 
         const p1 = points.find(p=>p.id===e1.a);
         const p2 = points.find(p=>p.id===e1.b);
@@ -660,7 +661,7 @@
       b: bId, 
       length, 
       isPartition, 
-      isOffset,
+      isOffset, 
       group: isPartition ? 'partition' : 'main', 
       customColor: null 
     };
@@ -724,7 +725,6 @@
     isDrawingLocked = !isDrawingLocked;
     activeStartPoint = null;
     updateDrawingLockUI();
-    saveSnapshot();
     redraw();
   });
 
@@ -775,16 +775,6 @@
     });
   }
 
-  canvas.addEventListener('wheel', (e)=>{
-    e.preventDefault();
-    const {x, y} = getCanvasCoords(e.clientX, e.clientY);
-    if(e.deltaY < 0){
-      rescalePlot(1.08, x, y);
-    } else {
-      rescalePlot(0.92, x, y);
-    }
-  }, { passive: false });
-
   function analyzeTriangles(){
     const triangles = [];
     for(let i=0; i<points.length; i++){
@@ -825,7 +815,9 @@
     activeStartPoint = null;
     isDrawingRect = false;
 
-    [modeDrawBtn, modeRectBtn, modeOffsetBtn, modePartitionBtn, modeMovePartBtn, modeColorBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>b.classList.remove('active', 'active-part'));
+    [modeDrawBtn, modeRectBtn, modeOffsetBtn, modePartitionBtn, modeMovePartBtn, modeColorBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>{
+      if(b) b.classList.remove('active', 'active-part');
+    });
 
     if(isDrawingLocked){
       canvas.style.cursor = 'grab';
@@ -833,54 +825,54 @@
     }
 
     if(mode === 'draw'){
-      modeDrawBtn.classList.add('active');
+      if(modeDrawBtn) modeDrawBtn.classList.add('active');
       statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട്: പോയിന്റുകൾ/ജംഗ്ഷനുകൾ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്.';
       canvas.style.cursor = 'crosshair';
     } else if(mode === 'rect'){
-      modeRectBtn.classList.add('active');
+      if(modeRectBtn) modeRectBtn.classList.add('active');
       statusBar.textContent = '⬛ ചതുരം: ഡ്രാഗ് ചെയ്തു വരയ്ക്കുക.';
       canvas.style.cursor = 'crosshair';
     } else if(mode === 'offset'){
-      modeOffsetBtn.classList.add('active');
+      if(modeOffsetBtn) modeOffsetBtn.classList.add('active');
       statusBar.textContent = '⟂ ക്രോസ് ഓഫ്‌സെറ്റ്: ബേസ് ലൈനിൽ ടച്ച് ചെയ്യുക.';
       canvas.style.cursor = 'pointer';
     } else if(mode === 'partition'){
-      modePartitionBtn.classList.add('active-part');
+      if(modePartitionBtn) modePartitionBtn.classList.add('active-part');
       statusBar.textContent = '✂️ പാർട്ടീഷൻ: ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക. Snap ഓൺ ആണ്.';
       canvas.style.cursor = 'crosshair';
     } else if(mode === 'movePart'){
-      modeMovePartBtn.classList.add('active-part');
+      if(modeMovePartBtn) modeMovePartBtn.classList.add('active-part');
       statusBar.textContent = '📦 മൂവ് പാർട്ട്: പാർട്ടീഷൻ പ്ലോട്ട് ഡ്രാഗ് ചെയ്തു മാറ്റുക.';
       canvas.style.cursor = 'grab';
     } else if(mode === 'color'){
-      modeColorBtn.classList.add('active');
+      if(modeColorBtn) modeColorBtn.classList.add('active');
       statusBar.textContent = '🎨 കളർ: വരയിൽ ടച്ച് ചെയ്യുക.';
       canvas.style.cursor = 'pointer';
     } else if(mode === 'moveAll'){
-      modeMoveAllBtn.classList.add('active');
+      if(modeMoveAllBtn) modeMoveAllBtn.classList.add('active');
       statusBar.textContent = '✋ മൂവ് ഓൾ: പ്ലോട്ടുകൾ ഒരുമിച്ച് നീക്കുക.';
       canvas.style.cursor = 'grab';
     } else if(mode === 'delete'){
-      modeDeleteBtn.classList.add('active');
+      if(modeDeleteBtn) modeDeleteBtn.classList.add('active');
       statusBar.textContent = '❌ ഒഴിവാക്കുക: വരയിൽ ടച്ച് ചെയ്യുക.';
       canvas.style.cursor = 'pointer';
     } else if(mode === 'value'){
-      modeValueBtn.classList.add('active');
+      if(modeValueBtn) modeValueBtn.classList.add('active');
       statusBar.textContent = '📏 അളവ് മാറ്റുക: വരയിൽ ടച്ച് ചെയ്യുക.';
       canvas.style.cursor = 'pointer';
     }
     redraw();
   }
 
-  modeDrawBtn.addEventListener('click', ()=>setMode('draw'));
-  modeRectBtn.addEventListener('click', ()=>setMode('rect'));
-  modeOffsetBtn.addEventListener('click', ()=>setMode('offset'));
-  modePartitionBtn.addEventListener('click', ()=>setMode('partition'));
-  modeMovePartBtn.addEventListener('click', ()=>setMode('movePart'));
-  modeColorBtn.addEventListener('click', ()=>setMode('color'));
-  modeMoveAllBtn.addEventListener('click', ()=>setMode('moveAll'));
-  modeDeleteBtn.addEventListener('click', ()=>setMode('delete'));
-  modeValueBtn.addEventListener('click', ()=>setMode('value'));
+  if(modeDrawBtn) modeDrawBtn.addEventListener('click', ()=>setMode('draw'));
+  if(modeRectBtn) modeRectBtn.addEventListener('click', ()=>setMode('rect'));
+  if(modeOffsetBtn) modeOffsetBtn.addEventListener('click', ()=>setMode('offset'));
+  if(modePartitionBtn) modePartitionBtn.addEventListener('click', ()=>setMode('partition'));
+  if(modeMovePartBtn) modeMovePartBtn.addEventListener('click', ()=>setMode('movePart'));
+  if(modeColorBtn) modeColorBtn.addEventListener('click', ()=>setMode('color'));
+  if(modeMoveAllBtn) modeMoveAllBtn.addEventListener('click', ()=>setMode('moveAll'));
+  if(modeDeleteBtn) modeDeleteBtn.addEventListener('click', ()=>setMode('delete'));
+  if(modeValueBtn) modeValueBtn.addEventListener('click', ()=>setMode('value'));
 
   function openLengthModal(edge){
     editingEdge = edge;
@@ -999,11 +991,14 @@
     editingEdge = null;
   });
 
+  // Accurate Canvas Coordinate Mapping
   function getCanvasCoords(clientX, clientY){
     const rect = canvas.getBoundingClientRect();
+    const scaleX = CW / rect.width;
+    const scaleY = CH / rect.height;
     return {
-      x: (clientX - rect.left) * (CW / rect.width),
-      y: (clientY - rect.top) * (CH / rect.height)
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY
     };
   }
 
@@ -1079,11 +1074,8 @@
       let clickedPoint = findSnapVertex(x, y, currentMode === 'partition' ? 'partition' : null);
 
       if(!clickedPoint){
-        // 1. Check Cross Intersection Snap
         const interSnap = findSnapIntersection(x, y);
-        // 2. Check Line Snap
         const edgeSnap = findSnapOnEdge(x, y);
-        // 3. Check Point Coordinate Snap
         const ptSnap = findSnapVertex(x, y);
         
         saveSnapshot();
@@ -1163,7 +1155,7 @@
       isDrawingRect = false;
       const w = Math.abs(rectCurX - rectStartX);
       const h = Math.abs(rectCurY - rectStartY);
-      if(w > 20 && h > 20){
+      if(w > 15 && h > 15){
         saveSnapshot();
         const minX = Math.min(rectStartX, rectCurX);
         const minY = Math.min(rectStartY, rectCurY);
@@ -1194,72 +1186,67 @@
     }
   }
 
-  // Mouse Listeners
-  canvas.addEventListener('mousedown', (e)=>{
-    const {x, y} = getCanvasCoords(e.clientX, e.clientY);
-    handlePointerDown(x, y);
-  });
-  canvas.addEventListener('mousemove', (e)=>{
-    const {x, y} = getCanvasCoords(e.clientX, e.clientY);
-    handlePointerMove(x, y);
-  });
-  window.addEventListener('mouseup', handlePointerUp);
+  // Unified Modern Pointer Events (Works seamlessly across Touch & Mouse)
+  canvas.addEventListener('pointerdown', (e)=>{
+    touchPointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-  // Mobile Touch Gestures (Pinch Zoom & Drag)
-  canvas.addEventListener('touchstart', (e)=>{
-    if(e.touches.length === 1){
-      isPinching = false;
-      const t = e.touches[0];
-      const {x, y} = getCanvasCoords(t.clientX, t.clientY);
+    if(touchPointers.size === 1){
+      const {x, y} = getCanvasCoords(e.clientX, e.clientY);
       handlePointerDown(x, y);
-    } else if(e.touches.length === 2){
+    } else if(touchPointers.size === 2){
+      // 2 Finger Pinch
       isPinching = true;
       isDragging = false;
       isDrawingRect = false;
-      const t1 = e.touches[0];
-      const t2 = e.touches[1];
-      initialPinchDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
+      const pts = Array.from(touchPointers.values());
+      initialPinchDist = dist(pts[0].x, pts[0].y, pts[1].x, pts[1].y);
       initialScale = currentScale;
-      pinchMidX = (t1.clientX + t2.clientX) / 2;
-      pinchMidY = (t1.clientY + t2.clientY) / 2;
+      const mid = getCanvasCoords((pts[0].x + pts[1].x)/2, (pts[0].y + pts[1].y)/2);
+      pinchMidX = mid.x;
+      pinchMidY = mid.y;
     }
     e.preventDefault();
-  }, { passive: false });
+  });
 
-  canvas.addEventListener('touchmove', (e)=>{
-    if(e.touches.length === 1 && !isPinching){
-      const t = e.touches[0];
-      const {x, y} = getCanvasCoords(t.clientX, t.clientY);
-      handlePointerMove(x, y);
-    } else if(e.touches.length === 2){
-      const t1 = e.touches[0];
-      const t2 = e.touches[1];
-      const currentDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
+  canvas.addEventListener('pointermove', (e)=>{
+    if(touchPointers.has(e.pointerId)){
+      touchPointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    }
+
+    if(touchPointers.size === 2 && isPinching){
+      const pts = Array.from(touchPointers.values());
+      const currentDist = dist(pts[0].x, pts[0].y, pts[1].x, pts[1].y);
       if(initialPinchDist > 0){
         const zoomRatio = currentDist / initialPinchDist;
         const newScale = Math.max(0.3, Math.min(3.5, initialScale * zoomRatio));
         const factor = newScale / currentScale;
-        
-        const {x: cx, y: cy} = getCanvasCoords(pinchMidX, pinchMidY);
+
         points.forEach(p => {
-          p.x = cx + (p.x - cx) * factor;
-          p.y = cy + (p.y - cy) * factor;
+          p.x = pinchMidX + (p.x - pinchMidX) * factor;
+          p.y = pinchMidY + (p.y - pinchMidY) * factor;
         });
 
         currentScale = newScale;
         updateScaleLabel();
         redraw();
       }
+    } else if(touchPointers.size <= 1){
+      const {x, y} = getCanvasCoords(e.clientX, e.clientY);
+      handlePointerMove(x, y);
     }
     e.preventDefault();
-  }, { passive: false });
+  });
 
-  window.addEventListener('touchend', (e)=>{
-    if(e.touches.length === 0){
+  function handlePointerEnd(e){
+    touchPointers.delete(e.pointerId);
+    if(touchPointers.size === 0){
       isPinching = false;
       handlePointerUp();
     }
-  });
+  }
+
+  canvas.addEventListener('pointerup', handlePointerEnd);
+  canvas.addEventListener('pointercancel', handlePointerEnd);
 
   window.addEventListener('keydown', (e)=>{
     if(e.key === 'Escape'){
@@ -1379,7 +1366,7 @@
       ctx.restore();
     }
 
-    // 1. Cross Intersection Snap Indicator (Green ✕ Junction)
+    // 1. Cross Intersection Snap Indicator
     if(hoverIntersection && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition') && !isDrawingLocked){
       ctx.save();
       ctx.beginPath();
@@ -1390,7 +1377,6 @@
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Draw ✕ icon
       ctx.beginPath();
       ctx.strokeStyle = '#27AE60';
       ctx.lineWidth = 2.5;
@@ -1425,7 +1411,6 @@
       const isHovered = (hoverPoint && hoverPoint.id === p.id && !isDrawingLocked);
       const isPart = (p.group === 'partition');
 
-      // Snap Halo Circle
       if(isHovered){
         ctx.save();
         ctx.beginPath();
@@ -1440,7 +1425,6 @@
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, isHovered ? 7 : (isActive ? 5.5 : 4), 0, Math.PI*2);
-      // Bright Orange on Snap, Active Green on drawing, Blue on part
       ctx.fillStyle = isHovered ? '#FF8C00' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
@@ -1586,7 +1570,7 @@
     edges.forEach(e => {
       const p1 = points.find(p => p.id === e.a);
       const p2 = points.find(p => p.id === e.b);
-      if(!p1 || !p2) continue;
+      if(!p1 || !p2) return;
 
       const x1 = ((p1.x - minX) / ppm).toFixed(4);
       const y1 = ((maxY - p1.y) / ppm).toFixed(4);
@@ -1682,6 +1666,7 @@
     }
   });
 
+  // Load Saved Data & Start Clean
   loadFromLocalStorage();
   redraw();
 })();
