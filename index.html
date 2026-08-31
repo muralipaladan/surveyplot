@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD & A4 ഷീറ്റ്</title>
+<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD - Auto Save</title>
 <meta name="theme-color" content="#1B261A">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -249,7 +249,6 @@
 <body>
 
 <div class="app">
-  <!-- Top App Controller -->
   <div class="control-panel">
     <div class="tabs-nav">
       <button class="tab-btn active-tab" data-tab="tabDraw">✏️ വരയ്ക്കൽ (Draw)</button>
@@ -305,7 +304,6 @@
   <!-- Real Full A4 Sheet Viewport -->
   <div class="a4-page-shadow-wrapper">
     <div class="a4-sheet" id="a4SheetElement">
-      <!-- Sheet Header -->
       <div class="sheet-header">
         <div>
           <h1>ചെയിൻ സർവേ സ്കെച്ച് &amp; ഫീൽഡ് പ്ലാൻ</h1>
@@ -313,7 +311,6 @@
         <span class="sheet-tag">A4 FULL CANVAS</span>
       </div>
 
-      <!-- Max Size Canvas Area inside Sheet -->
       <div class="canvas-box">
         <div class="legend">
           <span><span class="swatch"></span> അതിർത്തി</span>
@@ -323,9 +320,9 @@
         </div>
         <canvas id="canvas" width="1000" height="920"></canvas>
       </div>
-      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Mouse wheel / Pinch വഴി സൂം ചെയ്യാം.</div>
+      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Auto-Save ഓൺ ആണ്.</div>
 
-      <!-- Print-Only Bottom Area (Visible in PDF / Print) -->
+      <!-- Print-Only Bottom Area -->
       <div class="print-bottom-section">
         <div class="print-sheet-wrapper">
           <div style="font-weight:700;font-size:11px;margin-bottom:3px;" id="printDateLabel">വിസ്തീർണ്ണ പട്ടിക (Area Statement)</div>
@@ -512,9 +509,39 @@
   const now = new Date();
   document.getElementById('printDateLabel').textContent = `വിസ്തീർണ്ണ പട്ടിക (DATE: ${now.toLocaleDateString('en-GB')})`;
 
+  // LOCAL STORAGE AUTO-SAVE & RESTORE
+  const STORAGE_KEY = 'survey_cad_app_data_v2';
+
+  function saveToLocalStorage(){
+    const state = { points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked, isDrawingLocked };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch(e) {}
+  }
+
+  function loadFromLocalStorage(){
+    try {
+      const dataStr = localStorage.getItem(STORAGE_KEY);
+      if(dataStr){
+        const data = JSON.parse(dataStr);
+        points = data.points || [];
+        edges = data.edges || [];
+        nextPtId = data.nextPtId || 1;
+        nextEdgeId = data.nextEdgeId || 1;
+        currentScale = data.currentScale || 1.0;
+        isMainLocked = !!data.isMainLocked;
+        isDrawingLocked = !!data.isDrawingLocked;
+        updateLockUI();
+        updateDrawingLockUI();
+        updateScaleLabel();
+      }
+    } catch(e) {}
+  }
+
   function saveSnapshot(){
     undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked, isDrawingLocked}));
     if(undoStack.length > 50) undoStack.shift();
+    saveToLocalStorage();
   }
 
   function undo(){
@@ -529,8 +556,8 @@
     isDrawingLocked = !!data.isDrawingLocked;
     updateLockUI();
     updateDrawingLockUI();
-    updateScaleLabel();
     activeStartPoint = null;
+    saveToLocalStorage();
     redraw();
   }
 
@@ -656,6 +683,7 @@
     isDrawingLocked = !isDrawingLocked;
     activeStartPoint = null;
     updateDrawingLockUI();
+    saveSnapshot();
     redraw();
   });
 
@@ -667,6 +695,7 @@
       setMode('partition');
     }
     updateLockUI();
+    saveSnapshot();
     redraw();
   });
 
@@ -841,6 +870,7 @@
         saveSnapshot();
         editingEdge.length = val;
         applyEdgeLengthAdjustment(editingEdge, val, anchorId);
+        saveToLocalStorage();
       }
     }
     lengthModal.classList.add('hidden');
@@ -900,6 +930,7 @@
         points.push(offsetPt);
 
         addEdge(basePt.id, offsetPt.id, offLen, false, true);
+        saveToLocalStorage();
       }
     }
 
@@ -917,6 +948,7 @@
     if(editingEdge){
       saveSnapshot();
       editingEdge.customColor = lineColorSelect.value;
+      saveToLocalStorage();
     }
     colorModal.classList.add('hidden');
     editingEdge = null;
@@ -979,6 +1011,7 @@
         saveSnapshot();
         edges = edges.filter(item => item.id !== edge.id);
         points = points.filter(p => edges.some(ed => ed.a === p.id || ed.b === p.id));
+        saveToLocalStorage();
         redraw();
       }
       return;
@@ -1026,6 +1059,7 @@
         }
         activeStartPoint = clickedPoint;
       }
+      saveToLocalStorage();
       redraw();
       return;
     }
@@ -1054,6 +1088,7 @@
         }
         activeStartPoint = clickedPoint;
       }
+      saveToLocalStorage();
       redraw();
     }
   }
@@ -1100,6 +1135,7 @@
   function handlePointerUp(){
     if(isDragging){
       isDragging = false;
+      saveToLocalStorage();
       if(isDrawingLocked) canvas.style.cursor = 'grab';
     }
 
@@ -1132,6 +1168,7 @@
         addEdge(p3.id, p4.id, lenL, isPart);
         addEdge(p4.id, p1.id, lenW, isPart);
         addEdge(p1.id, p3.id, diag, isPart);
+        saveToLocalStorage();
       }
       redraw();
     }
@@ -1253,7 +1290,7 @@
       ctx.restore();
     }
 
-    // Draw Edges
+    // DRAW UNIFORM EDGES
     for(const e of edges){
       const p1 = points.find(p=>p.id===e.a);
       const p2 = points.find(p=>p.id===e.b);
@@ -1261,6 +1298,8 @@
 
       ctx.save();
       ctx.beginPath();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
       ctx.moveTo(p1.x, p1.y);
       ctx.lineTo(p2.x, p2.y);
 
@@ -1280,7 +1319,7 @@
         ctx.setLineDash([4, 4]);
       } else {
         ctx.strokeStyle = '#111A10';
-        ctx.lineWidth = 2.2;
+        ctx.lineWidth = 2.4;
       }
 
       if(snapLinePoint && snapLinePoint.edge && snapLinePoint.edge.id === e.id && (currentMode === 'delete' || currentMode === 'value' || currentMode === 'color' || currentMode === 'offset')){
@@ -1291,12 +1330,13 @@
       ctx.stroke();
       ctx.restore();
 
-      // Clear Bold Arial Dimension (No Box, Sharp White Text Halo)
+      // PARALLEL ALIGNED DIMENSION LABEL (Accurate Angle Alignment)
       const mx = (p1.x + p2.x) / 2;
       const my = (p1.y + p2.y) / 2;
       let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
 
-      if(angle > Math.PI/2 || angle < -Math.PI/2){
+      // Keep text always upright and readable
+      if(angle > Math.PI / 2 || angle < -Math.PI / 2){
         angle += Math.PI;
       }
 
@@ -1310,14 +1350,14 @@
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
 
-      // White outline for 100% clarity
+      // Thick white halo behind text to make it extremely clear on all backgrounds
       ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 3.5;
+      ctx.lineWidth = 4;
       ctx.lineJoin = 'round';
-      ctx.strokeText(text, 0, -3);
+      ctx.strokeText(text, 0, -4);
 
       ctx.fillStyle = e.customColor || (e.isOffset ? '#C0392B' : (e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B')));
-      ctx.fillText(text, 0, -3);
+      ctx.fillText(text, 0, -4);
       ctx.restore();
     }
 
@@ -1333,7 +1373,7 @@
       ctx.restore();
     }
 
-    // Points Rendering with Sharp Arial Font (No Box)
+    // DRAW UNIFORM CRISP POINTS (Arial Bold with Halo)
     points.forEach((p, idx)=>{
       const isActive = (activeStartPoint && activeStartPoint.id === p.id);
       const isPart = (p.group === 'partition');
@@ -1351,7 +1391,6 @@
       ctx.textAlign = 'left';
       ctx.textBaseline = 'bottom';
 
-      // White halo for point text
       ctx.strokeStyle = '#FFFFFF';
       ctx.lineWidth = 3.5;
       ctx.lineJoin = 'round';
@@ -1479,7 +1518,7 @@
 
   document.getElementById('undoBtn').addEventListener('click', undo);
   document.getElementById('clearBtn').addEventListener('click', ()=>{
-    if(confirm('എല്ലാം ക്ലിയർ ചെയ്യണോ?')){
+    if(confirm('മുഴുവൻ ഡാറ്റയും ക്ലിയർ ചെയ്യണോ?')){
       points = []; edges = []; activeStartPoint = null;
       isMainLocked = false;
       isDrawingLocked = false;
@@ -1487,12 +1526,15 @@
       updateDrawingLockUI();
       currentScale = 1.0;
       updateScaleLabel();
+      try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
       redraw();
       screenTableContainer.innerHTML = '';
       printTableContainer.innerHTML = '';
     }
   });
 
+  // Load Saved Data on Startup
+  loadFromLocalStorage();
   redraw();
 })();
 </script>
