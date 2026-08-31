@@ -11,9 +11,8 @@
 
 <style>
   :root{
-    --desk-bg:#525659;
+    --desk-bg:#4A4E51;
     --paper:#FFFFFF;
-    --grid:#F0ECE1;
     --ink:#111A10;
     --ink-soft:#555244;
     --outer:#0D140C;
@@ -24,7 +23,7 @@
     --part-color:#0066CC;
     --brass:#C59B27;
     --border:#CDC1A7;
-    --shadow:0 6px 18px rgba(0,0,0,0.25);
+    --shadow:0 8px 24px rgba(0,0,0,0.35);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   body{
@@ -46,7 +45,7 @@
     border-radius:8px;
     padding:6px 8px;
     margin-bottom:8px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+    box-shadow:0 2px 8px rgba(0,0,0,0.2);
   }
   .tabs-nav{
     display:flex;gap:4px;background:#EAE6DA;padding:3px;border-radius:6px;margin-bottom:6px;
@@ -90,7 +89,7 @@
     width:100%;
     display:flex;
     justify-content:center;
-    padding:6px 0 20px;
+    padding:6px 0 30px;
     overflow:auto;
   }
   .a4-sheet{
@@ -106,6 +105,8 @@
     border:1px solid #ddd;
     border-radius:2px;
     box-sizing:border-box;
+    transform-origin:top center;
+    transition:transform 0.15s ease-out;
   }
 
   /* Sheet Header */
@@ -226,6 +227,7 @@
     .a4-sheet{
       border:1.5px solid #222;box-shadow:none;padding:12px;margin:0;max-width:100%;
       min-height:280mm;height:280mm;display:flex;flex-direction:column;justify-content:space-between;
+      transform:none !important;
     }
     .canvas-box{border:1px solid #777;}
     canvas{max-height:165mm;}
@@ -260,15 +262,15 @@
 
     <!-- Panel 2: Edit & View -->
     <div class="tab-panel" id="tabEdit">
-      <button id="lockDrawingBtn" class="primary" style="background:#8A6D14;border-color:#654E0B;">🔒 ഡ്രോയിംഗ് ലോക്ക് (Pan/Zoom)</button>
+      <button id="lockDrawingBtn" class="primary" style="background:#8A6D14;border-color:#654E0B;">🔒 ഡ്രോയിംഗ് ലോക്ക് (Pan)</button>
       <button id="modeValue">📏 അളവ് മാറ്റുക</button>
       <button id="modeColor">🎨 കളർ</button>
       <button id="modeDelete" class="danger">❌ ഒഴിവാക്കുക</button>
       <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
-      <button id="zoomOutBtn">🔍 -</button>
-      <span class="scale-label" id="scaleLabel">100%</span>
-      <button id="zoomInBtn">🔍 +</button>
-      <button id="zoomResetBtn">Reset</button>
+      <button id="pageZoomOutBtn">🔎 പേജ് -</button>
+      <span class="scale-label" id="pageScaleLabel">Page: 100%</span>
+      <button id="pageZoomInBtn">🔎 പേജ് +</button>
+      <button id="pageZoomResetBtn">Reset Page</button>
     </div>
 
     <!-- Panel 3: Partition -->
@@ -291,7 +293,7 @@
 
   <!-- Real A4 Sheet Viewport -->
   <div class="a4-page-shadow-wrapper">
-    <div class="a4-sheet" id="printArea">
+    <div class="a4-sheet" id="a4SheetElement">
       <!-- Sheet Header -->
       <div class="sheet-header">
         <div>
@@ -423,11 +425,13 @@
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   const CW = canvas.width, CH = canvas.height;
+  const a4SheetElement = document.getElementById('a4SheetElement');
   
   const SNAP = 24;
   const LINE_SNAP = 18;
   const BASE_PIXELS_PER_METER = 12;
 
+  let pageZoom = 1.0;
   let currentScale = 1.0;
   let points = []; 
   let edges = [];  
@@ -467,7 +471,12 @@
   const modeMoveAllBtn = document.getElementById('modeMoveAll');
   const modeDeleteBtn = document.getElementById('modeDelete');
   const modeValueBtn = document.getElementById('modeValue');
-  const scaleLabel = document.getElementById('scaleLabel');
+  
+  const pageZoomInBtn = document.getElementById('pageZoomInBtn');
+  const pageZoomOutBtn = document.getElementById('pageZoomOutBtn');
+  const pageZoomResetBtn = document.getElementById('pageZoomResetBtn');
+  const pageScaleLabel = document.getElementById('pageScaleLabel');
+
   const statusBar = document.getElementById('statusBar');
   const tableContainer = document.getElementById('tableContainer');
   const surveyDateLabel = document.getElementById('surveyDateLabel');
@@ -506,10 +515,20 @@
     isDrawingLocked = !!data.isDrawingLocked;
     updateLockUI();
     updateDrawingLockUI();
-    updateScaleLabel();
     activeStartPoint = null;
     redraw();
   }
+
+  // Page Level Zoom Functions
+  function setPageZoom(newZoom){
+    pageZoom = Math.max(0.6, Math.min(2.5, newZoom));
+    a4SheetElement.style.transform = `scale(${pageZoom})`;
+    pageScaleLabel.textContent = `Page: ${Math.round(pageZoom * 100)}%`;
+  }
+
+  pageZoomInBtn.addEventListener('click', ()=>setPageZoom(pageZoom + 0.15));
+  pageZoomOutBtn.addEventListener('click', ()=>setPageZoom(pageZoom - 0.15));
+  pageZoomResetBtn.addEventListener('click', ()=>setPageZoom(1.0));
 
   function dist(x1,y1,x2,y2){ return Math.hypot(x2-x1, y2-y1); }
 
@@ -598,10 +617,6 @@
     movingP.y = fixedP.y + (movingP.y - fixedP.y) * ratio;
   }
 
-  function updateScaleLabel(){
-    scaleLabel.textContent = `${Math.round(currentScale * 100)}%`;
-  }
-
   function updateLockUI(){
     if(isMainLocked){
       lockMainBtn.textContent = '🔒 മെയിൻ ലോക്ക്ഡ്';
@@ -614,9 +629,9 @@
 
   function updateDrawingLockUI(){
     if(isDrawingLocked){
-      lockDrawingBtn.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ് (Pan/Zoom)';
+      lockDrawingBtn.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ് (Pan)';
       lockDrawingBtn.classList.add('lock-active');
-      statusBar.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ്: കാൻവാസ് സുരക്ഷിതമായി സൂം ചെയ്യാനും പാൻ ചെയ്യാനും സാധിക്കും.';
+      statusBar.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ്: കാൻവാസ് ഡ്രാഗ് ചെയ്ത് നീക്കാം.';
       canvas.style.cursor = 'grab';
     } else {
       lockDrawingBtn.textContent = '🔓 ഡ്രോയിംഗ് അൺലോക്ക്';
@@ -642,42 +657,6 @@
     updateLockUI();
     redraw();
   });
-
-  function rescalePlot(factor){
-    if(!points.length){
-      currentScale *= factor;
-      updateScaleLabel();
-      return;
-    }
-    saveSnapshot();
-    let sumX = 0, sumY = 0;
-    points.forEach(p => { sumX += p.x; sumY += p.y; });
-    const cx = sumX / points.length, cy = sumY / points.length;
-
-    points.forEach(p => {
-      p.x = cx + (p.x - cx) * factor;
-      p.y = cy + (p.y - cy) * factor;
-    });
-
-    currentScale *= factor;
-    updateScaleLabel();
-    redraw();
-  }
-
-  document.getElementById('zoomInBtn').addEventListener('click', ()=>rescalePlot(1.15));
-  document.getElementById('zoomOutBtn').addEventListener('click', ()=>rescalePlot(0.85));
-  document.getElementById('zoomResetBtn').addEventListener('click', ()=>{
-    if(currentScale === 1.0) return;
-    rescalePlot(1.0 / currentScale);
-    currentScale = 1.0;
-    updateScaleLabel();
-  });
-
-  canvas.addEventListener('wheel', (e)=>{
-    e.preventDefault();
-    if(e.deltaY < 0) rescalePlot(1.08);
-    else rescalePlot(0.92);
-  }, { passive: false });
 
   function analyzeTriangles(){
     const triangles = [];
@@ -1152,7 +1131,6 @@
         });
 
         currentScale = newScale;
-        updateScaleLabel();
         redraw();
       }
     }
@@ -1268,18 +1246,18 @@
       ctx.translate(mx, my);
       ctx.rotate(angle);
 
-      ctx.font = "bold 11.5px 'JetBrains Mono', monospace";
+      ctx.font = "bold 11px 'JetBrains Mono', monospace";
       const textMetrics = ctx.measureText(text);
       const textWidth = textMetrics.width;
-      const textHeight = 12;
+      const textHeight = 11;
 
       ctx.fillStyle = "rgba(255, 255, 255, 0.96)";
       ctx.strokeStyle = "rgba(180, 170, 150, 0.9)";
       ctx.lineWidth = 1;
       
-      const badgePaddingX = 4;
-      const badgePaddingY = 2;
-      const badgeY = -textHeight - 5;
+      const badgePaddingX = 3;
+      const badgePaddingY = 1.5;
+      const badgeY = -textHeight - 4;
 
       ctx.beginPath();
       ctx.roundRect(-textWidth / 2 - badgePaddingX, badgeY - badgePaddingY, textWidth + badgePaddingX * 2, textHeight + badgePaddingY * 2, 3);
@@ -1296,7 +1274,7 @@
     if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset') && !isDrawingLocked){
       ctx.save();
       ctx.beginPath();
-      ctx.arc(snapLinePoint.x, snapLinePoint.y, 6, 0, Math.PI * 2);
+      ctx.arc(snapLinePoint.x, snapLinePoint.y, 5, 0, Math.PI * 2);
       ctx.fillStyle = currentMode === 'partition' ? '#0066CC' : '#C59B27';
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
@@ -1305,34 +1283,46 @@
       ctx.restore();
     }
 
-    // Points Rendering
+    // Points Rendering (Neat, Crisp Compact Box for P1, P2...)
     points.forEach((p, idx)=>{
       const isActive = (activeStartPoint && activeStartPoint.id === p.id);
       const isPart = (p.group === 'partition');
 
       ctx.beginPath();
-      ctx.arc(p.x, p.y, isActive ? 7 : 5, 0, Math.PI*2);
+      ctx.arc(p.x, p.y, isActive ? 5.5 : 4, 0, Math.PI*2);
       ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? '#C59B27' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 1.6;
+      ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Sharp readable point index
-      ctx.font = "bold 11px 'JetBrains Mono', sans-serif";
-      ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 2.5;
-      ctx.strokeText(`P${idx+1}`, p.x+6, p.y-5);
+      // Compact Crisp Label Box
+      const pText = `P${idx+1}`;
+      ctx.font = "bold 9px 'JetBrains Mono', monospace";
+      const pw = ctx.measureText(pText).width;
+      const ph = 10;
+      const labelX = p.x + 6;
+      const labelY = p.y - 12;
+
+      ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+      ctx.strokeStyle = isPart ? "#0066CC" : "#222222";
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.roundRect(labelX, labelY, pw + 4, ph + 2, 2);
+      ctx.fill();
+      ctx.stroke();
+
       ctx.fillStyle = isPart ? '#0066CC' : '#111A10';
-      ctx.fillText(`P${idx+1}`, p.x+6, p.y-5);
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(pText, labelX + 2, labelY + (ph / 2) + 1);
     });
 
     if(isDrawingLocked){
       ctx.save();
-      ctx.font = "bold 13px 'Noto Sans Malayalam', sans-serif";
+      ctx.font = "bold 11px 'Noto Sans Malayalam', sans-serif";
       ctx.fillStyle = "rgba(138, 109, 20, 0.95)";
-      ctx.fillText("🔒 VIEW / PAN MODE (LOCKED)", 14, 24);
+      ctx.fillText("🔒 VIEW / PAN MODE (LOCKED)", 10, 20);
       ctx.restore();
     }
   }
@@ -1444,7 +1434,7 @@
       updateLockUI();
       updateDrawingLockUI();
       currentScale = 1.0;
-      updateScaleLabel();
+      setPageZoom(1.0);
       redraw();
       tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:10.5px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
     }
