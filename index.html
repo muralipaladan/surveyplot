@@ -31,9 +31,9 @@
     background:var(--bg);
     font-family:'Noto Sans Malayalam', sans-serif;
     color:var(--ink);
-    padding:16px 12px;
+    padding:16px 12px 30px;
   }
-  .app{max-width:1180px;margin:0 auto;}
+  .app{max-width:1180px;margin:0 auto;position:relative;}
   header{
     display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;
     border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:12px;
@@ -144,6 +144,26 @@
     margin-top:25px;display:flex;justify-content:space-between;font-weight:600;color:var(--ink);
   }
 
+  /* Screen-only footer watermark */
+  .screen-footer-credits{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-top:14px;
+    padding:6px 12px;
+    background:rgba(255,255,255,0.7);
+    border:1px solid var(--border);
+    border-radius:6px;
+  }
+  .screen-footer-credits span{
+    color:var(--accent-dark);
+    font-weight:700;
+  }
+
   .modal-backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,0.45);
     display:flex;align-items:center;justify-content:center;z-index:100;
@@ -160,10 +180,13 @@
   }
   .modal-actions{display:flex;justify-content:flex-end;gap:8px;}
 
+  /* A4 Print Optimization */
   @media print{
     @page { size: A4 portrait; margin: 8mm; }
     body{background:#fff;padding:0;}
-    .toolbar, .modal-backdrop, .status-bar, .tag, button, select{display:none !important;}
+    .toolbar, .modal-backdrop, .status-bar, .tag, button, select, .screen-footer-credits{
+      display:none !important;
+    }
     .a4-sheet-container{
       border:1.5px solid #333;box-shadow:none;padding:10px;margin:0;border-radius:0;
       height:280mm;display:flex;flex-direction:column;justify-content:space-between;
@@ -260,6 +283,11 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Screen Only User Info (Hidden in PDF/Print) -->
+  <div class="screen-footer-credits">
+    <span>Muraleedharan P</span>,&nbsp;Ph: 9400849115
   </div>
 </div>
 
@@ -687,7 +715,6 @@
     editingEdge = null;
   });
 
-  // Cross Offset Modal Open
   function openOffsetModal(edge){
     offsetBaseEdge = edge;
     const pA = points.find(p=>p.id===edge.a);
@@ -702,7 +729,6 @@
     setTimeout(()=>offsetLenInput.focus(), 50);
   }
 
-  // Cross Offset Calculation
   document.getElementById('saveOffsetBtn').addEventListener('click', ()=>{
     const ch = parseFloat(chainageInput.value);
     const offLen = parseFloat(offsetLenInput.value);
@@ -718,7 +744,6 @@
         const dx = (pB.x - pA.x) / totalPxDist;
         const dy = (pB.y - pA.y) / totalPxDist;
 
-        // Base Chainage Point
         const chainagePx = ch * ppm;
         const basePtX = pA.x + dx * chainagePx;
         const basePtY = pA.y + dy * chainagePx;
@@ -726,7 +751,6 @@
         const basePt = { id: nextPtId++, x: basePtX, y: basePtY, group: offsetBaseEdge.group || 'main' };
         points.push(basePt);
 
-        // 90 Degree Perpendicular Vector
         let perpX = -dy, perpY = dx; // Left
         if(side === 'right'){
           perpX = dy; perpY = -dx; // Right
@@ -739,7 +763,6 @@
         const offsetPt = { id: nextPtId++, x: targetPtX, y: targetPtY, group: offsetBaseEdge.group || 'main' };
         points.push(offsetPt);
 
-        // Add Perpendicular Offset Line
         addEdge(basePt.id, offsetPt.id, offLen, false, true);
       }
     }
@@ -754,7 +777,6 @@
     offsetBaseEdge = null;
   });
 
-  // Color Change Modal Handlers
   document.getElementById('saveColorBtn').addEventListener('click', ()=>{
     if(editingEdge){
       saveSnapshot();
@@ -994,7 +1016,6 @@
     const triangles = analyzeTriangles();
     drawGrid();
 
-    // Fill Partition Polygons with Soft Blue tint
     triangles.forEach(t=>{
       if(t.isPartition){
         ctx.save();
@@ -1009,7 +1030,6 @@
       }
     });
 
-    // Rectangle Preview
     if(isDrawingRect && currentMode === 'rect'){
       ctx.save();
       ctx.strokeStyle = isMainLocked ? '#0066CC' : '#276E2C';
@@ -1039,11 +1059,11 @@
         ctx.strokeStyle = e.customColor;
         ctx.lineWidth = 2.4;
       } else if(e.isOffset){
-        ctx.strokeStyle = '#C0392B'; // Red Dashed for 90 Offset
+        ctx.strokeStyle = '#C0392B';
         ctx.lineWidth = 1.8;
         ctx.setLineDash([4, 4]);
       } else if(e.isPartition || e.group === 'partition' || (p1.group === 'partition' && p2.group === 'partition')){
-        ctx.strokeStyle = '#0066CC'; // Blue Partition Line
+        ctx.strokeStyle = '#0066CC';
         ctx.lineWidth = 2.6;
       } else if(e.isInner){
         ctx.strokeStyle = '#7A5E2E';
@@ -1085,7 +1105,6 @@
       ctx.restore();
     }
 
-    // Line Snap Indicator
     if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset')){
       ctx.save();
       ctx.beginPath();
@@ -1098,7 +1117,6 @@
       ctx.restore();
     }
 
-    // Draw Points
     points.forEach((p, idx)=>{
       const isActive = (activeStartPoint && activeStartPoint.id === p.id);
       const isPart = (p.group === 'partition');
