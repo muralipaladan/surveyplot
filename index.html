@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD - Auto Save</title>
+<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD - Junction & Point Snap</title>
 <meta name="theme-color" content="#1B261A">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,6 @@
   }
   .app{width:100%;max-width:980px;}
 
-  /* Floating Sticky Control Panel */
   .control-panel{
     background:#FFFFFF;
     border-radius:8px;
@@ -87,7 +86,6 @@
     padding:2px 4px;color:var(--accent-dark);
   }
 
-  /* Full Real A4 Paper Viewport */
   .a4-page-shadow-wrapper{
     width:100%;
     display:flex;
@@ -112,7 +110,6 @@
     position:relative;
   }
 
-  /* Compact Sheet Header */
   .sheet-header{
     display:flex;justify-content:space-between;align-items:center;
     border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:4px;
@@ -123,7 +120,6 @@
     padding:2px 6px;border-radius:3px;
   }
 
-  /* Full-Page Canvas Box */
   .canvas-box{
     position:relative;
     width:100%;
@@ -138,13 +134,15 @@
     flex-direction:column;
   }
   .legend{
-    display:flex;gap:12px;font-size:10px;color:var(--ink-soft);padding:3px 6px;background:#FAF8F5;border-bottom:1px solid #E5E0D5;
+    display:flex;gap:12px;font-size:10px;color:var(--ink-soft);padding:3px 6px;background:#FAF8F5;border-bottom:1px solid #E5E0D5;flex-wrap:wrap;
   }
   .legend span{display:inline-flex;align-items:center;gap:4px;}
   .swatch{width:14px;height:0;border-top:2.2px solid var(--outer);display:inline-block;}
   .swatch.part{border-top:2.2px solid var(--part-color);}
   .swatch.offset{border-top:1.8px dashed var(--road);}
   .swatch.dot{border-top:1.8px dashed var(--inner);}
+  .swatch.snap{width:10px;height:10px;border-radius:50%;background:#FF8C00;border:1.5px solid #fff;display:inline-block;}
+  .swatch.junc{width:10px;height:10px;border-radius:50%;background:#27AE60;border:1.5px solid #fff;display:inline-block;}
   
   canvas{
     display:block;width:100%;height:100%;flex:1;background:#FFFFFF;cursor:crosshair;touch-action:none;
@@ -153,7 +151,6 @@
     font-size:11px;color:var(--brass);margin-top:2px;padding:2px 4px;font-weight:600;
   }
 
-  /* Print-only Bottom Section */
   .print-bottom-section{
     display:none;
     margin-top:8px;
@@ -161,7 +158,6 @@
     padding-top:6px;
   }
 
-  /* Drawer / Modal Table for On-screen View */
   .drawer-backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,0.45);
     display:flex;align-items:flex-end;justify-content:center;z-index:90;
@@ -201,7 +197,6 @@
     padding:2px 8px;
   }
 
-  /* Modals */
   .modal-backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,0.5);
     display:flex;align-items:center;justify-content:center;z-index:100;
@@ -254,7 +249,7 @@
       <button class="tab-btn active-tab" data-tab="tabDraw">✏️ വരയ്ക്കൽ (Draw)</button>
       <button class="tab-btn" data-tab="tabEdit">🛠️ എഡിറ്റ് &amp; സൂം (Edit)</button>
       <button class="tab-btn" data-tab="tabPartition">✂️ പാർട്ടീഷൻ (Part)</button>
-      <button class="tab-btn" data-tab="tabReport">📊 റിപ്പോർട്ട് &amp; PDF</button>
+      <button class="tab-btn" data-tab="tabReport">📊 റിപ്പോർട്ട് &amp; DXF</button>
     </div>
 
     <!-- Panel 1: Draw -->
@@ -290,9 +285,10 @@
       <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
     </div>
 
-    <!-- Panel 4: Report & Print -->
+    <!-- Panel 4: Report, DXF & Print -->
     <div class="tab-panel" id="tabReport">
-      <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണ പട്ടിക (View Area)</button>
+      <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണ പട്ടിക</button>
+      <button id="dxfExportBtn" class="primary" style="background:#0066CC;border-color:#004C99;">📁 DXF ഡൗൺലോഡ്</button>
       <select id="pdfOrientation">
         <option value="portrait">📄 A4 Portrait</option>
         <option value="landscape">📑 A4 Landscape</option>
@@ -316,11 +312,12 @@
           <span><span class="swatch"></span> അതിർത്തി</span>
           <span><span class="swatch part"></span> പാർട്ടീഷൻ</span>
           <span><span class="swatch offset"></span> ഓഫ്‌സെറ്റ് (90°)</span>
-          <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ</span>
+          <span><span class="swatch snap"></span> പോയിന്റ് സ്നാപ്പ്</span>
+          <span><span class="swatch junc"></span> ജംഗ്ഷൻ സ്നാപ്പ് (✕)</span>
         </div>
         <canvas id="canvas" width="1000" height="920"></canvas>
       </div>
-      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Auto-Save ഓൺ ആണ്.</div>
+      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. പോയിന്റ്/ജംഗ്ഷൻ Snap ഓൺ ആണ്.</div>
 
       <!-- Print-Only Bottom Area -->
       <div class="print-bottom-section">
@@ -450,6 +447,7 @@
   
   let activeStartPoint = null;
   let hoverPoint = null;
+  let hoverIntersection = null; // Intersection Junction Snap
   let snapLinePoint = null;
   let currentMode = 'draw';
   let editingEdge = null;
@@ -458,7 +456,6 @@
   let isDragging = false;
   let dragStartX = 0, dragStartY = 0;
 
-  // Touch Pinch State
   let isPinching = false;
   let initialPinchDist = 0;
   let initialScale = 1.0;
@@ -491,6 +488,7 @@
   const screenTableContainer = document.getElementById('screenTableContainer');
   const areaDrawer = document.getElementById('areaDrawer');
   const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+  const dxfExportBtn = document.getElementById('dxfExportBtn');
 
   const lengthModal = document.getElementById('lengthModal');
   const lengthInput = document.getElementById('lengthInput');
@@ -509,7 +507,6 @@
   const now = new Date();
   document.getElementById('printDateLabel').textContent = `വിസ്തീർണ്ണ പട്ടിക (DATE: ${now.toLocaleDateString('en-GB')})`;
 
-  // LOCAL STORAGE AUTO-SAVE & RESTORE
   const STORAGE_KEY = 'survey_cad_app_data_v2';
 
   function saveToLocalStorage(){
@@ -569,6 +566,50 @@
       if(dist(x, y, p.x, p.y) < SNAP) return p;
     }
     return null;
+  }
+
+  // Cross Intersection calculation between 2 line segments
+  function getLineIntersection(p1, p2, p3, p4){
+    const d = (p1.x - p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x - p4.x);
+    if(Math.abs(d) < 1e-6) return null; // Parallel
+
+    const t = ((p1.x - p3.x) * (p3.y - p4.y) - (p1.y - p3.y) * (p3.x - p4.x)) / d;
+    const u = -((p1.x - p2.x) * (p1.y - p3.y) - (p1.y - p2.y) * (p1.x - p3.x)) / d;
+
+    if(t >= 0 && t <= 1 && u >= 0 && u <= 1){
+      return {
+        x: p1.x + t * (p2.x - p1.x),
+        y: p1.y + t * (p2.y - p1.y)
+      };
+    }
+    return null;
+  }
+
+  // Find Nearest Cross Intersection Junction
+  function findSnapIntersection(x, y){
+    let best = null, minD = SNAP;
+    for(let i = 0; i < edges.length; i++){
+      for(let j = i + 1; j < edges.length; j++){
+        const e1 = edges[i], e2 = edges[j];
+        if(e1.a === e2.a || e1.a === e2.b || e1.b === e2.a || e1.b === e2.b) continue; // Connected edges
+
+        const p1 = points.find(p=>p.id===e1.a);
+        const p2 = points.find(p=>p.id===e1.b);
+        const p3 = points.find(p=>p.id===e2.a);
+        const p4 = points.find(p=>p.id===e2.b);
+        if(!p1 || !p2 || !p3 || !p4) continue;
+
+        const inter = getLineIntersection(p1, p2, p3, p4);
+        if(inter){
+          const d = dist(x, y, inter.x, inter.y);
+          if(d < minD){
+            minD = d;
+            best = { x: inter.x, y: inter.y, edge1: e1, edge2: e2 };
+          }
+        }
+      }
+    }
+    return best;
   }
 
   function projectPointOnSegment(px, py, ax, ay, bx, by){
@@ -699,7 +740,6 @@
     redraw();
   });
 
-  // Direct Drawing Zoom Function
   function rescalePlot(factor, focusX = CW / 2, focusY = CH / 2){
     if(!points.length){
       currentScale = Math.max(0.3, Math.min(3.5, currentScale * factor));
@@ -735,7 +775,6 @@
     });
   }
 
-  // Mouse Wheel Zoom
   canvas.addEventListener('wheel', (e)=>{
     e.preventDefault();
     const {x, y} = getCanvasCoords(e.clientX, e.clientY);
@@ -795,7 +834,7 @@
 
     if(mode === 'draw'){
       modeDrawBtn.classList.add('active');
-      statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട്: പോയിന്റുകൾ ടച്ച് ചെയ്തു വരയ്ക്കുക.';
+      statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട്: പോയിന്റുകൾ/ജംഗ്ഷനുകൾ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്.';
       canvas.style.cursor = 'crosshair';
     } else if(mode === 'rect'){
       modeRectBtn.classList.add('active');
@@ -807,7 +846,7 @@
       canvas.style.cursor = 'pointer';
     } else if(mode === 'partition'){
       modePartitionBtn.classList.add('active-part');
-      statusBar.textContent = '✂️ പാർട്ടീഷൻ: ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക.';
+      statusBar.textContent = '✂️ പാർട്ടീഷൻ: ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക. Snap ഓൺ ആണ്.';
       canvas.style.cursor = 'crosshair';
     } else if(mode === 'movePart'){
       modeMovePartBtn.classList.add('active-part');
@@ -1034,18 +1073,24 @@
       return;
     }
 
-    if(currentMode === 'partition'){
-      let clickedPoint = findSnapVertex(x, y, 'partition');
+    // DRAW & PARTITION MODES
+    if(currentMode === 'partition' || currentMode === 'draw'){
+      const groupName = (currentMode === 'partition' ? 'partition' : 'main');
+      let clickedPoint = findSnapVertex(x, y, currentMode === 'partition' ? 'partition' : null);
 
       if(!clickedPoint){
+        // 1. Check Cross Intersection Snap
+        const interSnap = findSnapIntersection(x, y);
+        // 2. Check Line Snap
         const edgeSnap = findSnapOnEdge(x, y);
+        // 3. Check Point Coordinate Snap
         const ptSnap = findSnapVertex(x, y);
         
         saveSnapshot();
-        const ptX = ptSnap ? ptSnap.x : (edgeSnap ? edgeSnap.x : x);
-        const ptY = ptSnap ? ptSnap.y : (edgeSnap ? edgeSnap.y : y);
+        const ptX = interSnap ? interSnap.x : (ptSnap ? ptSnap.x : (edgeSnap ? edgeSnap.x : x));
+        const ptY = interSnap ? interSnap.y : (ptSnap ? ptSnap.y : (edgeSnap ? edgeSnap.y : y));
 
-        clickedPoint = { id: nextPtId++, x: ptX, y: ptY, group: 'partition' };
+        clickedPoint = { id: nextPtId++, x: ptX, y: ptY, group: groupName };
         points.push(clickedPoint);
       }
 
@@ -1054,42 +1099,15 @@
       } else {
         if(activeStartPoint.id !== clickedPoint.id && !edgeExists(activeStartPoint.id, clickedPoint.id)){
           saveSnapshot();
-          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, true);
-          if(edge) edge.group = 'partition';
+          const isPart = (currentMode === 'partition');
+          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, isPart);
+          if(edge) edge.group = groupName;
         }
         activeStartPoint = clickedPoint;
       }
       saveToLocalStorage();
       redraw();
       return;
-    }
-
-    if(currentMode === 'draw'){
-      let clickedPoint = findSnapVertex(x, y);
-
-      if(!clickedPoint){
-        const edgeSnap = findSnapOnEdge(x, y);
-        saveSnapshot();
-        if(edgeSnap){
-          clickedPoint = { id: nextPtId++, x: edgeSnap.x, y: edgeSnap.y, group: 'main' };
-        } else {
-          clickedPoint = { id: nextPtId++, x, y, group: 'main' };
-        }
-        points.push(clickedPoint);
-      }
-
-      if(activeStartPoint === null){
-        activeStartPoint = clickedPoint;
-      } else {
-        if(activeStartPoint.id !== clickedPoint.id && !edgeExists(activeStartPoint.id, clickedPoint.id)){
-          saveSnapshot();
-          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, false);
-          if(edge) edge.group = 'main';
-        }
-        activeStartPoint = clickedPoint;
-      }
-      saveToLocalStorage();
-      redraw();
     }
   }
 
@@ -1124,9 +1142,11 @@
 
     if(!isDrawingLocked){
       hoverPoint = findSnapVertex(x, y);
+      hoverIntersection = findSnapIntersection(x, y);
       snapLinePoint = findSnapOnEdge(x, y);
     } else {
       hoverPoint = null;
+      hoverIntersection = null;
       snapLinePoint = null;
     }
     redraw();
@@ -1330,12 +1350,11 @@
       ctx.stroke();
       ctx.restore();
 
-      // PARALLEL ALIGNED DIMENSION LABEL (Accurate Angle Alignment)
+      // PARALLEL ALIGNED DIMENSION LABEL
       const mx = (p1.x + p2.x) / 2;
       const my = (p1.y + p2.y) / 2;
       let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
 
-      // Keep text always upright and readable
       if(angle > Math.PI / 2 || angle < -Math.PI / 2){
         angle += Math.PI;
       }
@@ -1350,7 +1369,6 @@
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
 
-      // Thick white halo behind text to make it extremely clear on all backgrounds
       ctx.strokeStyle = '#FFFFFF';
       ctx.lineWidth = 4;
       ctx.lineJoin = 'round';
@@ -1361,10 +1379,38 @@
       ctx.restore();
     }
 
-    if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset') && !isDrawingLocked){
+    // 1. Cross Intersection Snap Indicator (Green ✕ Junction)
+    if(hoverIntersection && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition') && !isDrawingLocked){
       ctx.save();
       ctx.beginPath();
-      ctx.arc(snapLinePoint.x, snapLinePoint.y, 5, 0, Math.PI * 2);
+      ctx.arc(hoverIntersection.x, hoverIntersection.y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(39, 174, 96, 0.25)';
+      ctx.fill();
+      ctx.strokeStyle = '#27AE60';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Draw ✕ icon
+      ctx.beginPath();
+      ctx.strokeStyle = '#27AE60';
+      ctx.lineWidth = 2.5;
+      ctx.moveTo(hoverIntersection.x - 5, hoverIntersection.y - 5);
+      ctx.lineTo(hoverIntersection.x + 5, hoverIntersection.y + 5);
+      ctx.moveTo(hoverIntersection.x + 5, hoverIntersection.y - 5);
+      ctx.lineTo(hoverIntersection.x - 5, hoverIntersection.y + 5);
+      ctx.stroke();
+
+      ctx.font = "bold 10px Arial, sans-serif";
+      ctx.fillStyle = '#184A1C';
+      ctx.fillText("✕ ജംഗ്ഷൻ", hoverIntersection.x + 10, hoverIntersection.y - 8);
+      ctx.restore();
+    }
+
+    // 2. Line Snap Indicator
+    if(snapLinePoint && !hoverPoint && !hoverIntersection && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset') && !isDrawingLocked){
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(snapLinePoint.x, snapLinePoint.y, 6, 0, Math.PI * 2);
       ctx.fillStyle = currentMode === 'partition' ? '#0066CC' : '#C59B27';
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
@@ -1373,17 +1419,32 @@
       ctx.restore();
     }
 
-    // DRAW UNIFORM CRISP POINTS (Arial Bold with Halo)
+    // 3. DRAW POINTS WITH ACTIVE SNAP COLOR CHANGE
     points.forEach((p, idx)=>{
       const isActive = (activeStartPoint && activeStartPoint.id === p.id);
+      const isHovered = (hoverPoint && hoverPoint.id === p.id && !isDrawingLocked);
       const isPart = (p.group === 'partition');
 
+      // Snap Halo Circle
+      if(isHovered){
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 11, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 140, 0, 0.35)';
+        ctx.fill();
+        ctx.strokeStyle = '#FF8C00';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+      }
+
       ctx.beginPath();
-      ctx.arc(p.x, p.y, isActive ? 5.5 : 4, 0, Math.PI*2);
-      ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? '#C59B27' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
+      ctx.arc(p.x, p.y, isHovered ? 7 : (isActive ? 5.5 : 4), 0, Math.PI*2);
+      // Bright Orange on Snap, Active Green on drawing, Blue on part
+      ctx.fillStyle = isHovered ? '#FF8C00' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = isHovered ? 2.5 : 1.5;
       ctx.stroke();
 
       const pText = `P${idx+1}`;
@@ -1396,7 +1457,7 @@
       ctx.lineJoin = 'round';
       ctx.strokeText(pText, p.x + 5, p.y - 3);
 
-      ctx.fillStyle = isPart ? '#0066CC' : '#111A10';
+      ctx.fillStyle = isHovered ? '#D35400' : (isPart ? '#0066CC' : '#111A10');
       ctx.fillText(pText, p.x + 5, p.y - 3);
     });
 
@@ -1498,6 +1559,94 @@
   document.getElementById('calcBtn').addEventListener('click', calculateTable);
   closeDrawerBtn.addEventListener('click', ()=>areaDrawer.classList.add('hidden'));
 
+  // DXF Generator
+  function generateDXF(){
+    if(!points.length || !edges.length){
+      alert('ഡൗൺലോഡ് ചെയ്യാനായി ആദ്യം പ്ലോട്ട് വരയ്ക്കുക.');
+      return;
+    }
+
+    const ppm = BASE_PIXELS_PER_METER * currentScale;
+    let minX = Infinity, maxY = -Infinity;
+    points.forEach(p => {
+      if(p.x < minX) minX = p.x;
+      if(p.y > maxY) maxY = p.y;
+    });
+
+    let dxf = '0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1009\n0\nENDSEC\n';
+    dxf += '0\nSECTION\n2\nTABLES\n0\nTABLE\n2\nLAYER\n70\n5\n';
+    dxf += '0\nLAYER\n2\nBOUNDARY\n70\n0\n62\n7\n6\nCONTINUOUS\n';
+    dxf += '0\nLAYER\n2\nPARTITION\n70\n0\n62\n5\n6\nCONTINUOUS\n';
+    dxf += '0\nLAYER\n2\nOFFSET\n70\n0\n62\n1\n6\nDASHED\n';
+    dxf += '0\nLAYER\n2\nDIMENSIONS\n70\n0\n62\n3\n6\nCONTINUOUS\n';
+    dxf += '0\nLAYER\n2\nPOINTS\n70\n0\n62\n2\n6\nCONTINUOUS\n';
+    dxf += '0\nENDTAB\n0\nENDSEC\n';
+    dxf += '0\nSECTION\n2\nENTITIES\n';
+
+    edges.forEach(e => {
+      const p1 = points.find(p => p.id === e.a);
+      const p2 = points.find(p => p.id === e.b);
+      if(!p1 || !p2) continue;
+
+      const x1 = ((p1.x - minX) / ppm).toFixed(4);
+      const y1 = ((maxY - p1.y) / ppm).toFixed(4);
+      const x2 = ((p2.x - minX) / ppm).toFixed(4);
+      const y2 = ((maxY - p2.y) / ppm).toFixed(4);
+
+      let layerName = 'BOUNDARY';
+      if(e.isOffset) layerName = 'OFFSET';
+      else if(e.isPartition || e.group === 'partition') layerName = 'PARTITION';
+
+      dxf += '0\nLINE\n';
+      dxf += `8\n${layerName}\n`;
+      dxf += `10\n${x1}\n20\n${y1}\n30\n0.0\n`;
+      dxf += `11\n${x2}\n21\n${y2}\n31\n0.0\n`;
+
+      if(e.length){
+        const mx = ((parseFloat(x1) + parseFloat(x2)) / 2).toFixed(4);
+        const my = ((parseFloat(y1) + parseFloat(y2)) / 2).toFixed(4);
+        dxf += '0\nTEXT\n';
+        dxf += '8\nDIMENSIONS\n';
+        dxf += `10\n${mx}\n20\n${my}\n30\n0.0\n`;
+        dxf += '40\n0.35\n';
+        dxf += `1\n${e.length}m\n`;
+      }
+    });
+
+    points.forEach((p, idx) => {
+      const px = ((p.x - minX) / ppm).toFixed(4);
+      const py = ((maxY - p.y) / ppm).toFixed(4);
+      const ptLabel = `P${idx+1}`;
+
+      dxf += '0\nPOINT\n';
+      dxf += '8\nPOINTS\n';
+      dxf += `10\n${px}\n20\n${py}\n30\n0.0\n`;
+
+      dxf += '0\nTEXT\n';
+      dxf += '8\nPOINTS\n';
+      dxf += `10\n${(parseFloat(px) + 0.15).toFixed(4)}\n20\n${(parseFloat(py) + 0.15).toFixed(4)}\n30\n0.0\n`;
+      dxf += '40\n0.4\n';
+      dxf += `1\n${ptLabel}\n`;
+    });
+
+    dxf += '0\nENDSEC\n0\nEOF\n';
+
+    const blob = new Blob([dxf], { type: 'application/dxf;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    const dateStr = new Date().toISOString().slice(0,10);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Survey_Sketch_${dateStr}.dxf`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  if(dxfExportBtn){
+    dxfExportBtn.addEventListener('click', generateDXF);
+  }
+
   document.getElementById('printBtn').addEventListener('click', ()=>{
     const html = buildTableHTML();
     printTableContainer.innerHTML = html;
@@ -1533,7 +1682,6 @@
     }
   });
 
-  // Load Saved Data on Startup
   loadFromLocalStorage();
   redraw();
 })();
