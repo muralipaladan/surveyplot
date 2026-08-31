@@ -9,11 +9,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SurveyCAD">
 
-<!-- Embedded PWA App Icon (SVG Plot Sketch) -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%231B261A'/%3E%3Cpolygon points='110,380 90,160 360,90 430,340' fill='%23276E2C' fill-opacity='0.25' stroke='%23C59B27' stroke-width='16' stroke-linejoin='round'/%3E%3Cline x1='90' y1='160' x2='430' y2='340' stroke='%23FFFFFF' stroke-width='10' stroke-dasharray='16 12'/%3E%3Cline x1='260' y1='250' x2='360' y2='90' stroke='%2300B4D8' stroke-width='12'/%3E%3Ccircle cx='110' cy='380' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='90' cy='160' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='360' cy='90' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='430' cy='340' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='260' cy='250' r='14' fill='%2300B4D8' stroke='%23FFFFFF' stroke-width='4'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%231B261A'/%3E%3Cpolygon points='110,380 90,160 360,90 430,340' fill='%23276E2C' fill-opacity='0.25' stroke='%23C59B27' stroke-width='16' stroke-linejoin='round'/%3E%3Cline x1='90' y1='160' x2='430' y2='340' stroke='%23FFFFFF' stroke-width='10' stroke-dasharray='16 12'/%3E%3Cline x1='260' y1='250' x2='360' y2='90' stroke='%2300B4D8' stroke-width='12'/%3E%3Ccircle cx='110' cy='380' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='90' cy='160' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='360' cy='90' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='430' cy='340' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='260' cy='250' r='14' fill='%2300B4D8' stroke='%23FFFFFF' stroke-width='4'/%3E%3C/svg%3E">
 
-<!-- Embedded PWA Web App Manifest -->
 <link rel="manifest" href='data:application/manifest+json,{"name":"ചെയിൻ സർവേയർ CAD","short_name":"SurveyCAD","description":"A4 Land Sketch, Cross Offset and Area Calculator","start_url":".","display":"standalone","background_color":"%23F2EFE9","theme_color":"%231B261A","orientation":"any","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27%3E%3Crect width=%27512%27 height=%27512%27 rx=%27110%27 fill=%27%231B261A%27/%3E%3Cpolygon points=%27110,380 90,160 360,90 430,340%27 fill=%27%23276E2C%27 fill-opacity=%270.25%27 stroke=%27%23C59B27%27 stroke-width=%2716%27 stroke-linejoin=%27round%27/%3E%3Cline x1=%2790%27 y1=%27160%27 x2=%27430%27 y2=%27340%27 stroke=%27%23FFFFFF%27 stroke-width=%2710%27 stroke-dasharray=%2716 12%27/%3E%3Cline x1=%27260%27 y1=%27250%27 x2=%27360%27 y2=%2790%27 stroke=%27%2300B4D8%27 stroke-width=%2712%27/%3E%3Ccircle cx=%27110%27 cy=%27380%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%2790%27 cy=%27160%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%27360%27 cy=%2790%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%27430%27 cy=%27340%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%27260%27 cy=%27250%27 r=%2714%27 fill=%27%2300B4D8%27 stroke=%27%23FFFFFF%27 stroke-width=%274%27/%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}'>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +34,7 @@
     --danger:#C0392B;
     --card:#FFFFFF;
     --border:#CDC1A7;
-    --shadow:0 4px 12px rgba(0,0,0,0.06);
+    --shadow:0 3px 10px rgba(0,0,0,0.05);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   body{
@@ -44,37 +42,55 @@
     background:var(--bg);
     font-family:'Noto Sans Malayalam', sans-serif;
     color:var(--ink);
-    padding:12px 10px 30px;
+    padding:6px 6px 20px;
     overscroll-behavior-y:contain;
   }
   .app{max-width:1180px;margin:0 auto;position:relative;}
+  
+  /* Compact Header */
   header{
-    display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;
-    border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:10px;
+    display:flex;justify-content:space-between;align-items:center;
+    border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:6px;
   }
-  h1{margin:0;font-size:20px;font-weight:700;color:var(--ink);}
-  .header-actions{display:flex;align-items:center;gap:8px;}
+  h1{margin:0;font-size:16px;font-weight:700;color:var(--ink);}
+  .header-actions{display:flex;align-items:center;gap:6px;}
   .tag{
-    background:var(--accent);color:#fff;font-size:11px;font-weight:700;
-    padding:3px 8px;border-radius:4px;letter-spacing:1px;
+    background:var(--accent);color:#fff;font-size:10px;font-weight:700;
+    padding:2px 6px;border-radius:4px;letter-spacing:0.5px;
   }
   .install-btn{
-    background:var(--ink);color:#fff;font-size:11px;font-weight:700;
-    padding:4px 9px;border-radius:5px;border:none;cursor:pointer;display:none;
+    background:var(--ink);color:#fff;font-size:10.5px;font-weight:700;
+    padding:3px 7px;border-radius:4px;border:none;cursor:pointer;display:none;
   }
-  .subtitle{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
-  
-  .toolbar{
-    display:flex;flex-wrap:wrap;gap:5px;align-items:center;
-    background:var(--card);border:1px solid var(--border);border-radius:8px;
-    padding:7px 10px;margin-bottom:10px;box-shadow:var(--shadow);
+
+  /* Tool Tabs Header */
+  .tabs-nav{
+    display:flex;gap:4px;background:#E7E2D4;padding:3px;border-radius:6px;margin-bottom:6px;
+    overflow-x:auto;white-space:nowrap;
   }
-  .btn-group{display:flex;gap:4px;flex-wrap:wrap;align-items:center;}
-  .divider{width:1px;height:24px;background:var(--border);margin:0 3px;}
+  .tab-btn{
+    flex:1;text-align:center;padding:5px 8px;font-size:11.5px;font-weight:700;
+    background:transparent;border:none;border-radius:4px;color:var(--ink-soft);cursor:pointer;
+  }
+  .tab-btn.active-tab{
+    background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.08);
+  }
+
+  /* Toolbar Container for Tab Panels */
+  .tab-panel{
+    display:none;align-items:center;gap:4px;background:var(--card);
+    border:1px solid var(--border);border-radius:6px;padding:5px 8px;margin-bottom:6px;
+    overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;box-shadow:var(--shadow);
+  }
+  .tab-panel.active-panel{display:flex;}
+  .tab-panel::-webkit-scrollbar{height:3px;}
+  .tab-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
   button, select{
-    font-family:inherit;font-size:11.5px;font-weight:600;
-    padding:6px 9px;border-radius:5px;border:1px solid var(--border);
+    font-family:inherit;font-size:11px;font-weight:600;
+    padding:5px 8px;border-radius:4px;border:1px solid var(--border);
     background:#fff;color:var(--ink);cursor:pointer;transition:all .15s ease;
+    flex-shrink:0;
   }
   button:hover, select:hover{border-color:var(--accent);color:var(--accent-dark);}
   button.active{background:var(--accent);border-color:var(--accent);color:#fff;}
@@ -86,19 +102,20 @@
   button.lock-active{background:#444;border-color:#222;color:#fff;}
   
   .scale-label{
-    font-family:'JetBrains Mono', monospace;font-size:11.5px;font-weight:700;
-    padding:3px 5px;color:var(--accent-dark);
+    font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:700;
+    padding:2px 4px;color:var(--accent-dark);
   }
 
+  /* Maximized Canvas Container */
   .a4-sheet-container{
     background:var(--card);
     border:1px solid var(--border);
     border-radius:8px;
-    padding:12px;
+    padding:6px;
     box-shadow:var(--shadow);
     display:flex;
     flex-direction:column;
-    gap:12px;
+    gap:8px;
   }
 
   .canvas-box{
@@ -112,25 +129,26 @@
   }
 
   .legend{
-    display:flex;gap:14px;font-size:11.5px;color:var(--ink-soft);padding:2px 4px 6px;flex-wrap:wrap;
+    display:flex;gap:10px;font-size:10.5px;color:var(--ink-soft);padding:2px 2px 4px;flex-wrap:wrap;
   }
-  .legend span{display:inline-flex;align-items:center;gap:5px;}
-  .swatch{width:18px;height:0;border-top:2.4px solid var(--outer);display:inline-block;}
+  .legend span{display:inline-flex;align-items:center;gap:4px;}
+  .swatch{width:14px;height:0;border-top:2.4px solid var(--outer);display:inline-block;}
   .swatch.part{border-top:2.4px solid var(--part-color);}
   .swatch.offset{border-top:1.8px dashed var(--road);}
   .swatch.dot{border-top:1.8px dashed var(--inner);}
   
+  /* Large high-res canvas */
   canvas{
     display:block;width:100%;height:auto;background:var(--paper);cursor:crosshair;touch-action:none;
   }
   .status-bar{
-    font-size:12px;color:var(--brass);margin-top:6px;padding:2px 4px;font-weight:600;
+    font-size:11px;color:var(--brass);margin-top:3px;padding:1px 2px;font-weight:600;
   }
 
   .bottom-section{
     display:grid;
     grid-template-columns: 1.4fr 1fr;
-    gap:12px;
+    gap:8px;
     align-items:start;
   }
   @media(max-width:768px){
@@ -138,33 +156,33 @@
   }
   .sheet-wrapper{
     background:#FAFAF7;border:1px solid var(--border);border-radius:6px;
-    padding:10px;
+    padding:8px;
   }
   .table-header-block{
     display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--ink);
-    padding-bottom:4px;margin-bottom:6px;
+    padding-bottom:3px;margin-bottom:4px;
   }
-  .table-header-block h2{margin:0;font-size:13.5px;color:var(--ink);}
-  .table-header-block .survey-date{font-size:11px;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;}
+  .table-header-block h2{margin:0;font-size:12.5px;color:var(--ink);}
+  .table-header-block .survey-date{font-size:10.5px;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;}
 
   table{
-    width:100%;border-collapse:collapse;font-size:11.5px;text-align:left;
+    width:100%;border-collapse:collapse;font-size:10.5px;text-align:left;
   }
   th, td{
-    padding:5px 7px;border-bottom:1px solid var(--border);
+    padding:4px 5px;border-bottom:1px solid var(--border);
   }
   th{background:#EFECE2;font-weight:600;color:var(--ink);border-top:1px solid var(--border);}
   td.mono{font-family:'JetBrains Mono', monospace;font-weight:600;}
   .total-row{
-    background:#EEF4EC;font-weight:700;font-size:12px;color:var(--accent-dark);
+    background:#EEF4EC;font-weight:700;font-size:11px;color:var(--accent-dark);
   }
   
   .note-box{
-    border:1px dashed var(--border);border-radius:6px;padding:10px;background:#fff;
-    font-size:11.5px;line-height:1.5;color:var(--ink-soft);
+    border:1px dashed var(--border);border-radius:6px;padding:6px;background:#fff;
+    font-size:10.5px;line-height:1.4;color:var(--ink-soft);
   }
   .sign-space{
-    margin-top:20px;display:flex;justify-content:space-between;font-weight:600;color:var(--ink);
+    margin-top:12px;display:flex;justify-content:space-between;font-weight:600;color:var(--ink);
   }
 
   .screen-footer-credits{
@@ -172,14 +190,14 @@
     justify-content:flex-end;
     align-items:center;
     font-family:'JetBrains Mono', monospace;
-    font-size:11.5px;
+    font-size:10.5px;
     font-weight:600;
     color:var(--ink-soft);
-    margin-top:12px;
-    padding:5px 10px;
+    margin-top:8px;
+    padding:3px 6px;
     background:rgba(255,255,255,0.7);
     border:1px solid var(--border);
-    border-radius:6px;
+    border-radius:4px;
   }
   .screen-footer-credits span{
     color:var(--accent-dark);
@@ -189,23 +207,24 @@
   .modal-backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,0.45);
     display:flex;align-items:center;justify-content:center;z-index:100;
+    padding:10px;
   }
   .modal-backdrop.hidden{display:none;}
   .modal{
-    background:#fff;border-radius:8px;padding:16px;width:320px;box-shadow:var(--shadow);
+    background:#fff;border-radius:8px;padding:14px;width:100%;max-width:310px;box-shadow:var(--shadow);
   }
-  .modal h3{margin:0 0 8px;font-size:14.5px;}
-  .modal label{display:block;font-size:11.5px;color:var(--ink-soft);margin-bottom:3px;font-weight:600;}
+  .modal h3{margin:0 0 6px;font-size:13.5px;}
+  .modal label{display:block;font-size:11px;color:var(--ink-soft);margin-bottom:2px;font-weight:600;}
   .modal input, .modal select{
-    width:100%;font-family:'JetBrains Mono', monospace;font-size:13.5px;
-    padding:7px 9px;border-radius:5px;border:1px solid var(--border);margin-bottom:10px;
+    width:100%;font-family:'JetBrains Mono', monospace;font-size:13px;
+    padding:6px 8px;border-radius:4px;border:1px solid var(--border);margin-bottom:8px;
   }
-  .modal-actions{display:flex;justify-content:flex-end;gap:6px;}
+  .modal-actions{display:flex;justify-content:flex-end;gap:5px;}
 
   @media print{
     @page { size: A4 portrait; margin: 8mm; }
     body{background:#fff;padding:0;}
-    .toolbar, .modal-backdrop, .status-bar, .tag, .install-btn, button, select, .screen-footer-credits{
+    .tabs-nav, .tab-panel, .modal-backdrop, .status-bar, .tag, .install-btn, button, select, .screen-footer-credits{
       display:none !important;
     }
     .a4-sheet-container{
@@ -213,12 +232,12 @@
       height:280mm;display:flex;flex-direction:column;justify-content:space-between;
     }
     .canvas-box{border:1px solid #777;border-radius:0;}
-    canvas{max-height:145mm;}
-    .bottom-section{grid-template-columns:1.4fr 1fr;gap:8px;margin-top:auto;}
-    .sheet-wrapper{background:#fff;border:1px solid #777;padding:6px;border-radius:0;}
-    .note-box{border:1px solid #777;border-radius:0;padding:6px;}
-    table{font-size:10px;}
-    th, td{padding:4px 5px;}
+    canvas{max-height:165mm;}
+    .bottom-section{grid-template-columns:1.4fr 1fr;gap:6px;margin-top:auto;}
+    .sheet-wrapper{background:#fff;border:1px solid #777;padding:5px;border-radius:0;}
+    .note-box{border:1px solid #777;border-radius:0;padding:5px;}
+    table{font-size:9.5px;}
+    th, td{padding:3px 5px;}
   }
 </style>
 </head>
@@ -226,64 +245,72 @@
 
 <div class="app" id="printArea">
   <header>
-    <div>
-      <h1>ചെയിൻ സർവേ സ്കെച്ച് &amp; പാർട്ടീഷൻ CAD</h1>
-      <div class="subtitle">A4 ലാൻഡ് സ്കെച്ച്, ക്രോസ് ഓഫ്‌സെറ്റ് &amp; വിസ്തീർണ്ണ കണക്കുകൂട്ടൽ</div>
-    </div>
+    <h1>ചെയിൻ സർവേ CAD</h1>
     <div class="header-actions">
-      <button id="installAppBtn" class="install-btn">📲 ഇൻസ്റ്റാൾ ആപ്പ്</button>
-      <span class="tag">SURVEY CAD PRO</span>
+      <button id="installAppBtn" class="install-btn">📲 ഇൻസ്റ്റാൾ</button>
+      <span class="tag">CAD PRO</span>
     </div>
   </header>
 
-  <div class="toolbar">
-    <div class="btn-group">
-      <button id="lockMainBtn">🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്</button>
-      <button id="modeDraw" class="active">✏️ പ്ലോട്ട്</button>
-      <button id="modeRect">⬛ ചതുരം</button>
-      <button id="modeOffset">⟂ ക്രോസ് ഓഫ്‌സെറ്റ്</button>
-      <button id="modePartition">✂️ പാർട്ടീഷൻ</button>
-      <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
-      <button id="modeColor">🎨 കളർ</button>
-      <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
-      <button id="modeDelete">❌ ഒഴിവാക്കുക</button>
-      <button id="modeValue">📏 അളവ്</button>
-    </div>
-    <div class="divider"></div>
-    <div class="btn-group">
-      <button id="zoomOutBtn">🔍 -</button>
-      <span class="scale-label" id="scaleLabel">100%</span>
-      <button id="zoomInBtn">🔍 +</button>
-      <button id="zoomResetBtn">Reset</button>
-    </div>
-    <div class="divider"></div>
-    <div class="btn-group">
-      <button id="undoBtn">↩ Undo</button>
-      <button id="clearBtn" class="danger">🗑 ക്ലിയർ</button>
-    </div>
-    <div style="flex:1;"></div>
-    <div class="btn-group">
-      <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണം</button>
-      <select id="pdfOrientation">
-        <option value="portrait">📄 A4 Portrait</option>
-        <option value="landscape">📑 A4 Landscape</option>
-      </select>
-      <button id="printBtn" class="primary">🖨️ PDF / Print</button>
-    </div>
+  <!-- Categorized Tabs Navigation -->
+  <div class="tabs-nav">
+    <button class="tab-btn active-tab" data-tab="tabDraw">✏️ വരയ്ക്കൽ (Draw)</button>
+    <button class="tab-btn" data-tab="tabEdit">🛠️ എഡിറ്റ് &amp; വ്യൂ (Edit)</button>
+    <button class="tab-btn" data-tab="tabPartition">✂️ പാർട്ടീഷൻ (Part)</button>
+    <button class="tab-btn" data-tab="tabReport">📊 റിപ്പോർട്ട് (Report)</button>
+  </div>
+
+  <!-- Panel 1: Draw -->
+  <div class="tab-panel active-panel" id="tabDraw">
+    <button id="modeDraw" class="active">✏️ പ്ലോട്ട്</button>
+    <button id="modeRect">⬛ ചതുരം</button>
+    <button id="modeOffset">⟂ ഓഫ്‌സെറ്റ് (90°)</button>
+    <button id="undoBtn">↩ Undo</button>
+    <button id="clearBtn" class="danger">🗑 ക്ലിയർ</button>
+  </div>
+
+  <!-- Panel 2: Edit & View -->
+  <div class="tab-panel" id="tabEdit">
+    <button id="modeValue">📏 അളവ് മാറ്റുക</button>
+    <button id="modeColor">🎨 കളർ</button>
+    <button id="modeDelete" class="danger">❌ ഒഴിവാക്കുക</button>
+    <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
+    <button id="zoomOutBtn">🔍 -</button>
+    <span class="scale-label" id="scaleLabel">100%</span>
+    <button id="zoomInBtn">🔍 +</button>
+    <button id="zoomResetBtn">Reset</button>
+  </div>
+
+  <!-- Panel 3: Partition -->
+  <div class="tab-panel" id="tabPartition">
+    <button id="lockMainBtn">🔓 മെയിൻ ലോക്ക്</button>
+    <button id="modePartition">✂️ പാർട്ട് വരയ്ക്കുക</button>
+    <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
+  </div>
+
+  <!-- Panel 4: Report & Print -->
+  <div class="tab-panel" id="tabReport">
+    <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണം</button>
+    <select id="pdfOrientation">
+      <option value="portrait">📄 A4 Portrait</option>
+      <option value="landscape">📑 A4 Landscape</option>
+    </select>
+    <button id="printBtn" class="primary">🖨️ PDF / Print</button>
   </div>
 
   <div class="a4-sheet-container">
     <div>
       <div class="legend">
-        <span><span class="swatch"></span> മെയിൻ അതിർത്തി</span>
-        <span><span class="swatch part"></span> പാർട്ടീഷൻ പ്ലോട്ട്</span>
-        <span><span class="swatch offset"></span> ക്രോസ് ഓഫ്‌സെറ്റ് (90°)</span>
+        <span><span class="swatch"></span> അതിർത്തി</span>
+        <span><span class="swatch part"></span> പാർട്ടീഷൻ</span>
+        <span><span class="swatch offset"></span> ഓഫ്‌സെറ്റ്</span>
         <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ</span>
       </div>
       <div class="canvas-box">
-        <canvas id="canvas" width="1000" height="520"></canvas>
+        <!-- Enlarged Canvas Dimension for crisp drawing -->
+        <canvas id="canvas" width="1000" height="620"></canvas>
       </div>
-      <div class="status-bar" id="statusBar">✏️ മെയിൻ പ്ലോട്ട് വരയ്ക്കുക. Snap ഓൺ ആണ്.</div>
+      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്.</div>
     </div>
 
     <div class="bottom-section">
@@ -293,15 +320,15 @@
           <div class="survey-date" id="surveyDateLabel">DATE: ---</div>
         </div>
         <div id="tableContainer">
-          <p style="color:var(--ink-soft);font-size:12px;margin:4px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>
+          <p style="color:var(--ink-soft);font-size:11px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>
         </div>
       </div>
 
       <div class="note-box">
         <b>പ്ലോട്ട് വിവരണം &amp; സർട്ടിഫിക്കറ്റ്:</b><br>
-        ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും ഓഫ്‌സെറ്റുകളും കൃത്യമായ ചെയിൻ സർവേ രീതിയിൽ തയ്യാറാക്കിയതാണ്.<br>
+        ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും കൃത്യമായ ചെയിൻ സർവേ രീതിയിൽ തയ്യാറാക്കിയതാണ്.<br>
         <div class="sign-space">
-          <span>തയ്യാറാക്കിയത്: ലൈസൻസ്ഡ് സർവേയർ</span>
+          <span>തയ്യാറാക്കിയത്: സർവേയർ</span>
           <span>ഉടമസ്ഥന്റെ ഒപ്പ്</span>
         </div>
       </div>
@@ -313,7 +340,7 @@
   </div>
 </div>
 
-<!-- Modal Length Adjustment -->
+<!-- Modals -->
 <div class="modal-backdrop hidden" id="lengthModal">
   <div class="modal">
     <h3 id="modalTitle">വരയുടെ അളവ് നൽകുക</h3>
@@ -330,13 +357,12 @@
   </div>
 </div>
 
-<!-- Modal Cross Offset -->
 <div class="modal-backdrop hidden" id="offsetModal">
   <div class="modal">
-    <h3>⟂ ക്രോസ് ഓഫ്‌സെറ്റ് നൽകുക (90° Offset)</h3>
-    <p id="offsetLineInfo" style="font-size:11.5px;color:var(--accent-dark);margin:0 0 8px;font-weight:600;"></p>
+    <h3>⟂ ക്രോസ് ഓഫ്‌സെറ്റ് നൽകുക (90°)</h3>
+    <p id="offsetLineInfo" style="font-size:11px;color:var(--accent-dark);margin:0 0 6px;font-weight:600;"></p>
     
-    <label for="chainageInput">തുടക്കത്തിൽ നിന്നുള്ള ചെയിനേജ് ദൂരം (m):</label>
+    <label for="chainageInput">തുടക്കത്തിൽ നിന്നുള്ള ചെയിനേജ് (m):</label>
     <input type="number" id="chainageInput" step="0.01" min="0" placeholder="ഉദാ: 12.5">
 
     <label for="offsetLenInput">ഓഫ്‌സെറ്റ് നീളം (m):</label>
@@ -355,17 +381,16 @@
   </div>
 </div>
 
-<!-- Modal Color Picker -->
 <div class="modal-backdrop hidden" id="colorModal">
   <div class="modal">
     <h3>ലൈൻ കളർ മാറ്റുക</h3>
     <label for="lineColorSelect">നിറം തിരഞ്ഞെടുക്കുക:</label>
     <select id="lineColorSelect">
-      <option value="#111A10">⚫ കറുപ്പ് (Default Outer)</option>
-      <option value="#0066CC">🔵 നീല (Partition Blue)</option>
-      <option value="#C0392B">🔴 ചുവപ്പ് (Road / Offset)</option>
+      <option value="#111A10">⚫ കറുപ്പ് (Outer)</option>
+      <option value="#0066CC">🔵 നീല (Partition)</option>
+      <option value="#C0392B">🔴 ചുവപ്പ് (Offset/Road)</option>
       <option value="#276E2C">🟢 പച്ച (Green Line)</option>
-      <option value="#C59B27">🟡 മഞ്ഞ / സ്വർണ്ണം (Yellow)</option>
+      <option value="#C59B27">🟡 മഞ്ഞ / സ്വർണ്ണം</option>
     </select>
     <div class="modal-actions">
       <button id="cancelColorBtn">ക്യാൻസൽ</button>
@@ -376,7 +401,20 @@
 
 <script>
 (function(){
-  // PWA Install Prompt Registration
+  // Tab Switching Logic
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active-tab'));
+      tabPanels.forEach(p => p.classList.remove('active-panel'));
+      btn.classList.add('active-tab');
+      const targetPanel = document.getElementById(btn.getAttribute('data-tab'));
+      if(targetPanel) targetPanel.classList.add('active-panel');
+    });
+  });
+
+  // PWA Install Prompt
   let deferredPrompt;
   const installAppBtn = document.getElementById('installAppBtn');
   window.addEventListener('beforeinstallprompt', (e)=>{
@@ -399,8 +437,9 @@
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   const CW = canvas.width, CH = canvas.height;
-  const SNAP = 16;
-  const LINE_SNAP = 12;
+  
+  const SNAP = 24;
+  const LINE_SNAP = 18;
   const BASE_PIXELS_PER_METER = 12;
 
   let currentScale = 1.0;
@@ -419,6 +458,12 @@
 
   let isDragging = false;
   let dragStartX = 0, dragStartY = 0;
+
+  // Two-Finger Pinch Zoom State
+  let isPinching = false;
+  let initialPinchDist = 0;
+  let initialScale = 1.0;
+  let pinchMidX = 0, pinchMidY = 0;
 
   let isDrawingRect = false;
   let rectStartX = 0, rectStartY = 0, rectCurX = 0, rectCurY = 0;
@@ -572,7 +617,7 @@
       lockMainBtn.textContent = '🔒 മെയിൻ ലോക്ക്ഡ്';
       lockMainBtn.classList.add('lock-active');
     } else {
-      lockMainBtn.textContent = '🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്';
+      lockMainBtn.textContent = '🔓 മെയിൻ ലോക്ക്';
       lockMainBtn.classList.remove('lock-active');
     }
   }
@@ -668,31 +713,31 @@
 
     if(mode === 'draw'){
       modeDrawBtn.classList.add('active');
-      statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട് വരയ്ക്കുക: പോയിന്റുകൾ ക്ലിക്ക് ചെയ്യുക.';
+      statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട്: പോയിന്റുകൾ ടച്ച് ചെയ്തു വരയ്ക്കുക.';
     } else if(mode === 'rect'){
       modeRectBtn.classList.add('active');
-      statusBar.textContent = '⬛ ചതുരം: ഡ്രാഗ് ചെയ്ത് ചതുര പ്ലോട്ട് വരയ്ക്കുക.';
+      statusBar.textContent = '⬛ ചതുരം: ഡ്രാഗ് ചെയ്തു വരയ്ക്കുക.';
     } else if(mode === 'offset'){
       modeOffsetBtn.classList.add('active');
-      statusBar.textContent = '⟂ ക്രോസ് ഓഫ്‌സെറ്റ്: ഓഫ്‌സെറ്റ് എടുക്കേണ്ട ബേസ് ലൈനിൽ ക്ലിക്ക് ചെയ്യുക.';
+      statusBar.textContent = '⟂ ക്രോസ് ഓഫ്‌സെറ്റ്: ബേസ് ലൈനിൽ ടച്ച് ചെയ്യുക.';
     } else if(mode === 'partition'){
       modePartitionBtn.classList.add('active-part');
-      statusBar.textContent = '✂️ പാർട്ടീഷൻ: മെയിൻ പ്ലോട്ടിന് മുകളിൽ പൂർണ്ണ ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക.';
+      statusBar.textContent = '✂️ പാർട്ടീഷൻ: ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക.';
     } else if(mode === 'movePart'){
       modeMovePartBtn.classList.add('active-part');
-      statusBar.textContent = '📦 മൂവ് പാർട്ടീഷൻ: പാർട്ടീഷൻ പ്ലോട്ടിൽ ഡ്രാഗ് ചെയ്ത് പൂർണ്ണമായി വേർപെടുത്തി നീക്കുക.';
+      statusBar.textContent = '📦 മൂവ് പാർട്ട്: പാർട്ടീഷൻ പ്ലോട്ട് ഡ്രാഗ് ചെയ്തു മാറ്റുക.';
     } else if(mode === 'color'){
       modeColorBtn.classList.add('active');
-      statusBar.textContent = '🎨 കളർ മാറ്റുക: നിറം മാറ്റേണ്ട വരയിൽ ക്ലിക്ക് ചെയ്യുക.';
+      statusBar.textContent = '🎨 കളർ: വരയിൽ ടച്ച് ചെയ്യുക.';
     } else if(mode === 'moveAll'){
       modeMoveAllBtn.classList.add('active');
-      statusBar.textContent = '✋ മൂവ് ഓൾ: മുഴുവൻ പ്ലോട്ടുകളും ഒരുമിച്ച് നീക്കുക.';
+      statusBar.textContent = '✋ മൂവ് ഓൾ: പ്ലോട്ടുകൾ ഒരുമിച്ച് നീക്കുക.';
     } else if(mode === 'delete'){
       modeDeleteBtn.classList.add('active');
-      statusBar.textContent = '❌ ഒഴിവാക്കുക: ഒഴിവാക്കേണ്ട വരയിലോ അതിർത്തിയിലോ ക്ലിക്ക് ചെയ്യുക.';
+      statusBar.textContent = '❌ ഒഴിവാക്കുക: വരയിൽ ടച്ച് ചെയ്യുക.';
     } else if(mode === 'value'){
       modeValueBtn.classList.add('active');
-      statusBar.textContent = '📏 അളവ് മാറ്റുക: അളവ് തിരുത്തേണ്ട വരയിൽ ക്ലിക്ക് ചെയ്യുക.';
+      statusBar.textContent = '📏 അളവ് മാറ്റുക: വരയിൽ ടച്ച് ചെയ്യുക.';
     }
     redraw();
   }
@@ -714,12 +759,12 @@
     const idxA = points.indexOf(pA)+1;
     const idxB = points.indexOf(pB)+1;
     
-    modalTitle.textContent = `വര P${idxA} - P${idxB} ന്റെ അളവ് മാറ്റുക`;
+    modalTitle.textContent = `വര P${idxA} - P${idxB} ന്റെ അളവ്`;
     lengthInput.value = edge.length || '';
 
     lockPointSelect.innerHTML = `
-      <option value="${pA.id}">🔒 P${idxA} ലോക്ക് ചെയ്യുക (P${idxB} നീങ്ങും)</option>
-      <option value="${pB.id}">🔒 P${idxB} ലോക്ക് ചെയ്യുക (P${idxA} നീങ്ങും)</option>
+      <option value="${pA.id}">🔒 P${idxA} ലോക്ക് (P${idxB} നീങ്ങും)</option>
+      <option value="${pB.id}">🔒 P${idxB} ലോക്ക് (P${idxA} നീങ്ങും)</option>
     `;
 
     lengthModal.classList.remove('hidden');
@@ -753,7 +798,7 @@
     const idxA = points.indexOf(pA)+1;
     const idxB = points.indexOf(pB)+1;
     
-    offsetLineInfo.textContent = `ബേസ് ലൈൻ: P${idxA} ➔ P${idxB} (നീളം: ${edge.length || 0}m)`;
+    offsetLineInfo.textContent = `ബേസ് ലൈൻ: P${idxA} ➔ P${idxB} (${edge.length || 0}m)`;
     chainageInput.value = (edge.length ? (edge.length / 2).toFixed(2) : '');
     offsetLenInput.value = '';
     offsetModal.classList.remove('hidden');
@@ -829,7 +874,6 @@
     };
   }
 
-  // Unified Pointer Event Support (Mouse & Mobile Touch)
   function handlePointerDown(x, y){
     if(currentMode === 'moveAll' || currentMode === 'movePart'){
       isDragging = true;
@@ -1017,7 +1061,7 @@
     }
   }
 
-  // Mouse Listeners
+  // Mouse Handlers
   canvas.addEventListener('mousedown', (e)=>{
     const {x, y} = getCanvasCoords(e.clientX, e.clientY);
     handlePointerDown(x, y);
@@ -1028,26 +1072,61 @@
   });
   window.addEventListener('mouseup', handlePointerUp);
 
-  // Mobile Touch Listeners
+  // Mobile Touch Gestures
   canvas.addEventListener('touchstart', (e)=>{
     if(e.touches.length === 1){
+      isPinching = false;
       const t = e.touches[0];
       const {x, y} = getCanvasCoords(t.clientX, t.clientY);
       handlePointerDown(x, y);
-      e.preventDefault();
+    } else if(e.touches.length === 2){
+      isPinching = true;
+      isDragging = false;
+      isDrawingRect = false;
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      initialPinchDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
+      initialScale = currentScale;
+      pinchMidX = (t1.clientX + t2.clientX) / 2;
+      pinchMidY = (t1.clientY + t2.clientY) / 2;
     }
+    e.preventDefault();
   }, { passive: false });
 
   canvas.addEventListener('touchmove', (e)=>{
-    if(e.touches.length === 1){
+    if(e.touches.length === 1 && !isPinching){
       const t = e.touches[0];
       const {x, y} = getCanvasCoords(t.clientX, t.clientY);
       handlePointerMove(x, y);
-      e.preventDefault();
+    } else if(e.touches.length === 2){
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const currentDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
+      if(initialPinchDist > 0){
+        const zoomRatio = currentDist / initialPinchDist;
+        const newScale = Math.max(0.3, Math.min(3.0, initialScale * zoomRatio));
+        const factor = newScale / currentScale;
+        
+        const {x: cx, y: cy} = getCanvasCoords(pinchMidX, pinchMidY);
+        points.forEach(p => {
+          p.x = cx + (p.x - cx) * factor;
+          p.y = cy + (p.y - cy) * factor;
+        });
+
+        currentScale = newScale;
+        updateScaleLabel();
+        redraw();
+      }
     }
+    e.preventDefault();
   }, { passive: false });
 
-  window.addEventListener('touchend', handlePointerUp);
+  window.addEventListener('touchend', (e)=>{
+    if(e.touches.length === 0){
+      isPinching = false;
+      handlePointerUp();
+    }
+  });
 
   window.addEventListener('keydown', (e)=>{
     if(e.key === 'Escape'){
@@ -1161,7 +1240,7 @@
     if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset')){
       ctx.save();
       ctx.beginPath();
-      ctx.arc(snapLinePoint.x, snapLinePoint.y, 5, 0, Math.PI * 2);
+      ctx.arc(snapLinePoint.x, snapLinePoint.y, 6, 0, Math.PI * 2);
       ctx.fillStyle = currentMode === 'partition' ? '#0066CC' : '#C59B27';
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
@@ -1175,16 +1254,16 @@
       const isPart = (p.group === 'partition');
 
       ctx.beginPath();
-      ctx.arc(p.x, p.y, isActive ? 6 : 4, 0, Math.PI*2);
+      ctx.arc(p.x, p.y, isActive ? 7 : 5, 0, Math.PI*2);
       ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? '#C59B27' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
       ctx.lineWidth = 1.6;
       ctx.stroke();
 
-      ctx.font = "600 10px sans-serif";
+      ctx.font = "600 10.5px sans-serif";
       ctx.fillStyle = isPart ? '#0066CC' : '#5A5747';
-      ctx.fillText(`P${idx+1}`, p.x+5, p.y-4);
+      ctx.fillText(`P${idx+1}`, p.x+6, p.y-5);
     });
   }
 
@@ -1197,7 +1276,7 @@
   function calculateTable(){
     const triangles = analyzeTriangles();
     if(!triangles.length){
-      tableContainer.innerHTML = '<p style="color:var(--danger);font-size:12px;">പൂർണ്ണമായ ത്രികോണങ്ങളോ പ്ലോട്ടുകളോ കണ്ടെത്തിയില്ല. ഡയഗണലുകൾ നൽകി ബന്ധിപ്പിക്കുക.</p>';
+      tableContainer.innerHTML = '<p style="color:var(--danger);font-size:11px;">പൂർണ്ണമായ ത്രികോണങ്ങളോ പ്ലോട്ടുകളോ കണ്ടെത്തിയില്ല. ഡയഗണലുകൾ നൽകി ബന്ധിപ്പിക്കുക.</p>';
       return;
     }
 
@@ -1261,7 +1340,7 @@
         </tr>
       </tbody>
     </table>
-    <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;">ആകെ ചതുരശ്ര അടി: <b>${totalSqft.toFixed(2)} Sq.ft</b></div>
+    <div style="font-size:10px;color:var(--ink-soft);margin-top:4px;">ആകെ ചതുരശ്ര അടി: <b>${totalSqft.toFixed(2)} Sq.ft</b></div>
     `;
 
     tableContainer.innerHTML = tableHtml;
@@ -1295,7 +1374,7 @@
       currentScale = 1.0;
       updateScaleLabel();
       redraw();
-      tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:12px;margin:4px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
+      tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:11px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
     }
   });
 
