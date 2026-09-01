@@ -3,74 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD & A4 ഷീറ്റ്</title>
+<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD</title>
 <meta name="theme-color" content="#1B261A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SurveyCAD">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%231B261A'/%3E%3Cpolygon points='110,380 90,160 360,90 430,340' fill='%23276E2C' fill-opacity='0.25' stroke='%23C59B27' stroke-width='16' stroke-linejoin='round'/%3E%3Cline x1='90' y1='160' x2='430' y2='340' stroke='%23FFFFFF' stroke-width='10' stroke-dasharray='16 12'/%3E%3Cline x1='260' y1='250' x2='360' y2='90' stroke='%2300B4D8' stroke-width='12'/%3E%3Ccircle cx='110' cy='380' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='90' cy='160' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='360' cy='90' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='430' cy='340' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='260' cy='250' r='14' fill='%2300B4D8' stroke='%23FFFFFF' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%231B261A'/%3E%3Cpolygon points='110,380 90,160 360,90 430,340' fill='%23276E2C' fill-opacity='0.25' stroke='%23C59B27' stroke-width='16' stroke-linejoin='round'/%3E%3Cline x1='90' y1='160' x2='430' y2='340' stroke='%23FFFFFF' stroke-width='10' stroke-dasharray='16 12'/%3E%3Cline x1='260' y1='250' x2='360' y2='90' stroke='%2300B4D8' stroke-width='12'/%3E%3Ccircle cx='110' cy='380' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='90' cy='160' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='360' cy='90' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='430' cy='340' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='260' cy='250' r='14' fill='%2300B4D8' stroke='%23FFFFFF' stroke-width='4'/%3E%3C/svg%3E">
+
+<link rel="manifest" href='data:application/manifest+json,{"name":"ചെയിൻ സർവേയർ CAD","short_name":"SurveyCAD","description":"A4 Land Sketch, Cross Offset and Area Calculator","start_url":".","display":"standalone","background_color":"%23F2EFE9","theme_color":"%231B261A","orientation":"any","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27%3E%3Crect width=%27512%27 height=%27512%27 rx=%27110%27 fill=%27%231B261A%27/%3E%3Cpolygon points=%27110,380 90,160 360,90 430,340%27 fill=%27%23276E2C%27 fill-opacity=%270.25%27 stroke=%27%23C59B27%27 stroke-width=%2716%27 stroke-linejoin=%27round%27/%3E%3Cline x1=%2790%27 y1=%27160%27 x2=%27430%27 y2=%27340%27 stroke=%27%23FFFFFF%27 stroke-width=%2710%27 stroke-dasharray=%2716 12%27/%3E%3Cline x1=%27260%27 y1=%27250%27 x2=%27360%27 y2=%2790%27 stroke=%27%2300B4D8%27 stroke-width=%2712%27/%3E%3Ccircle cx=%27110%27 cy=%27380%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%2790%27 cy=%27160%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%27360%27 cy=%2790%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%27430%27 cy=%27340%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%27260%27 cy=%27250%27 r=%2714%27 fill=%27%2300B4D8%27 stroke=%27%23FFFFFF%27 stroke-width=%274%27/%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}'>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root{
-    --desk-bg:#3A3D40;
+    --bg:#F2EFE9;
     --paper:#FFFFFF;
-    --ink:#111A10;
-    --ink-soft:#555244;
-    --outer:#0D140C;
+    --grid:#E5DFC9;
+    --ink:#1B261A;
+    --ink-soft:#5A5747;
+    --outer:#111A10;
     --inner:#7A5E2E;
     --road:#C0392B;
     --accent:#276E2C;
     --accent-dark:#184A1C;
     --part-color:#0066CC;
     --brass:#C59B27;
+    --danger:#C0392B;
+    --card:#FFFFFF;
     --border:#CDC1A7;
-    --shadow:0 8px 30px rgba(0,0,0,0.45);
+    --shadow:0 3px 10px rgba(0,0,0,0.05);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   body{
     margin:0;
-    background:var(--desk-bg);
+    background:var(--bg);
     font-family:'Noto Sans Malayalam', sans-serif;
     color:var(--ink);
-    padding:4px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    min-height:100vh;
+    padding:6px 6px 20px;
+    overscroll-behavior-y:contain;
   }
-  .app{width:100%;max-width:980px;}
+  .app{max-width:1180px;margin:0 auto;position:relative;}
+  
+  /* Compact Header */
+  header{
+    display:flex;justify-content:space-between;align-items:center;
+    border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:6px;
+  }
+  h1{margin:0;font-size:16px;font-weight:700;color:var(--ink);}
+  .header-actions{display:flex;align-items:center;gap:6px;}
+  .tag{
+    background:var(--accent);color:#fff;font-size:10px;font-weight:700;
+    padding:2px 6px;border-radius:4px;letter-spacing:0.5px;
+  }
+  .install-btn{
+    background:var(--ink);color:#fff;font-size:10.5px;font-weight:700;
+    padding:3px 7px;border-radius:4px;border:none;cursor:pointer;display:none;
+  }
 
-  /* Floating Sticky Control Panel */
-  .control-panel{
-    background:#FFFFFF;
-    border-radius:8px;
-    padding:6px 8px;
-    margin-bottom:6px;
-    box-shadow:0 3px 12px rgba(0,0,0,0.25);
-    position:sticky;
-    top:4px;
-    z-index:50;
-  }
+  /* Tool Tabs Header */
   .tabs-nav{
-    display:flex;gap:4px;background:#EAE6DA;padding:3px;border-radius:6px;margin-bottom:6px;
+    display:flex;gap:4px;background:#E7E2D4;padding:3px;border-radius:6px;margin-bottom:6px;
     overflow-x:auto;white-space:nowrap;
   }
   .tab-btn{
-    flex:1;text-align:center;padding:6px 8px;font-size:12px;font-weight:700;
+    flex:1;text-align:center;padding:5px 8px;font-size:11.5px;font-weight:700;
     background:transparent;border:none;border-radius:4px;color:var(--ink-soft);cursor:pointer;
   }
   .tab-btn.active-tab{
-    background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.1);
+    background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.08);
   }
 
+  /* Toolbar Container for Tab Panels */
   .tab-panel{
-    display:none;align-items:center;gap:4px;
-    overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;
+    display:none;align-items:center;gap:4px;background:var(--card);
+    border:1px solid var(--border);border-radius:6px;padding:5px 8px;margin-bottom:6px;
+    overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;box-shadow:var(--shadow);
   }
   .tab-panel.active-panel{display:flex;}
+  .tab-panel::-webkit-scrollbar{height:3px;}
+  .tab-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
   button, select{
     font-family:inherit;font-size:11px;font-weight:600;
-    padding:6px 9px;border-radius:4px;border:1px solid var(--border);
+    padding:5px 8px;border-radius:4px;border:1px solid var(--border);
     background:#fff;color:var(--ink);cursor:pointer;transition:all .15s ease;
     flex-shrink:0;
   }
@@ -78,132 +97,116 @@
   button.active{background:var(--accent);border-color:var(--accent);color:#fff;}
   button.active-part{background:var(--part-color);border-color:var(--part-color);color:#fff;}
   button.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
-  button.danger{color:#C0392B;border-color:#C0392B;}
-  button.danger:hover{background:#C0392B;color:#fff;}
-  button.lock-active{background:#8A6D14;border-color:#654E0B;color:#fff;}
+  button.primary:hover{background:var(--accent-dark);}
+  button.danger{color:var(--danger);border-color:var(--danger);}
+  button.danger:hover{background:var(--danger);color:#fff;}
+  button.lock-active{background:#444;border-color:#222;color:#fff;}
   
   .scale-label{
-    font-family:Arial, sans-serif;font-size:11px;font-weight:700;
+    font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:700;
     padding:2px 4px;color:var(--accent-dark);
   }
 
-  /* Full Real A4 Paper Viewport */
-  .a4-page-shadow-wrapper{
-    width:100%;
-    display:flex;
-    justify-content:center;
-    padding:4px 0 30px;
-    overflow:auto;
-  }
-  .a4-sheet{
-    background:var(--paper);
-    width:100%;
-    max-width:820px;
-    min-height:1160px;
-    padding:16px 14px;
+  /* Maximized Canvas Container */
+  .a4-sheet-container{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:6px;
     box-shadow:var(--shadow);
     display:flex;
     flex-direction:column;
-    justify-content:space-between;
-    border:1px solid #ddd;
-    border-radius:2px;
-    box-sizing:border-box;
-    transform-origin:top center;
-    position:relative;
+    gap:8px;
   }
 
-  /* Compact Sheet Header */
-  .sheet-header{
-    display:flex;justify-content:space-between;align-items:center;
-    border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:4px;
-  }
-  .sheet-header h1{margin:0;font-size:15px;font-weight:700;color:var(--ink);}
-  .sheet-tag{
-    background:var(--accent);color:#fff;font-size:9.5px;font-weight:700;
-    padding:2px 6px;border-radius:3px;
-  }
-
-  /* Full-Page Canvas Box */
   .canvas-box{
     position:relative;
     width:100%;
-    background:#FFFFFF;
-    border:1px solid #BBB;
-    border-radius:4px;
+    background:var(--paper);
+    border-radius:6px;
+    border:1px solid var(--grid);
     overflow:hidden;
     touch-action:none;
-    display:flex;
-    flex-direction:column;
   }
+
   .legend{
-    display:flex;gap:12px;font-size:10px;color:var(--ink-soft);padding:4px 6px;background:#FAF8F5;border-bottom:1px solid #E5E0D5;flex-wrap:wrap;
+    display:flex;gap:10px;font-size:10.5px;color:var(--ink-soft);padding:2px 2px 4px;flex-wrap:wrap;
   }
   .legend span{display:inline-flex;align-items:center;gap:4px;}
-  .swatch{width:14px;height:0;border-top:2.2px solid var(--outer);display:inline-block;}
-  .swatch.part{border-top:2.2px solid var(--part-color);}
+  .swatch{width:14px;height:0;border-top:2.4px solid var(--outer);display:inline-block;}
+  .swatch.part{border-top:2.4px solid var(--part-color);}
   .swatch.offset{border-top:1.8px dashed var(--road);}
   .swatch.dot{border-top:1.8px dashed var(--inner);}
-  .swatch.snap{width:10px;height:10px;border-radius:50%;background:#FF8C00;border:1.5px solid #fff;display:inline-block;}
-  .swatch.junc{width:10px;height:10px;border-radius:50%;background:#27AE60;border:1.5px solid #fff;display:inline-block;}
   
+  /* Large high-res canvas */
   canvas{
-    display:block;width:100%;height:auto;background:#FFFFFF;cursor:crosshair;touch-action:none;
+    display:block;width:100%;height:auto;background:var(--paper);cursor:crosshair;touch-action:none;
   }
   .status-bar{
-    font-size:11px;color:var(--brass);margin-top:4px;padding:2px 4px;font-weight:600;
+    font-size:11px;color:var(--brass);margin-top:3px;padding:1px 2px;font-weight:600;
   }
 
-  /* Print-only Bottom Section */
-  .print-bottom-section{
-    display:none;
-    margin-top:8px;
-    border-top:1.5px solid #222;
-    padding-top:6px;
+  .bottom-section{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap:8px;
+    align-items:start;
   }
-
-  /* Drawer / Modal Table for On-screen View */
-  .drawer-backdrop{
-    position:fixed;inset:0;background:rgba(0,0,0,0.45);
-    display:flex;align-items:flex-end;justify-content:center;z-index:90;
+  @media(max-width:768px){
+    .bottom-section{grid-template-columns:1fr;}
   }
-  .drawer-backdrop.hidden{display:none;}
-  .drawer{
-    background:#fff;border-radius:12px 12px 0 0;padding:16px;width:100%;max-width:700px;
-    box-shadow:0 -4px 20px rgba(0,0,0,0.3);max-height:80vh;overflow-y:auto;
+  .sheet-wrapper{
+    background:#FAFAF7;border:1px solid var(--border);border-radius:6px;
+    padding:8px;
   }
-  .drawer-header{
+  .table-header-block{
     display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--ink);
-    padding-bottom:6px;margin-bottom:10px;
+    padding-bottom:3px;margin-bottom:4px;
   }
-  .drawer-header h2{margin:0;font-size:14px;}
+  .table-header-block h2{margin:0;font-size:12.5px;color:var(--ink);}
+  .table-header-block .survey-date{font-size:10.5px;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;}
 
   table{
-    width:100%;border-collapse:collapse;font-size:11px;text-align:left;
+    width:100%;border-collapse:collapse;font-size:10.5px;text-align:left;
   }
   th, td{
-    padding:5px 6px;border-bottom:1px solid #D5CEBD;
+    padding:4px 5px;border-bottom:1px solid var(--border);
   }
-  th{background:#EFECE2;font-weight:600;color:var(--ink);border-top:1px solid #D5CEBD;}
-  td.mono{font-family:Arial, sans-serif;font-weight:600;}
+  th{background:#EFECE2;font-weight:600;color:var(--ink);border-top:1px solid var(--border);}
+  td.mono{font-family:'JetBrains Mono', monospace;font-weight:600;}
   .total-row{
-    background:#EEF4EC;font-weight:700;font-size:11.5px;color:var(--accent-dark);
+    background:#EEF4EC;font-weight:700;font-size:11px;color:var(--accent-dark);
+  }
+  
+  .note-box{
+    border:1px dashed var(--border);border-radius:6px;padding:6px;background:#fff;
+    font-size:10.5px;line-height:1.4;color:var(--ink-soft);
+  }
+  .sign-space{
+    margin-top:12px;display:flex;justify-content:space-between;font-weight:600;color:var(--ink);
   }
 
   .screen-footer-credits{
     display:flex;
     justify-content:flex-end;
     align-items:center;
-    font-family:Arial, sans-serif;
+    font-family:'JetBrains Mono', monospace;
     font-size:10.5px;
     font-weight:600;
-    color:#EEE;
-    margin-top:4px;
-    padding:2px 8px;
+    color:var(--ink-soft);
+    margin-top:8px;
+    padding:3px 6px;
+    background:rgba(255,255,255,0.7);
+    border:1px solid var(--border);
+    border-radius:4px;
+  }
+  .screen-footer-credits span{
+    color:var(--accent-dark);
+    font-weight:700;
   }
 
-  /* Modals */
   .modal-backdrop{
-    position:fixed;inset:0;background:rgba(0,0,0,0.5);
+    position:fixed;inset:0;background:rgba(0,0,0,0.45);
     display:flex;align-items:center;justify-content:center;z-index:100;
     padding:10px;
   }
@@ -214,128 +217,176 @@
   .modal h3{margin:0 0 6px;font-size:13.5px;}
   .modal label{display:block;font-size:11px;color:var(--ink-soft);margin-bottom:2px;font-weight:600;}
   .modal input, .modal select{
-    width:100%;font-family:Arial, sans-serif;font-size:13px;
+    width:100%;font-family:'JetBrains Mono', monospace;font-size:13px;
     padding:6px 8px;border-radius:4px;border:1px solid var(--border);margin-bottom:8px;
   }
   .modal-actions{display:flex;justify-content:flex-end;gap:5px;}
 
   @media print{
-    @page { size: A4 portrait; margin: 5mm; }
+    @page { size: A4 portrait; margin: 8mm; }
     body{background:#fff;padding:0;}
-    .control-panel, .modal-backdrop, .drawer-backdrop, .status-bar, .screen-footer-credits{
+    .tabs-nav, .tab-panel, .modal-backdrop, .status-bar, .tag, .install-btn, button, select, .screen-footer-credits{
       display:none !important;
     }
-    .a4-page-shadow-wrapper{padding:0;overflow:visible;}
-    .a4-sheet{
-      border:1.5px solid #222;box-shadow:none;padding:8px;margin:0;max-width:100%;
-      min-height:285mm;height:285mm;display:flex;flex-direction:column;justify-content:space-between;
-      transform:none !important;
-      zoom:1 !important;
+    .a4-sheet-container{
+      border:1.5px solid #333;box-shadow:none;padding:8px;margin:0;border-radius:0;
+      height:280mm;display:flex;flex-direction:column;justify-content:space-between;
     }
-    .canvas-box{border:1px solid #555;}
-    .print-bottom-section{
-      display:grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap:8px;
-    }
-    .print-sheet-wrapper{background:#fff;border:1px solid #777;padding:4px;}
-    .print-note-box{border:1px solid #777;padding:4px;font-size:9.5px;}
+    .canvas-box{border:1px solid #777;border-radius:0;}
+    canvas{max-height:165mm;}
+    .bottom-section{grid-template-columns:1.4fr 1fr;gap:6px;margin-top:auto;}
+    .sheet-wrapper{background:#fff;border:1px solid #777;padding:5px;border-radius:0;}
+    .note-box{border:1px solid #777;border-radius:0;padding:5px;}
     table{font-size:9.5px;}
-    th, td{padding:3px 4px;}
+    th, td{padding:3px 5px;}
+  }
+
+  /* ---- Mobile-friendly adjustments ---- */
+  button, select, .tab-btn{ touch-action:manipulation; }
+  @media (max-width:640px){
+    button, select, .tab-btn{
+      min-height:38px;
+      padding:7px 10px;
+      font-size:12.5px;
+    }
+    h1{font-size:14.5px;}
+    .table-header-block h2{font-size:12px;}
+  }
+  /* iOS/Android zoom in when a focused input's font-size is under 16px - keep modal
+     inputs and selects at 16px on touch/narrow screens so focusing them doesn't zoom the page. */
+  @media (max-width:640px), (hover:none){
+    .modal input, .modal select{ font-size:16px; }
+  }
+
+  .canvas-box{ position:relative; }
+  .fullscreen-toggle-btn{
+    position:absolute; top:8px; right:8px; z-index:5;
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(255,255,255,0.92); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-size:17px; box-shadow:var(--shadow); cursor:pointer; padding:0;
+    touch-action:manipulation;
+  }
+  .landscape-hint{
+    display:none; text-align:center; font-size:11px; color:var(--brass);
+    margin-top:4px; font-weight:600;
+  }
+
+  body.app-fullscreen{ overflow:hidden; }
+  body.app-fullscreen .app{
+    position:fixed; inset:0; z-index:300; max-width:none; margin:0;
+    background:var(--bg); display:flex; flex-direction:column; padding:6px;
+  }
+  body.app-fullscreen header,
+  body.app-fullscreen .bottom-section,
+  body.app-fullscreen .screen-footer-credits,
+  body.app-fullscreen .legend{ display:none !important; }
+  body.app-fullscreen .a4-sheet-container{ flex:1; min-height:0; padding:4px; }
+  body.app-fullscreen .a4-sheet-container > div:first-child{
+    flex:1; min-height:0; display:flex; flex-direction:column;
+  }
+  body.app-fullscreen .canvas-box{
+    flex:1; min-height:0; display:flex; align-items:center; justify-content:center;
+  }
+  body.app-fullscreen canvas{
+    width:auto !important; height:auto !important; max-width:100%; max-height:100%;
+  }
+  @media (orientation:portrait){
+    body.app-fullscreen .landscape-hint{ display:block; }
   }
 </style>
 </head>
 <body>
 
-<div class="app">
-  <div class="control-panel">
-    <div class="tabs-nav">
-      <button class="tab-btn active-tab" data-tab="tabDraw">✏️ വരയ്ക്കൽ (Draw)</button>
-      <button class="tab-btn" data-tab="tabEdit">🛠️ എഡിറ്റ് &amp; സൂം (Edit)</button>
-      <button class="tab-btn" data-tab="tabPartition">✂️ പാർട്ടീഷൻ (Part)</button>
-      <button class="tab-btn" data-tab="tabReport">📊 റിപ്പോർട്ട് &amp; DXF</button>
+<div class="app" id="printArea">
+  <header>
+    <h1>ചെയിൻ സർവേ CAD</h1>
+    <div class="header-actions">
+      <button id="installAppBtn" class="install-btn">📲 ഇൻസ്റ്റാൾ</button>
+      <span class="tag">CAD PRO</span>
     </div>
+  </header>
 
-    <!-- Panel 1: Draw -->
-    <div class="tab-panel active-panel" id="tabDraw">
-      <button id="modeDraw" class="active">✏️ പ്ലോട്ട്</button>
-      <button id="modeRect">⬛ ചതുരം</button>
-      <button id="modeOffset">⟂ ഓഫ്‌സെറ്റ് (90°)</button>
-      <button id="undoBtn">↩ Undo</button>
-      <button id="clearBtn" class="danger">🗑 ക്ലിയർ</button>
-      <div style="flex:1;"></div>
-      <button id="drawZoomOutBtn">🔍 -</button>
-      <span class="scale-label" id="drawScaleLabel1">100%</span>
-      <button id="drawZoomInBtn">🔍 +</button>
-    </div>
-
-    <!-- Panel 2: Edit & View -->
-    <div class="tab-panel" id="tabEdit">
-      <button id="lockDrawingBtn" class="primary" style="background:#8A6D14;border-color:#654E0B;">🔒 ഡ്രോയിംഗ് ലോക്ക് (Pan/Zoom)</button>
-      <button id="modeValue">📏 അളവ് മാറ്റുക</button>
-      <button id="modeColor">🎨 കളർ</button>
-      <button id="modeDelete" class="danger">❌ ഒഴിവാക്കുക</button>
-      <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
-      <button id="zoomOutBtn">🔍 -</button>
-      <span class="scale-label" id="drawScaleLabel2">100%</span>
-      <button id="zoomInBtn">🔍 +</button>
-      <button id="zoomResetBtn">Reset</button>
-    </div>
-
-    <!-- Panel 3: Partition -->
-    <div class="tab-panel" id="tabPartition">
-      <button id="lockMainBtn">🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്</button>
-      <button id="modePartition">✂️ പാർട്ട് വരയ്ക്കുക</button>
-      <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
-    </div>
-
-    <!-- Panel 4: Report, DXF & Print -->
-    <div class="tab-panel" id="tabReport">
-      <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണ പട്ടിക</button>
-      <button id="dxfExportBtn" class="primary" style="background:#0066CC;border-color:#004C99;">📁 DXF ഡൗൺലോഡ്</button>
-      <select id="pdfOrientation">
-        <option value="portrait">📄 A4 Portrait</option>
-        <option value="landscape">📑 A4 Landscape</option>
-      </select>
-      <button id="printBtn" class="primary">🖨️ PDF / Print</button>
-    </div>
+  <!-- Categorized Tabs Navigation -->
+  <div class="tabs-nav">
+    <button class="tab-btn active-tab" data-tab="tabDraw">✏️ വരയ്ക്കൽ (Draw)</button>
+    <button class="tab-btn" data-tab="tabEdit">🛠️ എഡിറ്റ് &amp; വ്യൂ (Edit)</button>
+    <button class="tab-btn" data-tab="tabPartition">✂️ പാർട്ടീഷൻ (Part)</button>
+    <button class="tab-btn" data-tab="tabReport">📊 റിപ്പോർട്ട് (Report)</button>
   </div>
 
-  <!-- Real Full A4 Sheet Viewport -->
-  <div class="a4-page-shadow-wrapper">
-    <div class="a4-sheet" id="a4SheetElement">
-      <div class="sheet-header">
-        <div>
-          <h1>ചെയിൻ സർവേ സ്കെച്ച് &amp; ഫീൽഡ് പ്ലാൻ</h1>
-        </div>
-        <span class="sheet-tag">A4 FULL CANVAS</span>
-      </div>
+  <!-- Panel 1: Draw -->
+  <div class="tab-panel active-panel" id="tabDraw">
+    <button id="modeDraw" class="active">✏️ പ്ലോട്ട്</button>
+    <button id="modeRect">⬛ ചതുരം</button>
+    <button id="modeOffset">⟂ ഓഫ്‌സെറ്റ് (90°)</button>
+    <button id="undoBtn">↩ Undo</button>
+    <button id="clearBtn" class="danger">🗑 ക്ലിയർ</button>
+  </div>
 
+  <!-- Panel 2: Edit & View -->
+  <div class="tab-panel" id="tabEdit">
+    <button id="modeValue">📏 അളവ് മാറ്റുക</button>
+    <button id="modeColor">🎨 കളർ</button>
+    <button id="modeDelete" class="danger">❌ ഒഴിവാക്കുക</button>
+    <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
+    <button id="zoomOutBtn">🔍 -</button>
+    <span class="scale-label" id="scaleLabel">100%</span>
+    <button id="zoomInBtn">🔍 +</button>
+    <button id="zoomResetBtn">Reset</button>
+  </div>
+
+  <!-- Panel 3: Partition -->
+  <div class="tab-panel" id="tabPartition">
+    <button id="lockMainBtn">🔓 മെയിൻ ലോക്ക്</button>
+    <button id="modePartition">✂️ പാർട്ട് വരയ്ക്കുക</button>
+    <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
+  </div>
+
+  <!-- Panel 4: Report & Print -->
+  <div class="tab-panel" id="tabReport">
+    <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണം</button>
+    <select id="pdfOrientation">
+      <option value="portrait">📄 A4 Portrait</option>
+      <option value="landscape">📑 A4 Landscape</option>
+    </select>
+    <button id="printBtn" class="primary">🖨️ PDF / Print</button>
+  </div>
+
+  <div class="a4-sheet-container">
+    <div>
+      <div class="legend">
+        <span><span class="swatch"></span> അതിർത്തി</span>
+        <span><span class="swatch part"></span> പാർട്ടീഷൻ</span>
+        <span><span class="swatch offset"></span> ഓഫ്‌സെറ്റ്</span>
+        <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ</span>
+      </div>
       <div class="canvas-box">
-        <div class="legend">
-          <span><span class="swatch"></span> അതിർത്തി</span>
-          <span><span class="swatch part"></span> പാർട്ടീഷൻ</span>
-          <span><span class="swatch offset"></span> ഓഫ്‌സെറ്റ് (90°)</span>
-          <span><span class="swatch snap"></span> പോയിന്റ് സ്നാപ്പ്</span>
-          <span><span class="swatch junc"></span> ജംഗ്ഷൻ സ്നാപ്പ് (✕)</span>
-        </div>
-        <canvas id="canvas" width="1000" height="920"></canvas>
+        <!-- Enlarged Canvas Dimension for crisp drawing -->
+        <canvas id="canvas" width="1000" height="620"></canvas>
+        <button id="fullscreenToggleBtn" class="fullscreen-toggle-btn" title="വലുതാക്കുക">⤢</button>
       </div>
-      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. പോയിന്റ്/ജംഗ്ഷൻ Snap ഓൺ ആണ്.</div>
+      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്.</div>
+      <div class="landscape-hint" id="landscapeHint">📱 കൂടുതൽ ഇടത്തിന് ഫോൺ ലാൻഡ്സ്കേപ്പ് ആക്കൂ</div>
+    </div>
 
-      <!-- Print-Only Bottom Area -->
-      <div class="print-bottom-section">
-        <div class="print-sheet-wrapper">
-          <div style="font-weight:700;font-size:11px;margin-bottom:3px;" id="printDateLabel">വിസ്തീർണ്ണ പട്ടിക (Area Statement)</div>
-          <div id="printTableContainer"></div>
+    <div class="bottom-section">
+      <div class="sheet-wrapper">
+        <div class="table-header-block">
+          <h2>വിസ്തീർണ്ണ പട്ടിക (Area Statement)</h2>
+          <div class="survey-date" id="surveyDateLabel">DATE: ---</div>
         </div>
-        <div class="print-note-box">
-          <b>പ്ലോട്ട് സർട്ടിഫിക്കേഷൻ:</b><br>
-          ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും അളവുകളും കൃത്യമായി തയ്യാറാക്കിയതാണ്.<br>
-          <div style="margin-top:20px;display:flex;justify-content:space-between;font-weight:600;">
-            <span>സർവേയർ ഒപ്പ്</span>
-            <span>ഉടമസ്ഥന്റെ ഒപ്പ്</span>
-          </div>
+        <div id="tableContainer">
+          <p style="color:var(--ink-soft);font-size:11px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>
+        </div>
+      </div>
+
+      <div class="note-box">
+        <b>പ്ലോട്ട് വിവരണം &amp; സർട്ടിഫിക്കറ്റ്:</b><br>
+        ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും കൃത്യമായ ചെയിൻ സർവേ രീതിയിൽ തയ്യാറാക്കിയതാണ്.<br>
+        <div class="sign-space">
+          <span>തയ്യാറാക്കിയത്: സർവേയർ</span>
+          <span>ഉടമസ്ഥന്റെ ഒപ്പ്</span>
         </div>
       </div>
     </div>
@@ -346,23 +397,12 @@
   </div>
 </div>
 
-<!-- On-Screen Area Statement Drawer -->
-<div class="drawer-backdrop hidden" id="areaDrawer">
-  <div class="drawer">
-    <div class="drawer-header">
-      <h2>ഫീൽഡ് ബുക്ക് വിസ്തീർണ്ണ പട്ടിക (Area Statement)</h2>
-      <button id="closeDrawerBtn">✕ അടയ്ക്കുക</button>
-    </div>
-    <div id="screenTableContainer"></div>
-  </div>
-</div>
-
-<!-- Modal: Dimension Edit -->
+<!-- Modals -->
 <div class="modal-backdrop hidden" id="lengthModal">
   <div class="modal">
     <h3 id="modalTitle">വരയുടെ അളവ് നൽകുക</h3>
     <label for="lengthInput">പുതിയ അളവ് (മീറ്ററിൽ):</label>
-    <input type="number" id="lengthInput" step="0.01" min="0.01" placeholder="ഉദാ: 15.50">
+    <input type="number" id="lengthInput" step="0.01" min="0.01" inputmode="decimal" placeholder="ഉദാ: 15.50">
     
     <label for="lockPointSelect">സ്ഥിരമായി ലോക്ക് ചെയ്യേണ്ട പോയിന്റ്:</label>
     <select id="lockPointSelect"></select>
@@ -374,22 +414,28 @@
   </div>
 </div>
 
-<!-- Modal: Cross Offset -->
 <div class="modal-backdrop hidden" id="offsetModal">
   <div class="modal">
     <h3>⟂ ക്രോസ് ഓഫ്‌സെറ്റ് നൽകുക (90°)</h3>
     <p id="offsetLineInfo" style="font-size:11px;color:var(--accent-dark);margin:0 0 6px;font-weight:600;"></p>
     
     <label for="chainageInput">തുടക്കത്തിൽ നിന്നുള്ള ചെയിനേജ് (m):</label>
-    <input type="number" id="chainageInput" step="0.01" min="0" placeholder="ഉദാ: 12.5">
+    <input type="number" id="chainageInput" step="0.01" min="0" inputmode="decimal" placeholder="ഉദാ: 12.5">
 
     <label for="offsetLenInput">ഓഫ്‌സെറ്റ് നീളം (m):</label>
-    <input type="number" id="offsetLenInput" step="0.01" min="0.01" placeholder="ഉദാ: 4.8">
+    <input type="number" id="offsetLenInput" step="0.01" min="0.01" inputmode="decimal" placeholder="ഉദാ: 4.8">
 
     <label for="offsetSideSelect">ഓഫ്‌സെറ്റ് വശം:</label>
     <select id="offsetSideSelect">
       <option value="left">ഇടതുവശത്തേക്ക് (Left 90°)</option>
       <option value="right">വലതുവശത്തേക്ക് (Right 90°)</option>
+    </select>
+
+    <label for="offsetAreaModeSelect">വിസ്തീർണ്ണത്തിൽ സ്വാധീനം:</label>
+    <select id="offsetAreaModeSelect">
+      <option value="none">ഫീച്ചർ മാത്രം (Area മാറില്ല)</option>
+      <option value="subtract">അകത്തേക്ക് കയറ്റം — Area കുറയ്ക്കുക (−)</option>
+      <option value="add">പുറത്തേക്ക് തള്ളൽ — Area കൂട്ടുക (+)</option>
     </select>
 
     <div class="modal-actions">
@@ -399,7 +445,6 @@
   </div>
 </div>
 
-<!-- Modal: Line Color Picker -->
 <div class="modal-backdrop hidden" id="colorModal">
   <div class="modal">
     <h3>ലൈൻ കളർ മാറ്റുക</h3>
@@ -420,7 +465,7 @@
 
 <script>
 (function(){
-  // Tab Navigation
+  // Tab Switching Logic
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabPanels = document.querySelectorAll('.tab-panel');
   tabBtns.forEach(btn => {
@@ -433,12 +478,33 @@
     });
   });
 
+  // PWA Install Prompt
+  let deferredPrompt;
+  const installAppBtn = document.getElementById('installAppBtn');
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredPrompt = e;
+    installAppBtn.style.display = 'inline-block';
+  });
+
+  installAppBtn.addEventListener('click', async ()=>{
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if(outcome === 'accepted'){
+        installAppBtn.style.display = 'none';
+      }
+      deferredPrompt = null;
+    }
+  });
+
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   const CW = canvas.width, CH = canvas.height;
   
-  const SNAP = 24;
-  const LINE_SNAP = 18;
+  const IS_TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  const SNAP = IS_TOUCH ? 32 : 24;
+  const LINE_SNAP = IS_TOUCH ? 24 : 18;
   const BASE_PIXELS_PER_METER = 12;
 
   let currentScale = 1.0;
@@ -447,11 +513,9 @@
   let undoStack = [];
   let nextPtId = 1, nextEdgeId = 1;
   let isMainLocked = false;
-  let isDrawingLocked = false;
   
   let activeStartPoint = null;
   let hoverPoint = null;
-  let hoverIntersection = null;
   let snapLinePoint = null;
   let currentMode = 'draw';
   let editingEdge = null;
@@ -460,17 +524,16 @@
   let isDragging = false;
   let dragStartX = 0, dragStartY = 0;
 
-  // Touch tracking for pinch
-  let touchPointers = new Map();
+  // Two-Finger Pinch Zoom State
+  let isPinching = false;
   let initialPinchDist = 0;
   let initialScale = 1.0;
-  let pinchMidX = CW / 2, pinchMidY = CH / 2;
+  let pinchMidX = 0, pinchMidY = 0;
 
   let isDrawingRect = false;
   let rectStartX = 0, rectStartY = 0, rectCurX = 0, rectCurY = 0;
 
   // DOM Elements
-  const lockDrawingBtn = document.getElementById('lockDrawingBtn');
   const lockMainBtn = document.getElementById('lockMainBtn');
   const modeDrawBtn = document.getElementById('modeDraw');
   const modeRectBtn = document.getElementById('modeRect');
@@ -481,19 +544,10 @@
   const modeMoveAllBtn = document.getElementById('modeMoveAll');
   const modeDeleteBtn = document.getElementById('modeDelete');
   const modeValueBtn = document.getElementById('modeValue');
-  
-  const zoomInBtn = document.getElementById('zoomInBtn');
-  const zoomOutBtn = document.getElementById('zoomOutBtn');
-  const zoomResetBtn = document.getElementById('zoomResetBtn');
-  const drawZoomInBtn = document.getElementById('drawZoomInBtn');
-  const drawZoomOutBtn = document.getElementById('drawZoomOutBtn');
-
+  const scaleLabel = document.getElementById('scaleLabel');
   const statusBar = document.getElementById('statusBar');
-  const printTableContainer = document.getElementById('printTableContainer');
-  const screenTableContainer = document.getElementById('screenTableContainer');
-  const areaDrawer = document.getElementById('areaDrawer');
-  const closeDrawerBtn = document.getElementById('closeDrawerBtn');
-  const dxfExportBtn = document.getElementById('dxfExportBtn');
+  const tableContainer = document.getElementById('tableContainer');
+  const surveyDateLabel = document.getElementById('surveyDateLabel');
 
   const lengthModal = document.getElementById('lengthModal');
   const lengthInput = document.getElementById('lengthInput');
@@ -505,45 +559,28 @@
   const chainageInput = document.getElementById('chainageInput');
   const offsetLenInput = document.getElementById('offsetLenInput');
   const offsetSideSelect = document.getElementById('offsetSideSelect');
+  const offsetAreaModeSelect = document.getElementById('offsetAreaModeSelect');
 
   const colorModal = document.getElementById('colorModal');
   const lineColorSelect = document.getElementById('lineColorSelect');
 
   const now = new Date();
-  document.getElementById('printDateLabel').textContent = `വിസ്തീർണ്ണ പട്ടിക (DATE: ${now.toLocaleDateString('en-GB')})`;
+  surveyDateLabel.textContent = `DATE: ${now.toLocaleDateString('en-GB')}`;
 
-  const STORAGE_KEY = 'survey_cad_app_data_v3';
-
-  function saveToLocalStorage(){
-    const state = { points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked };
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch(e) {}
+  // ---- Mobile fullscreen canvas toggle ----
+  const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
+  function setAppFullscreen(on){
+    document.body.classList.toggle('app-fullscreen', on);
+    fullscreenToggleBtn.textContent = on ? '✕' : '⤢';
+    fullscreenToggleBtn.title = on ? 'എക്സിറ്റ് ചെയ്യുക' : 'വലുതാക്കുക';
   }
-
-  function loadFromLocalStorage(){
-    try {
-      const dataStr = localStorage.getItem(STORAGE_KEY);
-      if(dataStr){
-        const data = JSON.parse(dataStr);
-        points = data.points || [];
-        edges = data.edges || [];
-        nextPtId = data.nextPtId || 1;
-        nextEdgeId = data.nextEdgeId || 1;
-        currentScale = data.currentScale || 1.0;
-        isMainLocked = !!data.isMainLocked;
-        isDrawingLocked = false; // Always ensure drawing is unlocked on startup
-        updateLockUI();
-        updateDrawingLockUI();
-        updateScaleLabel();
-      }
-    } catch(e) {}
-  }
+  fullscreenToggleBtn.addEventListener('click', ()=>{
+    setAppFullscreen(!document.body.classList.contains('app-fullscreen'));
+  });
 
   function saveSnapshot(){
     undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked}));
     if(undoStack.length > 50) undoStack.shift();
-    saveToLocalStorage();
   }
 
   function undo(){
@@ -556,8 +593,8 @@
     currentScale = data.currentScale || 1.0;
     isMainLocked = !!data.isMainLocked;
     updateLockUI();
+    updateScaleLabel();
     activeStartPoint = null;
-    saveToLocalStorage();
     redraw();
   }
 
@@ -569,48 +606,6 @@
       if(dist(x, y, p.x, p.y) < SNAP) return p;
     }
     return null;
-  }
-
-  function getLineIntersection(p1, p2, p3, p4){
-    const d = (p1.x - p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x - p4.x);
-    if(Math.abs(d) < 1e-6) return null;
-
-    const t = ((p1.x - p3.x) * (p3.y - p4.y) - (p1.y - p3.y) * (p3.x - p4.x)) / d;
-    const u = -((p1.x - p2.x) * (p1.y - p3.y) - (p1.y - p2.y) * (p1.x - p3.x)) / d;
-
-    if(t >= 0 && t <= 1 && u >= 0 && u <= 1){
-      return {
-        x: p1.x + t * (p2.x - p1.x),
-        y: p1.y + t * (p2.y - p1.y)
-      };
-    }
-    return null;
-  }
-
-  function findSnapIntersection(x, y){
-    let best = null, minD = SNAP;
-    for(let i = 0; i < edges.length; i++){
-      for(let j = i + 1; j < edges.length; j++){
-        const e1 = edges[i], e2 = edges[j];
-        if(e1.a === e2.a || e1.a === e2.b || e1.b === e2.a || e1.b === e2.b) continue;
-
-        const p1 = points.find(p=>p.id===e1.a);
-        const p2 = points.find(p=>p.id===e1.b);
-        const p3 = points.find(p=>p.id===e2.a);
-        const p4 = points.find(p=>p.id===e2.b);
-        if(!p1 || !p2 || !p3 || !p4) continue;
-
-        const inter = getLineIntersection(p1, p2, p3, p4);
-        if(inter){
-          const d = dist(x, y, inter.x, inter.y);
-          if(d < minD){
-            minD = d;
-            best = { x: inter.x, y: inter.y, edge1: e1, edge2: e2 };
-          }
-        }
-      }
-    }
-    return best;
   }
 
   function projectPointOnSegment(px, py, ax, ay, bx, by){
@@ -661,7 +656,7 @@
       b: bId, 
       length, 
       isPartition, 
-      isOffset, 
+      isOffset,
       group: isPartition ? 'partition' : 'main', 
       customColor: null 
     };
@@ -691,11 +686,7 @@
   }
 
   function updateScaleLabel(){
-    const text = `${Math.round(currentScale * 100)}%`;
-    const l1 = document.getElementById('drawScaleLabel1');
-    const l2 = document.getElementById('drawScaleLabel2');
-    if(l1) l1.textContent = text;
-    if(l2) l2.textContent = text;
+    scaleLabel.textContent = `${Math.round(currentScale * 100)}%`;
   }
 
   function updateLockUI(){
@@ -703,30 +694,10 @@
       lockMainBtn.textContent = '🔒 മെയിൻ ലോക്ക്ഡ്';
       lockMainBtn.classList.add('lock-active');
     } else {
-      lockMainBtn.textContent = '🔓 മെയിൻ പ്ലോട്ട് ലോക്ക്';
+      lockMainBtn.textContent = '🔓 മെയിൻ ലോക്ക്';
       lockMainBtn.classList.remove('lock-active');
     }
   }
-
-  function updateDrawingLockUI(){
-    if(isDrawingLocked){
-      lockDrawingBtn.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ് (Pan/Zoom)';
-      lockDrawingBtn.classList.add('lock-active');
-      statusBar.textContent = '🔒 ഡ്രോയിംഗ് ലോക്ക്ഡ്: കാൻവാസ് ഡ്രാഗ് ചെയ്ത് നീക്കാം, സൂം ചെയ്യാം.';
-      canvas.style.cursor = 'grab';
-    } else {
-      lockDrawingBtn.textContent = '🔓 ഡ്രോയിംഗ് അൺലോക്ക്';
-      lockDrawingBtn.classList.remove('lock-active');
-      setMode(currentMode);
-    }
-  }
-
-  lockDrawingBtn.addEventListener('click', ()=>{
-    isDrawingLocked = !isDrawingLocked;
-    activeStartPoint = null;
-    updateDrawingLockUI();
-    redraw();
-  });
 
   lockMainBtn.addEventListener('click', ()=>{
     isMainLocked = !isMainLocked;
@@ -736,44 +707,44 @@
       setMode('partition');
     }
     updateLockUI();
-    saveSnapshot();
     redraw();
   });
 
-  function rescalePlot(factor, focusX = CW / 2, focusY = CH / 2){
+  function rescalePlot(factor){
     if(!points.length){
-      currentScale = Math.max(0.3, Math.min(3.5, currentScale * factor));
+      currentScale *= factor;
       updateScaleLabel();
       return;
     }
     saveSnapshot();
-
-    const newScale = Math.max(0.3, Math.min(3.5, currentScale * factor));
-    const effectiveFactor = newScale / currentScale;
+    let sumX = 0, sumY = 0;
+    points.forEach(p => { sumX += p.x; sumY += p.y; });
+    const cx = sumX / points.length, cy = sumY / points.length;
 
     points.forEach(p => {
-      p.x = focusX + (p.x - focusX) * effectiveFactor;
-      p.y = focusY + (p.y - focusY) * effectiveFactor;
+      p.x = cx + (p.x - cx) * factor;
+      p.y = cy + (p.y - cy) * factor;
     });
 
-    currentScale = newScale;
+    currentScale *= factor;
     updateScaleLabel();
     redraw();
   }
 
-  if(zoomInBtn) zoomInBtn.addEventListener('click', ()=>rescalePlot(1.15));
-  if(zoomOutBtn) zoomOutBtn.addEventListener('click', ()=>rescalePlot(0.85));
-  if(drawZoomInBtn) drawZoomInBtn.addEventListener('click', ()=>rescalePlot(1.15));
-  if(drawZoomOutBtn) drawZoomOutBtn.addEventListener('click', ()=>rescalePlot(0.85));
+  document.getElementById('zoomInBtn').addEventListener('click', ()=>rescalePlot(1.15));
+  document.getElementById('zoomOutBtn').addEventListener('click', ()=>rescalePlot(0.85));
+  document.getElementById('zoomResetBtn').addEventListener('click', ()=>{
+    if(currentScale === 1.0) return;
+    rescalePlot(1.0 / currentScale);
+    currentScale = 1.0;
+    updateScaleLabel();
+  });
 
-  if(zoomResetBtn){
-    zoomResetBtn.addEventListener('click', ()=>{
-      if(currentScale === 1.0) return;
-      rescalePlot(1.0 / currentScale);
-      currentScale = 1.0;
-      updateScaleLabel();
-    });
-  }
+  canvas.addEventListener('wheel', (e)=>{
+    e.preventDefault();
+    if(e.deltaY < 0) rescalePlot(1.08);
+    else rescalePlot(0.92);
+  }, { passive: false });
 
   function analyzeTriangles(){
     const triangles = [];
@@ -815,64 +786,48 @@
     activeStartPoint = null;
     isDrawingRect = false;
 
-    [modeDrawBtn, modeRectBtn, modeOffsetBtn, modePartitionBtn, modeMovePartBtn, modeColorBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>{
-      if(b) b.classList.remove('active', 'active-part');
-    });
-
-    if(isDrawingLocked){
-      canvas.style.cursor = 'grab';
-      return;
-    }
+    [modeDrawBtn, modeRectBtn, modeOffsetBtn, modePartitionBtn, modeMovePartBtn, modeColorBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>b.classList.remove('active', 'active-part'));
 
     if(mode === 'draw'){
-      if(modeDrawBtn) modeDrawBtn.classList.add('active');
-      statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട്: പോയിന്റുകൾ/ജംഗ്ഷനുകൾ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്.';
-      canvas.style.cursor = 'crosshair';
+      modeDrawBtn.classList.add('active');
+      statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട്: പോയിന്റുകൾ ടച്ച് ചെയ്തു വരയ്ക്കുക.';
     } else if(mode === 'rect'){
-      if(modeRectBtn) modeRectBtn.classList.add('active');
+      modeRectBtn.classList.add('active');
       statusBar.textContent = '⬛ ചതുരം: ഡ്രാഗ് ചെയ്തു വരയ്ക്കുക.';
-      canvas.style.cursor = 'crosshair';
     } else if(mode === 'offset'){
-      if(modeOffsetBtn) modeOffsetBtn.classList.add('active');
-      statusBar.textContent = '⟂ ക്രോസ് ഓഫ്‌സെറ്റ്: ബേസ് ലൈനിൽ ടച്ച് ചെയ്യുക.';
-      canvas.style.cursor = 'pointer';
+      modeOffsetBtn.classList.add('active');
+      statusBar.textContent = '⟂ ക്രോസ് ഓഫ്‌സെറ്റ്: ബേസ് ലൈനിൽ ടച്ച് ചെയ്യുക. അകത്തേക്ക്/പുറത്തേക്ക് ആണെങ്കിൽ Area ക്രമീകരണം select ചെയ്യുക.';
     } else if(mode === 'partition'){
-      if(modePartitionBtn) modePartitionBtn.classList.add('active-part');
-      statusBar.textContent = '✂️ പാർട്ടീഷൻ: ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക. Snap ഓൺ ആണ്.';
-      canvas.style.cursor = 'crosshair';
+      modePartitionBtn.classList.add('active-part');
+      statusBar.textContent = '✂️ പാർട്ടീഷൻ: ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക.';
     } else if(mode === 'movePart'){
-      if(modeMovePartBtn) modeMovePartBtn.classList.add('active-part');
+      modeMovePartBtn.classList.add('active-part');
       statusBar.textContent = '📦 മൂവ് പാർട്ട്: പാർട്ടീഷൻ പ്ലോട്ട് ഡ്രാഗ് ചെയ്തു മാറ്റുക.';
-      canvas.style.cursor = 'grab';
     } else if(mode === 'color'){
-      if(modeColorBtn) modeColorBtn.classList.add('active');
+      modeColorBtn.classList.add('active');
       statusBar.textContent = '🎨 കളർ: വരയിൽ ടച്ച് ചെയ്യുക.';
-      canvas.style.cursor = 'pointer';
     } else if(mode === 'moveAll'){
-      if(modeMoveAllBtn) modeMoveAllBtn.classList.add('active');
+      modeMoveAllBtn.classList.add('active');
       statusBar.textContent = '✋ മൂവ് ഓൾ: പ്ലോട്ടുകൾ ഒരുമിച്ച് നീക്കുക.';
-      canvas.style.cursor = 'grab';
     } else if(mode === 'delete'){
-      if(modeDeleteBtn) modeDeleteBtn.classList.add('active');
+      modeDeleteBtn.classList.add('active');
       statusBar.textContent = '❌ ഒഴിവാക്കുക: വരയിൽ ടച്ച് ചെയ്യുക.';
-      canvas.style.cursor = 'pointer';
     } else if(mode === 'value'){
-      if(modeValueBtn) modeValueBtn.classList.add('active');
+      modeValueBtn.classList.add('active');
       statusBar.textContent = '📏 അളവ് മാറ്റുക: വരയിൽ ടച്ച് ചെയ്യുക.';
-      canvas.style.cursor = 'pointer';
     }
     redraw();
   }
 
-  if(modeDrawBtn) modeDrawBtn.addEventListener('click', ()=>setMode('draw'));
-  if(modeRectBtn) modeRectBtn.addEventListener('click', ()=>setMode('rect'));
-  if(modeOffsetBtn) modeOffsetBtn.addEventListener('click', ()=>setMode('offset'));
-  if(modePartitionBtn) modePartitionBtn.addEventListener('click', ()=>setMode('partition'));
-  if(modeMovePartBtn) modeMovePartBtn.addEventListener('click', ()=>setMode('movePart'));
-  if(modeColorBtn) modeColorBtn.addEventListener('click', ()=>setMode('color'));
-  if(modeMoveAllBtn) modeMoveAllBtn.addEventListener('click', ()=>setMode('moveAll'));
-  if(modeDeleteBtn) modeDeleteBtn.addEventListener('click', ()=>setMode('delete'));
-  if(modeValueBtn) modeValueBtn.addEventListener('click', ()=>setMode('value'));
+  modeDrawBtn.addEventListener('click', ()=>setMode('draw'));
+  modeRectBtn.addEventListener('click', ()=>setMode('rect'));
+  modeOffsetBtn.addEventListener('click', ()=>setMode('offset'));
+  modePartitionBtn.addEventListener('click', ()=>setMode('partition'));
+  modeMovePartBtn.addEventListener('click', ()=>setMode('movePart'));
+  modeColorBtn.addEventListener('click', ()=>setMode('color'));
+  modeMoveAllBtn.addEventListener('click', ()=>setMode('moveAll'));
+  modeDeleteBtn.addEventListener('click', ()=>setMode('delete'));
+  modeValueBtn.addEventListener('click', ()=>setMode('value'));
 
   function openLengthModal(edge){
     editingEdge = edge;
@@ -901,7 +856,6 @@
         saveSnapshot();
         editingEdge.length = val;
         applyEdgeLengthAdjustment(editingEdge, val, anchorId);
-        saveToLocalStorage();
       }
     }
     lengthModal.classList.add('hidden');
@@ -924,6 +878,7 @@
     offsetLineInfo.textContent = `ബേസ് ലൈൻ: P${idxA} ➔ P${idxB} (${edge.length || 0}m)`;
     chainageInput.value = (edge.length ? (edge.length / 2).toFixed(2) : '');
     offsetLenInput.value = '';
+    offsetAreaModeSelect.value = 'none';
     offsetModal.classList.remove('hidden');
     setTimeout(()=>offsetLenInput.focus(), 50);
   }
@@ -932,6 +887,7 @@
     const ch = parseFloat(chainageInput.value);
     const offLen = parseFloat(offsetLenInput.value);
     const side = offsetSideSelect.value;
+    const areaMode = offsetAreaModeSelect.value;
 
     if(offsetBaseEdge && !isNaN(ch) && !isNaN(offLen) && offLen > 0){
       const pA = points.find(p=>p.id===offsetBaseEdge.a);
@@ -960,8 +916,16 @@
         const offsetPt = { id: nextPtId++, x: targetPtX, y: targetPtY, group: offsetBaseEdge.group || 'main' };
         points.push(offsetPt);
 
-        addEdge(basePt.id, offsetPt.id, offLen, false, true);
-        saveToLocalStorage();
+        const newOffEdge = addEdge(basePt.id, offsetPt.id, offLen, false, true);
+        if(newOffEdge && areaMode !== 'none'){
+          // Deviation area of a single cross-offset from a straight base line
+          // = 0.5 x base-line length x offset length (triangle base x height rule).
+          // 'subtract' = boundary cuts inward at this point (area lost, land is smaller)
+          // 'add'      = boundary bulges outward at this point (area gained, land is bigger)
+          newOffEdge.offsetAreaMode = areaMode;
+          newOffEdge.baseEdgeId = offsetBaseEdge.id;
+          newOffEdge.baseEdgeLenAtCreation = offsetBaseEdge.length || null;
+        }
       }
     }
 
@@ -979,7 +943,6 @@
     if(editingEdge){
       saveSnapshot();
       editingEdge.customColor = lineColorSelect.value;
-      saveToLocalStorage();
     }
     colorModal.classList.add('hidden');
     editingEdge = null;
@@ -991,26 +954,15 @@
     editingEdge = null;
   });
 
-  // Accurate Canvas Coordinate Mapping
   function getCanvasCoords(clientX, clientY){
     const rect = canvas.getBoundingClientRect();
-    const scaleX = CW / rect.width;
-    const scaleY = CH / rect.height;
     return {
-      x: (clientX - rect.left) * scaleX,
-      y: (clientY - rect.top) * scaleY
+      x: (clientX - rect.left) * (CW / rect.width),
+      y: (clientY - rect.top) * (CH / rect.height)
     };
   }
 
   function handlePointerDown(x, y){
-    if(isDrawingLocked){
-      isDragging = true;
-      dragStartX = x;
-      dragStartY = y;
-      canvas.style.cursor = 'grabbing';
-      return;
-    }
-
     if(currentMode === 'moveAll' || currentMode === 'movePart'){
       isDragging = true;
       dragStartX = x;
@@ -1045,7 +997,6 @@
         saveSnapshot();
         edges = edges.filter(item => item.id !== edge.id);
         points = points.filter(p => edges.some(ed => ed.a === p.id || ed.b === p.id));
-        saveToLocalStorage();
         redraw();
       }
       return;
@@ -1068,21 +1019,18 @@
       return;
     }
 
-    // DRAW & PARTITION MODES
-    if(currentMode === 'partition' || currentMode === 'draw'){
-      const groupName = (currentMode === 'partition' ? 'partition' : 'main');
-      let clickedPoint = findSnapVertex(x, y, currentMode === 'partition' ? 'partition' : null);
+    if(currentMode === 'partition'){
+      let clickedPoint = findSnapVertex(x, y, 'partition');
 
       if(!clickedPoint){
-        const interSnap = findSnapIntersection(x, y);
         const edgeSnap = findSnapOnEdge(x, y);
         const ptSnap = findSnapVertex(x, y);
         
         saveSnapshot();
-        const ptX = interSnap ? interSnap.x : (ptSnap ? ptSnap.x : (edgeSnap ? edgeSnap.x : x));
-        const ptY = interSnap ? interSnap.y : (ptSnap ? ptSnap.y : (edgeSnap ? edgeSnap.y : y));
+        const ptX = ptSnap ? ptSnap.x : (edgeSnap ? edgeSnap.x : x);
+        const ptY = ptSnap ? ptSnap.y : (edgeSnap ? edgeSnap.y : y);
 
-        clickedPoint = { id: nextPtId++, x: ptX, y: ptY, group: groupName };
+        clickedPoint = { id: nextPtId++, x: ptX, y: ptY, group: 'partition' };
         points.push(clickedPoint);
       }
 
@@ -1091,15 +1039,40 @@
       } else {
         if(activeStartPoint.id !== clickedPoint.id && !edgeExists(activeStartPoint.id, clickedPoint.id)){
           saveSnapshot();
-          const isPart = (currentMode === 'partition');
-          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, isPart);
-          if(edge) edge.group = groupName;
+          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, true);
+          if(edge) edge.group = 'partition';
         }
         activeStartPoint = clickedPoint;
       }
-      saveToLocalStorage();
       redraw();
       return;
+    }
+
+    if(currentMode === 'draw'){
+      let clickedPoint = findSnapVertex(x, y);
+
+      if(!clickedPoint){
+        const edgeSnap = findSnapOnEdge(x, y);
+        saveSnapshot();
+        if(edgeSnap){
+          clickedPoint = { id: nextPtId++, x: edgeSnap.x, y: edgeSnap.y, group: 'main' };
+        } else {
+          clickedPoint = { id: nextPtId++, x, y, group: 'main' };
+        }
+        points.push(clickedPoint);
+      }
+
+      if(activeStartPoint === null){
+        activeStartPoint = clickedPoint;
+      } else {
+        if(activeStartPoint.id !== clickedPoint.id && !edgeExists(activeStartPoint.id, clickedPoint.id)){
+          saveSnapshot();
+          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, false);
+          if(edge) edge.group = 'main';
+        }
+        activeStartPoint = clickedPoint;
+      }
+      redraw();
     }
   }
 
@@ -1108,7 +1081,7 @@
       const dx = x - dragStartX;
       const dy = y - dragStartY;
 
-      if(isDrawingLocked || currentMode === 'moveAll'){
+      if(currentMode === 'moveAll'){
         points.forEach(p => { p.x += dx; p.y += dy; });
       } else if(currentMode === 'movePart'){
         points.forEach(p => {
@@ -1132,30 +1105,21 @@
       return;
     }
 
-    if(!isDrawingLocked){
-      hoverPoint = findSnapVertex(x, y);
-      hoverIntersection = findSnapIntersection(x, y);
-      snapLinePoint = findSnapOnEdge(x, y);
-    } else {
-      hoverPoint = null;
-      hoverIntersection = null;
-      snapLinePoint = null;
-    }
+    hoverPoint = findSnapVertex(x, y);
+    snapLinePoint = findSnapOnEdge(x, y);
     redraw();
   }
 
   function handlePointerUp(){
     if(isDragging){
       isDragging = false;
-      saveToLocalStorage();
-      if(isDrawingLocked) canvas.style.cursor = 'grab';
     }
 
     if(isDrawingRect && currentMode === 'rect'){
       isDrawingRect = false;
       const w = Math.abs(rectCurX - rectStartX);
       const h = Math.abs(rectCurY - rectStartY);
-      if(w > 15 && h > 15){
+      if(w > 20 && h > 20){
         saveSnapshot();
         const minX = Math.min(rectStartX, rectCurX);
         const minY = Math.min(rectStartY, rectCurY);
@@ -1180,76 +1144,81 @@
         addEdge(p3.id, p4.id, lenL, isPart);
         addEdge(p4.id, p1.id, lenW, isPart);
         addEdge(p1.id, p3.id, diag, isPart);
-        saveToLocalStorage();
       }
       redraw();
     }
   }
 
-  // Unified Modern Pointer Events (Works seamlessly across Touch & Mouse)
-  canvas.addEventListener('pointerdown', (e)=>{
-    touchPointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  // Mouse Handlers
+  canvas.addEventListener('mousedown', (e)=>{
+    const {x, y} = getCanvasCoords(e.clientX, e.clientY);
+    handlePointerDown(x, y);
+  });
+  canvas.addEventListener('mousemove', (e)=>{
+    const {x, y} = getCanvasCoords(e.clientX, e.clientY);
+    handlePointerMove(x, y);
+  });
+  window.addEventListener('mouseup', handlePointerUp);
 
-    if(touchPointers.size === 1){
-      const {x, y} = getCanvasCoords(e.clientX, e.clientY);
+  // Mobile Touch Gestures
+  canvas.addEventListener('touchstart', (e)=>{
+    if(e.touches.length === 1){
+      isPinching = false;
+      const t = e.touches[0];
+      const {x, y} = getCanvasCoords(t.clientX, t.clientY);
       handlePointerDown(x, y);
-    } else if(touchPointers.size === 2){
-      // 2 Finger Pinch
+    } else if(e.touches.length === 2){
       isPinching = true;
       isDragging = false;
       isDrawingRect = false;
-      const pts = Array.from(touchPointers.values());
-      initialPinchDist = dist(pts[0].x, pts[0].y, pts[1].x, pts[1].y);
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      initialPinchDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
       initialScale = currentScale;
-      const mid = getCanvasCoords((pts[0].x + pts[1].x)/2, (pts[0].y + pts[1].y)/2);
-      pinchMidX = mid.x;
-      pinchMidY = mid.y;
+      pinchMidX = (t1.clientX + t2.clientX) / 2;
+      pinchMidY = (t1.clientY + t2.clientY) / 2;
     }
     e.preventDefault();
-  });
+  }, { passive: false });
 
-  canvas.addEventListener('pointermove', (e)=>{
-    if(touchPointers.has(e.pointerId)){
-      touchPointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    }
-
-    if(touchPointers.size === 2 && isPinching){
-      const pts = Array.from(touchPointers.values());
-      const currentDist = dist(pts[0].x, pts[0].y, pts[1].x, pts[1].y);
+  canvas.addEventListener('touchmove', (e)=>{
+    if(e.touches.length === 1 && !isPinching){
+      const t = e.touches[0];
+      const {x, y} = getCanvasCoords(t.clientX, t.clientY);
+      handlePointerMove(x, y);
+    } else if(e.touches.length === 2){
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const currentDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
       if(initialPinchDist > 0){
         const zoomRatio = currentDist / initialPinchDist;
-        const newScale = Math.max(0.3, Math.min(3.5, initialScale * zoomRatio));
+        const newScale = Math.max(0.3, Math.min(3.0, initialScale * zoomRatio));
         const factor = newScale / currentScale;
-
+        
+        const {x: cx, y: cy} = getCanvasCoords(pinchMidX, pinchMidY);
         points.forEach(p => {
-          p.x = pinchMidX + (p.x - pinchMidX) * factor;
-          p.y = pinchMidY + (p.y - pinchMidY) * factor;
+          p.x = cx + (p.x - cx) * factor;
+          p.y = cy + (p.y - cy) * factor;
         });
 
         currentScale = newScale;
         updateScaleLabel();
         redraw();
       }
-    } else if(touchPointers.size <= 1){
-      const {x, y} = getCanvasCoords(e.clientX, e.clientY);
-      handlePointerMove(x, y);
     }
     e.preventDefault();
-  });
+  }, { passive: false });
 
-  function handlePointerEnd(e){
-    touchPointers.delete(e.pointerId);
-    if(touchPointers.size === 0){
+  window.addEventListener('touchend', (e)=>{
+    if(e.touches.length === 0){
       isPinching = false;
       handlePointerUp();
     }
-  }
-
-  canvas.addEventListener('pointerup', handlePointerEnd);
-  canvas.addEventListener('pointercancel', handlePointerEnd);
+  });
 
   window.addEventListener('keydown', (e)=>{
     if(e.key === 'Escape'){
+      if(document.body.classList.contains('app-fullscreen')) setAppFullscreen(false);
       activeStartPoint = null;
       isDrawingRect = false;
       redraw();
@@ -1259,7 +1228,7 @@
   function drawGrid(){
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0,0,CW,CH);
-    ctx.strokeStyle = '#F0ECE1';
+    ctx.strokeStyle = '#EBE5D8';
     ctx.lineWidth = 1;
     for(let x=0; x<=CW; x+=30){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,CH); ctx.stroke(); }
     for(let y=0; y<=CH; y+=30){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(CW,y); ctx.stroke(); }
@@ -1297,7 +1266,7 @@
       ctx.restore();
     }
 
-    // DRAW UNIFORM EDGES
+    // Draw Edges
     for(const e of edges){
       const p1 = points.find(p=>p.id===e.a);
       const p2 = points.find(p=>p.id===e.b);
@@ -1305,8 +1274,6 @@
 
       ctx.save();
       ctx.beginPath();
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
       ctx.moveTo(p1.x, p1.y);
       ctx.lineTo(p2.x, p2.y);
 
@@ -1326,7 +1293,7 @@
         ctx.setLineDash([4, 4]);
       } else {
         ctx.strokeStyle = '#111A10';
-        ctx.lineWidth = 2.4;
+        ctx.lineWidth = 2.2;
       }
 
       if(snapLinePoint && snapLinePoint.edge && snapLinePoint.edge.id === e.id && (currentMode === 'delete' || currentMode === 'value' || currentMode === 'color' || currentMode === 'offset')){
@@ -1336,64 +1303,59 @@
 
       ctx.stroke();
       ctx.restore();
+    }
 
-      // PARALLEL ALIGNED DIMENSION LABEL
+    // Draw Edge Labels (separate pass with overlap avoidance so measurements
+    // don't sit on top of each other where several lines meet at one point)
+    const placedLabels = [];
+    ctx.font = "bold 11px 'JetBrains Mono', monospace";
+    for(const e of edges){
+      const p1 = points.find(p=>p.id===e.a);
+      const p2 = points.find(p=>p.id===e.b);
+      if(!p1 || !p2) continue;
+
       const mx = (p1.x + p2.x) / 2;
       const my = (p1.y + p2.y) / 2;
       let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+      if(angle > Math.PI/2 || angle < -Math.PI/2) angle += Math.PI;
 
-      if(angle > Math.PI / 2 || angle < -Math.PI / 2){
-        angle += Math.PI;
+      let text = e.length ? `${e.length} m` : '?';
+      if(e.isOffset && e.offsetAreaMode === 'subtract') text += ' (−)';
+      else if(e.isOffset && e.offsetAreaMode === 'add') text += ' (+)';
+
+      const tw = ctx.measureText(text).width;
+      const hh = 7;
+      let boxY = -11;
+      let cx = mx, cy = my;
+      let tries = 0;
+      while(tries < 12){
+        cx = mx - boxY * Math.sin(angle);
+        cy = my + boxY * Math.cos(angle);
+        const r = Math.max(tw/2, hh) + 3;
+        let collide = false;
+        for(const L of placedLabels){
+          if(Math.hypot(cx - L.x, cy - L.y) < r + L.r - 3){ collide = true; break; }
+        }
+        if(!collide) break;
+        boxY += (boxY < 0 ? -13 : 13);
+        tries++;
       }
-
-      const text = e.length ? `${e.length} m` : '?';
+      placedLabels.push({ x: cx, y: cy, r: Math.max(tw/2, hh) + 3 });
 
       ctx.save();
       ctx.translate(mx, my);
       ctx.rotate(angle);
-
-      ctx.font = "bold 12px Arial, sans-serif";
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'bottom';
-
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 4;
-      ctx.lineJoin = 'round';
-      ctx.strokeText(text, 0, -4);
-
+      const pad = 3;
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.fillRect(-tw/2 - pad, boxY - hh, tw + pad*2, hh*2);
       ctx.fillStyle = e.customColor || (e.isOffset ? '#C0392B' : (e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B')));
-      ctx.fillText(text, 0, -4);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 0, boxY + 1);
       ctx.restore();
     }
 
-    // 1. Cross Intersection Snap Indicator
-    if(hoverIntersection && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition') && !isDrawingLocked){
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(hoverIntersection.x, hoverIntersection.y, 8, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(39, 174, 96, 0.25)';
-      ctx.fill();
-      ctx.strokeStyle = '#27AE60';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.strokeStyle = '#27AE60';
-      ctx.lineWidth = 2.5;
-      ctx.moveTo(hoverIntersection.x - 5, hoverIntersection.y - 5);
-      ctx.lineTo(hoverIntersection.x + 5, hoverIntersection.y + 5);
-      ctx.moveTo(hoverIntersection.x + 5, hoverIntersection.y - 5);
-      ctx.lineTo(hoverIntersection.x - 5, hoverIntersection.y + 5);
-      ctx.stroke();
-
-      ctx.font = "bold 10px Arial, sans-serif";
-      ctx.fillStyle = '#184A1C';
-      ctx.fillText("✕ ജംഗ്ഷൻ", hoverIntersection.x + 10, hoverIntersection.y - 8);
-      ctx.restore();
-    }
-
-    // 2. Line Snap Indicator
-    if(snapLinePoint && !hoverPoint && !hoverIntersection && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset') && !isDrawingLocked){
+    if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset')){
       ctx.save();
       ctx.beginPath();
       ctx.arc(snapLinePoint.x, snapLinePoint.y, 6, 0, Math.PI * 2);
@@ -1405,53 +1367,22 @@
       ctx.restore();
     }
 
-    // 3. DRAW POINTS WITH ACTIVE SNAP COLOR CHANGE
     points.forEach((p, idx)=>{
       const isActive = (activeStartPoint && activeStartPoint.id === p.id);
-      const isHovered = (hoverPoint && hoverPoint.id === p.id && !isDrawingLocked);
       const isPart = (p.group === 'partition');
 
-      if(isHovered){
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 11, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 140, 0, 0.35)';
-        ctx.fill();
-        ctx.strokeStyle = '#FF8C00';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        ctx.restore();
-      }
-
       ctx.beginPath();
-      ctx.arc(p.x, p.y, isHovered ? 7 : (isActive ? 5.5 : 4), 0, Math.PI*2);
-      ctx.fillStyle = isHovered ? '#FF8C00' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
+      ctx.arc(p.x, p.y, isActive ? 7 : 5, 0, Math.PI*2);
+      ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? '#C59B27' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = isHovered ? 2.5 : 1.5;
+      ctx.lineWidth = 1.6;
       ctx.stroke();
 
-      const pText = `P${idx+1}`;
-      ctx.font = "bold 11px Arial, sans-serif";
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'bottom';
-
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 3.5;
-      ctx.lineJoin = 'round';
-      ctx.strokeText(pText, p.x + 5, p.y - 3);
-
-      ctx.fillStyle = isHovered ? '#D35400' : (isPart ? '#0066CC' : '#111A10');
-      ctx.fillText(pText, p.x + 5, p.y - 3);
+      ctx.font = "600 10.5px sans-serif";
+      ctx.fillStyle = isPart ? '#0066CC' : '#5A5747';
+      ctx.fillText(`P${idx+1}`, p.x+6, p.y-5);
     });
-
-    if(isDrawingLocked){
-      ctx.save();
-      ctx.font = "bold 12px 'Noto Sans Malayalam', sans-serif";
-      ctx.fillStyle = "rgba(138, 109, 20, 0.95)";
-      ctx.fillText("🔒 VIEW / PAN MODE (LOCKED)", 10, 20);
-      ctx.restore();
-    }
   }
 
   function heronArea(a, b, c){
@@ -1460,10 +1391,11 @@
     return Math.sqrt(s*(s-a)*(s-b)*(s-c));
   }
 
-  function buildTableHTML(){
+  function calculateTable(){
     const triangles = analyzeTriangles();
     if(!triangles.length){
-      return '<p style="color:var(--danger);font-size:11px;">പൂർണ്ണമായ ത്രികോണങ്ങളോ പ്ലോട്ടുകളോ കണ്ടെത്തിയില്ല. ഡയഗണലുകൾ നൽകി ബന്ധിപ്പിക്കുക.</p>';
+      tableContainer.innerHTML = '<p style="color:var(--danger);font-size:11px;">പൂർണ്ണമായ ത്രികോണങ്ങളോ പ്ലോട്ടുകളോ കണ്ടെത്തിയില്ല. ഡയഗണലുകൾ നൽകി ബന്ധിപ്പിക്കുക.</p>';
+      return;
     }
 
     let totalSqm = 0;
@@ -1513,6 +1445,45 @@
       }
     });
 
+    // Offset deviation adjustments: each offset marked 'subtract' (inner cut) or
+    // 'add' (outer bulge) contributes 0.5 x baseLine x offsetLength to the total.
+    let offsetRowsHtml = '';
+    edges.forEach(e=>{
+      if(!e.isOffset || !e.offsetAreaMode || e.offsetAreaMode === 'none' || !e.length) return;
+      const baseEdge = edges.find(be => be.id === e.baseEdgeId);
+      const baseLen = baseEdge ? baseEdge.length : e.baseEdgeLenAtCreation;
+      if(!baseLen) return;
+
+      const devArea = 0.5 * baseLen * e.length;
+      const pA = points.find(p=>p.id===e.a);
+      const pB = points.find(p=>p.id===e.b);
+      const idxA = pA ? points.indexOf(pA)+1 : '?';
+      const idxB = pB ? points.indexOf(pB)+1 : '?';
+
+      if(e.offsetAreaMode === 'subtract'){
+        totalSqm -= devArea;
+        offsetRowsHtml += `
+          <tr>
+            <td>ഓഫ്‌സെറ്റ് ക്രമീകരണം (P${idxA}→P${idxB}) — അകത്തേക്ക് കയറ്റം</td>
+            <td class="mono" style="color:var(--danger);">−${devArea.toFixed(2)} Sq.m</td>
+            <td class="mono" style="color:var(--danger);">−${(devArea/40.4686).toFixed(3)}</td>
+            <td class="mono" style="color:var(--danger);">−${(devArea/100).toFixed(3)}</td>
+          </tr>
+        `;
+      } else if(e.offsetAreaMode === 'add'){
+        totalSqm += devArea;
+        offsetRowsHtml += `
+          <tr>
+            <td>ഓഫ്‌സെറ്റ് ക്രമീകരണം (P${idxA}→P${idxB}) — പുറത്തേക്ക് തള്ളൽ</td>
+            <td class="mono" style="color:var(--accent-dark);">+${devArea.toFixed(2)} Sq.m</td>
+            <td class="mono" style="color:var(--accent-dark);">+${(devArea/40.4686).toFixed(3)}</td>
+            <td class="mono" style="color:var(--accent-dark);">+${(devArea/100).toFixed(3)}</td>
+          </tr>
+        `;
+      }
+    });
+    tableHtml += offsetRowsHtml;
+
     const totalCent = totalSqm / 40.4686;
     const totalAre = totalSqm / 100;
     const totalSqft = totalSqm * 10.7639;
@@ -1526,115 +1497,17 @@
         </tr>
       </tbody>
     </table>
-    <div style="font-size:10px;color:var(--ink-soft);margin-top:3px;">ആകെ ചതുരശ്ര അടി: <b>${totalSqft.toFixed(2)} Sq.ft</b></div>
+    <div style="font-size:10px;color:var(--ink-soft);margin-top:4px;">ആകെ ചതുരശ്ര അടി: <b>${totalSqft.toFixed(2)} Sq.ft</b></div>
     `;
 
-    return tableHtml;
-  }
-
-  function calculateTable(){
-    const html = buildTableHTML();
-    screenTableContainer.innerHTML = html;
-    printTableContainer.innerHTML = html;
-    areaDrawer.classList.remove('hidden');
+    tableContainer.innerHTML = tableHtml;
     redraw();
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculateTable);
-  closeDrawerBtn.addEventListener('click', ()=>areaDrawer.classList.add('hidden'));
-
-  // DXF Generator
-  function generateDXF(){
-    if(!points.length || !edges.length){
-      alert('ഡൗൺലോഡ് ചെയ്യാനായി ആദ്യം പ്ലോട്ട് വരയ്ക്കുക.');
-      return;
-    }
-
-    const ppm = BASE_PIXELS_PER_METER * currentScale;
-    let minX = Infinity, maxY = -Infinity;
-    points.forEach(p => {
-      if(p.x < minX) minX = p.x;
-      if(p.y > maxY) maxY = p.y;
-    });
-
-    let dxf = '0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1009\n0\nENDSEC\n';
-    dxf += '0\nSECTION\n2\nTABLES\n0\nTABLE\n2\nLAYER\n70\n5\n';
-    dxf += '0\nLAYER\n2\nBOUNDARY\n70\n0\n62\n7\n6\nCONTINUOUS\n';
-    dxf += '0\nLAYER\n2\nPARTITION\n70\n0\n62\n5\n6\nCONTINUOUS\n';
-    dxf += '0\nLAYER\n2\nOFFSET\n70\n0\n62\n1\n6\nDASHED\n';
-    dxf += '0\nLAYER\n2\nDIMENSIONS\n70\n0\n62\n3\n6\nCONTINUOUS\n';
-    dxf += '0\nLAYER\n2\nPOINTS\n70\n0\n62\n2\n6\nCONTINUOUS\n';
-    dxf += '0\nENDTAB\n0\nENDSEC\n';
-    dxf += '0\nSECTION\n2\nENTITIES\n';
-
-    edges.forEach(e => {
-      const p1 = points.find(p => p.id === e.a);
-      const p2 = points.find(p => p.id === e.b);
-      if(!p1 || !p2) return;
-
-      const x1 = ((p1.x - minX) / ppm).toFixed(4);
-      const y1 = ((maxY - p1.y) / ppm).toFixed(4);
-      const x2 = ((p2.x - minX) / ppm).toFixed(4);
-      const y2 = ((maxY - p2.y) / ppm).toFixed(4);
-
-      let layerName = 'BOUNDARY';
-      if(e.isOffset) layerName = 'OFFSET';
-      else if(e.isPartition || e.group === 'partition') layerName = 'PARTITION';
-
-      dxf += '0\nLINE\n';
-      dxf += `8\n${layerName}\n`;
-      dxf += `10\n${x1}\n20\n${y1}\n30\n0.0\n`;
-      dxf += `11\n${x2}\n21\n${y2}\n31\n0.0\n`;
-
-      if(e.length){
-        const mx = ((parseFloat(x1) + parseFloat(x2)) / 2).toFixed(4);
-        const my = ((parseFloat(y1) + parseFloat(y2)) / 2).toFixed(4);
-        dxf += '0\nTEXT\n';
-        dxf += '8\nDIMENSIONS\n';
-        dxf += `10\n${mx}\n20\n${my}\n30\n0.0\n`;
-        dxf += '40\n0.35\n';
-        dxf += `1\n${e.length}m\n`;
-      }
-    });
-
-    points.forEach((p, idx) => {
-      const px = ((p.x - minX) / ppm).toFixed(4);
-      const py = ((maxY - p.y) / ppm).toFixed(4);
-      const ptLabel = `P${idx+1}`;
-
-      dxf += '0\nPOINT\n';
-      dxf += '8\nPOINTS\n';
-      dxf += `10\n${px}\n20\n${py}\n30\n0.0\n`;
-
-      dxf += '0\nTEXT\n';
-      dxf += '8\nPOINTS\n';
-      dxf += `10\n${(parseFloat(px) + 0.15).toFixed(4)}\n20\n${(parseFloat(py) + 0.15).toFixed(4)}\n30\n0.0\n`;
-      dxf += '40\n0.4\n';
-      dxf += `1\n${ptLabel}\n`;
-    });
-
-    dxf += '0\nENDSEC\n0\nEOF\n';
-
-    const blob = new Blob([dxf], { type: 'application/dxf;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    const dateStr = new Date().toISOString().slice(0,10);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `Survey_Sketch_${dateStr}.dxf`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  }
-
-  if(dxfExportBtn){
-    dxfExportBtn.addEventListener('click', generateDXF);
-  }
 
   document.getElementById('printBtn').addEventListener('click', ()=>{
-    const html = buildTableHTML();
-    printTableContainer.innerHTML = html;
-    
+    calculateTable();
     const orient = document.getElementById('pdfOrientation').value;
     let style = document.getElementById('dynamicPrintStyle');
     if(!style){
@@ -1642,7 +1515,7 @@
       style.id = 'dynamicPrintStyle';
       document.head.appendChild(style);
     }
-    style.innerHTML = `@page { size: A4 ${orient}; margin: 5mm; }`;
+    style.innerHTML = `@page { size: A4 ${orient}; margin: 8mm; }`;
 
     setTimeout(()=>{
       window.print();
@@ -1651,23 +1524,17 @@
 
   document.getElementById('undoBtn').addEventListener('click', undo);
   document.getElementById('clearBtn').addEventListener('click', ()=>{
-    if(confirm('മുഴുവൻ ഡാറ്റയും ക്ലിയർ ചെയ്യണോ?')){
+    if(confirm('എല്ലാം ക്ലിയർ ചെയ്യണോ?')){
       points = []; edges = []; activeStartPoint = null;
       isMainLocked = false;
-      isDrawingLocked = false;
       updateLockUI();
-      updateDrawingLockUI();
       currentScale = 1.0;
       updateScaleLabel();
-      try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
       redraw();
-      screenTableContainer.innerHTML = '';
-      printTableContainer.innerHTML = '';
+      tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:11px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
     }
   });
 
-  // Load Saved Data & Start Clean
-  loadFromLocalStorage();
   redraw();
 })();
 </script>
