@@ -48,7 +48,6 @@
   }
   .app{max-width:1180px;margin:0 auto;position:relative;}
   
-  /* Compact Header */
   header{
     display:flex;justify-content:space-between;align-items:center;
     border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:6px;
@@ -64,7 +63,6 @@
     padding:3px 7px;border-radius:4px;border:none;cursor:pointer;display:none;
   }
 
-  /* Tool Tabs Header */
   .tabs-nav{
     display:flex;gap:4px;background:#E7E2D4;padding:3px;border-radius:6px;margin-bottom:6px;
     overflow-x:auto;white-space:nowrap;
@@ -77,7 +75,6 @@
     background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.08);
   }
 
-  /* Toolbar Container for Tab Panels */
   .tab-panel{
     display:none;align-items:center;gap:4px;background:var(--card);
     border:1px solid var(--border);border-radius:6px;padding:5px 8px;margin-bottom:6px;
@@ -107,7 +104,6 @@
     padding:2px 4px;color:var(--accent-dark);
   }
 
-  /* Maximized Canvas Container */
   .a4-sheet-container{
     background:var(--card);
     border:1px solid var(--border);
@@ -138,7 +134,6 @@
   .swatch.offset{border-top:1.8px dashed var(--road);}
   .swatch.dot{border-top:1.8px dashed var(--inner);}
   
-  /* Large high-res canvas */
   canvas{
     display:block;width:100%;height:auto;background:var(--paper);cursor:crosshair;touch-action:none;
   }
@@ -242,7 +237,6 @@
     th, td{padding:3px 5px;}
   }
 
-  /* ---- Mobile-friendly adjustments ---- */
   button, select, .tab-btn{ touch-action:manipulation; }
   @media (max-width:640px){
     button, select, .tab-btn{
@@ -253,8 +247,6 @@
     h1{font-size:14.5px;}
     .table-header-block h2{font-size:12px;}
   }
-  /* iOS/Android zoom in when a focused input's font-size is under 16px - keep modal
-     inputs and selects at 16px on touch/narrow screens so focusing them doesn't zoom the page. */
   @media (max-width:640px), (hover:none){
     .modal input, .modal select{ font-size:16px; }
   }
@@ -296,7 +288,7 @@
     body.app-fullscreen .landscape-hint{ display:block; }
   }
 
-  /* ---- Field Survey Calculator ---- */
+  /* Field Survey Calculator */
   .calc-section{
     background:var(--card); border:1px solid var(--border); border-radius:8px;
     padding:9px; margin-top:8px; flex-direction:column; gap:8px; box-shadow:var(--shadow);
@@ -372,7 +364,6 @@
     </div>
   </header>
 
-  <!-- Categorized Tabs Navigation -->
   <div class="tabs-nav">
     <button class="tab-btn active-tab" data-tab="tabDraw">✏️ വരയ്ക്കൽ (Draw)</button>
     <button class="tab-btn" data-tab="tabEdit">🛠️ എഡിറ്റ് &amp; വ്യൂ (Edit)</button>
@@ -381,7 +372,6 @@
     <button class="tab-btn" data-tab="tabCalc" id="calcTabBtn">🧮 സർവേ കാൽക്കുലേറ്റർ</button>
   </div>
 
-  <!-- Panel 1: Draw -->
   <div class="tab-panel active-panel" id="tabDraw">
     <button id="modeDraw" class="active">✏️ പ്ലോട്ട്</button>
     <button id="modeRect">⬛ ചതുരം</button>
@@ -390,7 +380,6 @@
     <button id="clearBtn" class="danger">🗑 ക്ലിയർ</button>
   </div>
 
-  <!-- Panel 2: Edit & View -->
   <div class="tab-panel" id="tabEdit">
     <button id="modeValue">📏 അളവ് മാറ്റുക</button>
     <button id="modeColor">🎨 കളർ</button>
@@ -402,14 +391,12 @@
     <button id="zoomResetBtn">Reset</button>
   </div>
 
-  <!-- Panel 3: Partition -->
   <div class="tab-panel" id="tabPartition">
     <button id="lockMainBtn">🔓 മെയിൻ ലോക്ക്</button>
     <button id="modePartition">✂️ പാർട്ട് വരയ്ക്കുക</button>
     <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
   </div>
 
-  <!-- Panel 4: Report & Print -->
   <div class="tab-panel" id="tabReport">
     <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണം</button>
     <select id="pdfOrientation">
@@ -428,7 +415,6 @@
         <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ</span>
       </div>
       <div class="canvas-box">
-        <!-- Enlarged Canvas Dimension for crisp drawing -->
         <canvas id="canvas" width="1000" height="620"></canvas>
         <button id="fullscreenToggleBtn" class="fullscreen-toggle-btn" title="വലുതാക്കുക">⤢</button>
       </div>
@@ -458,7 +444,7 @@
     </div>
   </div>
 
-  <!-- Field Survey Calculator (no sketch needed - direct number entry) -->
+  <!-- Field Survey Calculator Section -->
   <div class="calc-section" id="calcSection" style="display:none;">
     <div class="calc-toolbar">
       <button id="calcSaveBtn" class="primary">💾 സേവ്</button>
@@ -499,7 +485,6 @@
   </div>
 </div>
 
-<!-- Calculator Save/Load Modals -->
 <div class="modal-backdrop hidden" id="calcSaveModal">
   <div class="modal">
     <h3>💾 ഈ കണക്ക് സേവ് ചെയ്യുക</h3>
@@ -589,7 +574,6 @@
 
 <script>
 (function(){
-  // Tab Switching Logic
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabPanels = document.querySelectorAll('.tab-panel');
   tabBtns.forEach(btn => {
@@ -609,7 +593,6 @@
     });
   });
 
-  // PWA Install Prompt
   let deferredPrompt;
   const installAppBtn = document.getElementById('installAppBtn');
   window.addEventListener('beforeinstallprompt', (e)=>{
@@ -655,7 +638,6 @@
   let isDragging = false;
   let dragStartX = 0, dragStartY = 0;
 
-  // Two-Finger Pinch Zoom State
   let isPinching = false;
   let initialPinchDist = 0;
   let initialScale = 1.0;
@@ -664,7 +646,6 @@
   let isDrawingRect = false;
   let rectStartX = 0, rectStartY = 0, rectCurX = 0, rectCurY = 0;
 
-  // DOM Elements
   const lockMainBtn = document.getElementById('lockMainBtn');
   const modeDrawBtn = document.getElementById('modeDraw');
   const modeRectBtn = document.getElementById('modeRect');
@@ -698,7 +679,6 @@
   const now = new Date();
   surveyDateLabel.textContent = `DATE: ${now.toLocaleDateString('en-GB')}`;
 
-  // ---- Mobile fullscreen canvas toggle ----
   const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
   function setAppFullscreen(on){
     document.body.classList.toggle('app-fullscreen', on);
@@ -1049,10 +1029,6 @@
 
         const newOffEdge = addEdge(basePt.id, offsetPt.id, offLen, false, true);
         if(newOffEdge && areaMode !== 'none'){
-          // Deviation area of a single cross-offset from a straight base line
-          // = 0.5 x base-line length x offset length (triangle base x height rule).
-          // 'subtract' = boundary cuts inward at this point (area lost, land is smaller)
-          // 'add'      = boundary bulges outward at this point (area gained, land is bigger)
           newOffEdge.offsetAreaMode = areaMode;
           newOffEdge.baseEdgeId = offsetBaseEdge.id;
           newOffEdge.baseEdgeLenAtCreation = offsetBaseEdge.length || null;
@@ -1280,7 +1256,6 @@
     }
   }
 
-  // Mouse Handlers
   canvas.addEventListener('mousedown', (e)=>{
     const {x, y} = getCanvasCoords(e.clientX, e.clientY);
     handlePointerDown(x, y);
@@ -1291,7 +1266,6 @@
   });
   window.addEventListener('mouseup', handlePointerUp);
 
-  // Mobile Touch Gestures
   canvas.addEventListener('touchstart', (e)=>{
     if(e.touches.length === 1){
       isPinching = false;
@@ -1397,7 +1371,6 @@
       ctx.restore();
     }
 
-    // Draw Edges
     for(const e of edges){
       const p1 = points.find(p=>p.id===e.a);
       const p2 = points.find(p=>p.id===e.b);
@@ -1436,8 +1409,6 @@
       ctx.restore();
     }
 
-    // Draw Edge Labels (separate pass with overlap avoidance so measurements
-    // don't sit on top of each other where several lines meet at one point)
     const placedLabels = [];
     ctx.font = "bold 11px 'JetBrains Mono', monospace";
     for(const e of edges){
@@ -1576,8 +1547,6 @@
       }
     });
 
-    // Offset deviation adjustments: each offset marked 'subtract' (inner cut) or
-    // 'add' (outer bulge) contributes 0.5 x baseLine x offsetLength to the total.
     let offsetRowsHtml = '';
     edges.forEach(e=>{
       if(!e.isOffset || !e.offsetAreaMode || e.offsetAreaMode === 'none' || !e.length) return;
@@ -1731,11 +1700,8 @@
       const total = posArea - negArea - deductArea;
       calcTotalCardEl.innerHTML = `
         <div class="calc-total-row main"><span>ആകെ വിസ്തീർണ്ണം</span><span>${total.toFixed(2)} Sq.m</span></div>
-        <div class="calc-total-row"><span>ചതുരശ്ര അടി</span><span>${(total*10.7639).toFixed(2)} Sq.ft</span></div>
-        <div class="calc-total-row"><span>സെന്റ്</span><span>${(total/40.4686).toFixed(3)} Cent</span></div>
-        <div class="calc-total-row"><span>ആർ</span><span>${(total/100).toFixed(3)} Are</span></div>
-        <div class="calc-total-row"><span>ഹെക്ടർ</span><span>${(total/10000).toFixed(4)} Hectare</span></div>
-        ${deductArea>0 ? `<div class="calc-total-row deduct"><span>(കിഴിവുകൾ ആകെ)</span><span>−${deductArea.toFixed(2)} Sq.m</span></div>` : ''}
+        <div class="calc-total-row" style="font-size:15px;font-weight:700;color:var(--accent-dark);padding-top:4px;"><span>സെന്റ്</span><span>${(total/40.4686).toFixed(3)} Cent</span></div>
+        ${deductArea>0 ? `<div class="calc-total-row deduct" style="margin-top:4px;border-top:1px dashed var(--border);padding-top:4px;"><span>(കിഴിവുകൾ ആകെ)</span><span>−${deductArea.toFixed(2)} Sq.m</span></div>` : ''}
       `;
     }
 
@@ -1923,7 +1889,6 @@
       saveDraft();
     });
 
-    // ---- Save / Load named plots ----
     const calcSaveModal = document.getElementById('calcSaveModal');
     const calcSaveNameInput = document.getElementById('calcSaveNameInput');
     document.getElementById('calcSaveBtn').addEventListener('click', ()=>{
@@ -2015,7 +1980,6 @@
       updateCalcTotals();
     }
 
-    // Load auto-saved draft so refreshing the page never loses field data
     try{
       const raw = localStorage.getItem(CALC_DRAFT_KEY);
       if(raw){
