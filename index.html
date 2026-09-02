@@ -230,8 +230,9 @@
     }
     .a4-sheet-container{
       border:1.5px solid #333;box-shadow:none;padding:8px;margin:0;border-radius:0;
-      height:280mm;display:flex;flex-direction:column;justify-content:space-between;
+      height:280mm;display:flex !important;flex-direction:column;justify-content:space-between;
     }
+    .calc-section{ display:none !important; }
     .canvas-box{border:1px solid #777;border-radius:0;}
     canvas{max-height:165mm;}
     .bottom-section{grid-template-columns:1.4fr 1fr;gap:6px;margin-top:auto;}
@@ -294,6 +295,64 @@
   @media (orientation:portrait){
     body.app-fullscreen .landscape-hint{ display:block; }
   }
+
+  /* ---- Field Survey Calculator ---- */
+  .calc-section{
+    background:var(--card); border:1px solid var(--border); border-radius:8px;
+    padding:10px; margin-top:8px; flex-direction:column; gap:10px; box-shadow:var(--shadow);
+  }
+  .calc-toolbar{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+  .calc-draft-name{ font-size:11px; color:var(--ink-soft); font-style:italic; margin-left:2px; }
+  .calc-hint{
+    font-size:11.5px; color:var(--ink-soft); line-height:1.65; background:#FBF8EE;
+    border:1px dashed var(--brass); border-radius:6px; padding:8px 10px;
+  }
+  .calc-card{
+    border:1px solid var(--border); border-radius:6px; padding:8px; background:#FAFAF7;
+  }
+  .calc-card-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px; }
+  .calc-card-header h3{ margin:0; font-size:12.5px; color:var(--ink); }
+  .mini-add{
+    background:var(--accent); border-color:var(--accent); color:#fff; font-size:11px; padding:6px 10px;
+  }
+  .mini-add:hover{ background:var(--accent-dark); color:#fff; }
+  .calc-row{
+    border:1px solid var(--border); border-radius:6px; padding:8px; background:#fff; margin-bottom:8px;
+  }
+  .calc-row:last-child{ margin-bottom:0; }
+  .calc-row-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:7px; font-size:12px; font-weight:700; color:var(--ink-soft); }
+  .calc-row-actions{ display:flex; gap:5px; }
+  .sign-btn{ width:32px; height:32px; border-radius:50%; font-weight:700; padding:0; font-size:15px; }
+  .sign-btn.sign-add{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .sign-btn.sign-sub{ background:var(--danger); border-color:var(--danger); color:#fff; }
+  .row-del-btn{ color:var(--danger); border-color:var(--danger); padding:6px 10px; font-size:12px; }
+  .calc-inputs{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+  .calc-inputs.two-col{ grid-template-columns:repeat(2,1fr); }
+  .calc-inputs label{ display:block; font-size:9.5px; color:var(--ink-soft); margin-bottom:2px; font-weight:600; }
+  .calc-inputs input{
+    font-family:'JetBrains Mono',monospace; font-size:16px; padding:8px; border-radius:5px;
+    border:1px solid var(--border); width:100%;
+  }
+  .calc-row-area{ margin-top:7px; font-size:12.5px; font-weight:700; font-family:'JetBrains Mono',monospace; min-height:16px; }
+  .calc-empty-note{ font-size:11.5px; color:var(--ink-soft); padding:4px 2px; margin:0; }
+
+  .calc-total-card{
+    border:2px solid var(--ink); border-radius:6px; padding:10px 12px; background:#EEF4EC;
+  }
+  .calc-total-row{ display:flex; justify-content:space-between; font-size:12.5px; padding:2px 0; font-family:'JetBrains Mono',monospace; }
+  .calc-total-row.main{ font-size:17px; font-weight:700; color:var(--accent-dark); border-bottom:1px dashed var(--border); padding-bottom:5px; margin-bottom:3px; }
+  .calc-total-row.deduct{ color:var(--danger); }
+
+  .calc-saved-list{ display:flex; flex-direction:column; gap:6px; max-height:300px; overflow-y:auto; }
+  .calc-saved-item{
+    display:flex; justify-content:space-between; align-items:center; gap:6px;
+    border:1px solid var(--border); border-radius:6px; padding:7px 9px; font-size:12px;
+  }
+  .calc-saved-item .meta{ flex:1; min-width:0; overflow:hidden; }
+  .calc-saved-item .meta .nm{ font-weight:700; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .calc-saved-item .meta .dt{ font-size:10px; color:var(--ink-soft); }
+  .calc-saved-item .load-btn{ background:var(--accent); border-color:var(--accent); color:#fff; font-size:11px; padding:6px 9px; flex-shrink:0; }
+  .calc-saved-item .del-btn{ color:var(--danger); border-color:var(--danger); font-size:11px; padding:6px 8px; flex-shrink:0; }
 </style>
 </head>
 <body>
@@ -313,6 +372,7 @@
     <button class="tab-btn" data-tab="tabEdit">🛠️ എഡിറ്റ് &amp; വ്യൂ (Edit)</button>
     <button class="tab-btn" data-tab="tabPartition">✂️ പാർട്ടീഷൻ (Part)</button>
     <button class="tab-btn" data-tab="tabReport">📊 റിപ്പോർട്ട് (Report)</button>
+    <button class="tab-btn" data-tab="tabCalc" id="calcTabBtn">🧮 സർവേ കാൽക്കുലേറ്റർ</button>
   </div>
 
   <!-- Panel 1: Draw -->
@@ -392,12 +452,76 @@
     </div>
   </div>
 
+  <!-- Field Survey Calculator (no sketch needed - direct number entry) -->
+  <div class="calc-section" id="calcSection" style="display:none;">
+    <div class="calc-toolbar">
+      <button id="calcSaveBtn" class="primary">💾 സേവ് ചെയ്യുക</button>
+      <button id="calcLoadBtn">📂 സേവ് ചെയ്തവ</button>
+      <button id="calcNewBtn" class="danger">🆕 പുതിയ കണക്ക്</button>
+      <span class="calc-draft-name" id="calcDraftName"></span>
+    </div>
+
+    <div class="calc-hint">
+      ഓരോ ത്രികോണത്തിന്റെയും 3 വശങ്ങൾ (a, b, c മീറ്ററിൽ) നൽകുക — area ഓട്ടോമാറ്റിക് ആയി കാണിക്കും.
+      ചെയിൻ ലൈനിൽ നിന്ന് എടുത്ത cross offset ഉണ്ടെങ്കിൽ ബേസ് ലൈൻ നീളവും ഓഫ്‌സെറ്റ് നീളവും നൽകി കൂട്ടാനോ കുറയ്ക്കാനോ തിരഞ്ഞെടുക്കുക.
+      കെട്ടിടം/കുളം/റോഡ് പോലെ ഭൂമിയിൽ നിന്ന് ഒഴിവാക്കേണ്ട ഭാഗങ്ങൾ ഉണ്ടെങ്കിൽ കിഴിവുകളിൽ ചേർക്കുക. എല്ലാ മാറ്റവും ഓട്ടോ-സേവ് ആകും.
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <h3>△ ത്രികോണങ്ങൾ (Triangles)</h3>
+        <button id="addTriangleBtn" class="mini-add">+ ത്രികോണം ചേർക്കുക</button>
+      </div>
+      <div id="triangleRows"></div>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <h3>⟂ ഓഫ്‌സെറ്റുകൾ (Cross Offsets)</h3>
+        <button id="addOffsetBtn" class="mini-add">+ ഓഫ്‌സെറ്റ് ചേർക്കുക</button>
+      </div>
+      <div id="offsetRows"></div>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <h3>➖ കിഴിവുകൾ (Deductions)</h3>
+        <button id="addDeductionBtn" class="mini-add">+ കിഴിവ് ചേർക്കുക</button>
+      </div>
+      <div id="deductionRows"></div>
+    </div>
+
+    <div class="calc-total-card" id="calcTotalCard"></div>
+  </div>
+
   <div class="screen-footer-credits">
     <span>Muraleedharan P</span>,&nbsp;Ph: 9400849115
   </div>
 </div>
 
-<!-- Modals -->
+<!-- Calculator Save/Load Modals -->
+<div class="modal-backdrop hidden" id="calcSaveModal">
+  <div class="modal">
+    <h3>💾 ഈ കണക്ക് സേവ് ചെയ്യുക</h3>
+    <label for="calcSaveNameInput">പ്ലോട്ട് / സർവേ പേര്:</label>
+    <input type="text" id="calcSaveNameInput" placeholder="ഉദാ: വാർഡ് 5 - രാമൻ പ്ലോട്ട്">
+    <div class="modal-actions">
+      <button id="calcSaveCancelBtn">ക്യാൻസൽ</button>
+      <button id="calcSaveConfirmBtn" class="primary">സേവ് ചെയ്യുക</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="calcLoadModal">
+  <div class="modal">
+    <h3>📂 സേവ് ചെയ്ത കണക്കുകൾ</h3>
+    <div id="calcSavedList" class="calc-saved-list"></div>
+    <div class="modal-actions">
+      <button id="calcLoadCancelBtn">അടയ്ക്കുക</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop hidden" id="lengthModal">
   <div class="modal">
     <h3 id="modalTitle">വരയുടെ അളവ് നൽകുക</h3>
@@ -473,8 +597,15 @@
       tabBtns.forEach(b => b.classList.remove('active-tab'));
       tabPanels.forEach(p => p.classList.remove('active-panel'));
       btn.classList.add('active-tab');
-      const targetPanel = document.getElementById(btn.getAttribute('data-tab'));
+      const tabId = btn.getAttribute('data-tab');
+      const targetPanel = document.getElementById(tabId);
       if(targetPanel) targetPanel.classList.add('active-panel');
+
+      const isCalcTab = (tabId === 'tabCalc');
+      const sheet = document.querySelector('.a4-sheet-container');
+      const calcSection = document.getElementById('calcSection');
+      if(sheet) sheet.style.display = isCalcTab ? 'none' : 'flex';
+      if(calcSection) calcSection.style.display = isCalcTab ? 'flex' : 'none';
     });
   });
 
@@ -1534,6 +1665,371 @@
       tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:11px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
     }
   });
+
+  // =========================================================
+  // Field Survey Calculator (standalone number-entry mode)
+  // =========================================================
+  (function(){
+    const CALC_DRAFT_KEY = 'chainSurveyCalcDraft_v1';
+    const CALC_SAVED_KEY = 'chainSurveyCalcSavedPlots_v1';
+
+    let calcTriangles = [];
+    let calcOffsets = [];
+    let calcDeductions = [];
+    let calcNextId = 1;
+    let calcDraftName = null;
+
+    const triangleRowsEl = document.getElementById('triangleRows');
+    const offsetRowsEl = document.getElementById('offsetRows');
+    const deductionRowsEl = document.getElementById('deductionRows');
+    const calcTotalCardEl = document.getElementById('calcTotalCard');
+    const calcDraftNameEl = document.getElementById('calcDraftName');
+
+    function heronSafe(a,b,c){
+      if(!a || !b || !c) return null;
+      if(a+b<=c || a+c<=b || b+c<=a) return null;
+      const s = (a+b+c)/2;
+      const val = s*(s-a)*(s-b)*(s-c);
+      return val>0 ? Math.sqrt(val) : null;
+    }
+
+    function saveDraft(){
+      try{
+        localStorage.setItem(CALC_DRAFT_KEY, JSON.stringify({
+          triangles: calcTriangles, offsets: calcOffsets, deductions: calcDeductions,
+          nextId: calcNextId, draftName: calcDraftName
+        }));
+      }catch(e){}
+    }
+
+    function getSavedPlots(){
+      try{ return JSON.parse(localStorage.getItem(CALC_SAVED_KEY) || '{}'); }catch(e){ return {}; }
+    }
+    function setSavedPlots(obj){
+      try{ localStorage.setItem(CALC_SAVED_KEY, JSON.stringify(obj)); }catch(e){}
+    }
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function updateDraftNameLabel(){
+      calcDraftNameEl.textContent = calcDraftName ? ('📄 ' + calcDraftName) : '';
+    }
+
+    function renderEmptyNotes(){
+      if(!calcTriangles.length) triangleRowsEl.innerHTML = '<p class="calc-empty-note">ഇതുവരെ ത്രികോണങ്ങൾ ചേർത്തിട്ടില്ല.</p>';
+      if(!calcOffsets.length) offsetRowsEl.innerHTML = '<p class="calc-empty-note">ഇതുവരെ ഓഫ്‌സെറ്റുകൾ ചേർത്തിട്ടില്ല.</p>';
+      if(!calcDeductions.length) deductionRowsEl.innerHTML = '<p class="calc-empty-note">കിഴിവുകൾ ഒന്നും ഇല്ല.</p>';
+    }
+
+    function updateCalcTotals(){
+      let posArea = 0, negArea = 0;
+      calcTriangles.forEach(t=>{ if(t._area!=null){ if(t.sign===1) posArea += t._area; else negArea += t._area; } });
+      calcOffsets.forEach(o=>{ if(o._area!=null){ if(o.sign===1) posArea += o._area; else negArea += o._area; } });
+      let deductArea = 0;
+      calcDeductions.forEach(d=>{ if(d.area) deductArea += d.area; });
+
+      const total = posArea - negArea - deductArea;
+      calcTotalCardEl.innerHTML = `
+        <div class="calc-total-row main"><span>ആകെ വിസ്തീർണ്ണം</span><span>${total.toFixed(2)} Sq.m</span></div>
+        <div class="calc-total-row"><span>ചതുരശ്ര അടി</span><span>${(total*10.7639).toFixed(2)} Sq.ft</span></div>
+        <div class="calc-total-row"><span>സെന്റ്</span><span>${(total/40.4686).toFixed(3)} Cent</span></div>
+        <div class="calc-total-row"><span>ആർ</span><span>${(total/100).toFixed(3)} Are</span></div>
+        <div class="calc-total-row"><span>ഹെക്ടർ</span><span>${(total/10000).toFixed(4)} Hectare</span></div>
+        ${deductArea>0 ? `<div class="calc-total-row deduct"><span>(കിഴിവുകൾ ആകെ)</span><span>−${deductArea.toFixed(2)} Sq.m</span></div>` : ''}
+      `;
+    }
+
+    function createTriangleRow(item){
+      const row = document.createElement('div');
+      row.className = 'calc-row';
+      row.innerHTML = `
+        <div class="calc-row-head">
+          <span>ത്രികോണം</span>
+          <div class="calc-row-actions">
+            <button type="button" class="sign-btn ${item.sign===1?'sign-add':'sign-sub'}">${item.sign===1?'+':'−'}</button>
+            <button type="button" class="row-del-btn">✕</button>
+          </div>
+        </div>
+        <div class="calc-inputs">
+          <div><label>Line A (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-a" value="${item.a ?? ''}"></div>
+          <div><label>Line B (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-b" value="${item.b ?? ''}"></div>
+          <div><label>Line C (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-c" value="${item.c ?? ''}"></div>
+        </div>
+        <div class="calc-row-area"></div>
+      `;
+      const inA = row.querySelector('.in-a'), inB = row.querySelector('.in-b'), inC = row.querySelector('.in-c');
+      const areaEl = row.querySelector('.calc-row-area');
+      const signBtn = row.querySelector('.sign-btn');
+      const delBtn = row.querySelector('.row-del-btn');
+
+      function recompute(){
+        item.a = parseFloat(inA.value) || null;
+        item.b = parseFloat(inB.value) || null;
+        item.c = parseFloat(inC.value) || null;
+        const area = heronSafe(item.a, item.b, item.c);
+        item._area = area;
+        if(area===null){
+          areaEl.textContent = (item.a||item.b||item.c) ? 'അസാധുവായ ത്രികോണം — അളവ് പരിശോധിക്കുക' : '';
+          areaEl.style.color = 'var(--danger)';
+        } else {
+          areaEl.textContent = `= ${area.toFixed(2)} Sq.m ${item.sign===1?'(+)':'(−)'}`;
+          areaEl.style.color = item.sign===1 ? 'var(--accent-dark)' : 'var(--danger)';
+        }
+        saveDraft();
+        updateCalcTotals();
+      }
+      [inA,inB,inC].forEach(inp=>inp.addEventListener('input', recompute));
+      signBtn.addEventListener('click', ()=>{
+        item.sign = item.sign===1 ? -1 : 1;
+        signBtn.textContent = item.sign===1 ? '+' : '−';
+        signBtn.classList.toggle('sign-add', item.sign===1);
+        signBtn.classList.toggle('sign-sub', item.sign===-1);
+        recompute();
+      });
+      delBtn.addEventListener('click', ()=>{
+        calcTriangles = calcTriangles.filter(t=>t.id!==item.id);
+        row.remove();
+        saveDraft(); updateCalcTotals(); renderEmptyNotes();
+      });
+      recompute();
+      return row;
+    }
+
+    function createOffsetRow(item){
+      const row = document.createElement('div');
+      row.className = 'calc-row';
+      row.innerHTML = `
+        <div class="calc-row-head">
+          <span>ഓഫ്‌സെറ്റ്</span>
+          <div class="calc-row-actions">
+            <button type="button" class="sign-btn ${item.sign===1?'sign-add':'sign-sub'}">${item.sign===1?'+':'−'}</button>
+            <button type="button" class="row-del-btn">✕</button>
+          </div>
+        </div>
+        <div class="calc-inputs two-col">
+          <div><label>ബേസ് ലൈൻ (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-base" value="${item.base ?? ''}"></div>
+          <div><label>ഓഫ്‌സെറ്റ് നീളം (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-off" value="${item.offset ?? ''}"></div>
+        </div>
+        <div class="calc-row-area"></div>
+      `;
+      const inBase = row.querySelector('.in-base'), inOff = row.querySelector('.in-off');
+      const areaEl = row.querySelector('.calc-row-area');
+      const signBtn = row.querySelector('.sign-btn');
+      const delBtn = row.querySelector('.row-del-btn');
+
+      function recompute(){
+        item.base = parseFloat(inBase.value) || null;
+        item.offset = parseFloat(inOff.value) || null;
+        const area = (item.base && item.offset) ? 0.5*item.base*item.offset : null;
+        item._area = area;
+        if(area===null){
+          areaEl.textContent = '';
+        } else {
+          areaEl.textContent = `= ${area.toFixed(2)} Sq.m ${item.sign===1?'(+)':'(−)'}`;
+          areaEl.style.color = item.sign===1 ? 'var(--accent-dark)' : 'var(--danger)';
+        }
+        saveDraft();
+        updateCalcTotals();
+      }
+      [inBase,inOff].forEach(inp=>inp.addEventListener('input', recompute));
+      signBtn.addEventListener('click', ()=>{
+        item.sign = item.sign===1 ? -1 : 1;
+        signBtn.textContent = item.sign===1 ? '+' : '−';
+        signBtn.classList.toggle('sign-add', item.sign===1);
+        signBtn.classList.toggle('sign-sub', item.sign===-1);
+        recompute();
+      });
+      delBtn.addEventListener('click', ()=>{
+        calcOffsets = calcOffsets.filter(o=>o.id!==item.id);
+        row.remove();
+        saveDraft(); updateCalcTotals(); renderEmptyNotes();
+      });
+      recompute();
+      return row;
+    }
+
+    function createDeductionRow(item){
+      const row = document.createElement('div');
+      row.className = 'calc-row';
+      row.innerHTML = `
+        <div class="calc-row-head">
+          <span>കിഴിവ്</span>
+          <div class="calc-row-actions">
+            <button type="button" class="row-del-btn">✕</button>
+          </div>
+        </div>
+        <div class="calc-inputs two-col">
+          <div><label>എന്താണ് (ഉദാ: കെട്ടിടം)</label><input type="text" class="in-label" value="${item.label ? escapeHtml(item.label) : ''}"></div>
+          <div><label>വിസ്തീർണ്ണം (Sq.m)</label><input type="number" step="0.01" inputmode="decimal" class="in-area" value="${item.area ?? ''}"></div>
+        </div>
+        <div class="calc-row-area"></div>
+      `;
+      const inLabel = row.querySelector('.in-label'), inArea = row.querySelector('.in-area');
+      const areaEl = row.querySelector('.calc-row-area');
+      const delBtn = row.querySelector('.row-del-btn');
+
+      function recompute(){
+        item.label = inLabel.value || '';
+        item.area = parseFloat(inArea.value) || null;
+        if(item.area){
+          areaEl.textContent = `− ${item.area.toFixed(2)} Sq.m`;
+          areaEl.style.color = 'var(--danger)';
+        } else {
+          areaEl.textContent = '';
+        }
+        saveDraft();
+        updateCalcTotals();
+      }
+      inLabel.addEventListener('input', recompute);
+      inArea.addEventListener('input', recompute);
+      delBtn.addEventListener('click', ()=>{
+        calcDeductions = calcDeductions.filter(d=>d.id!==item.id);
+        row.remove();
+        saveDraft(); updateCalcTotals(); renderEmptyNotes();
+      });
+      recompute();
+      return row;
+    }
+
+    document.getElementById('addTriangleBtn').addEventListener('click', ()=>{
+      if(!calcTriangles.length) triangleRowsEl.innerHTML='';
+      const item = { id: calcNextId++, a:null, b:null, c:null, sign:1 };
+      calcTriangles.push(item);
+      triangleRowsEl.appendChild(createTriangleRow(item));
+      saveDraft();
+    });
+    document.getElementById('addOffsetBtn').addEventListener('click', ()=>{
+      if(!calcOffsets.length) offsetRowsEl.innerHTML='';
+      const item = { id: calcNextId++, base:null, offset:null, sign:1 };
+      calcOffsets.push(item);
+      offsetRowsEl.appendChild(createOffsetRow(item));
+      saveDraft();
+    });
+    document.getElementById('addDeductionBtn').addEventListener('click', ()=>{
+      if(!calcDeductions.length) deductionRowsEl.innerHTML='';
+      const item = { id: calcNextId++, label:'', area:null };
+      calcDeductions.push(item);
+      deductionRowsEl.appendChild(createDeductionRow(item));
+      saveDraft();
+    });
+
+    document.getElementById('calcNewBtn').addEventListener('click', ()=>{
+      if(!confirm('നിലവിലെ കണക്ക് ക്ലിയർ ചെയ്ത് പുതിയത് തുടങ്ങണോ? സേവ് ചെയ്യാത്ത മാറ്റങ്ങൾ നഷ്ടപ്പെടും.')) return;
+      calcTriangles = []; calcOffsets = []; calcDeductions = []; calcDraftName = null;
+      triangleRowsEl.innerHTML=''; offsetRowsEl.innerHTML=''; deductionRowsEl.innerHTML='';
+      renderEmptyNotes();
+      updateCalcTotals();
+      updateDraftNameLabel();
+      saveDraft();
+    });
+
+    // ---- Save / Load named plots ----
+    const calcSaveModal = document.getElementById('calcSaveModal');
+    const calcSaveNameInput = document.getElementById('calcSaveNameInput');
+    document.getElementById('calcSaveBtn').addEventListener('click', ()=>{
+      calcSaveNameInput.value = calcDraftName || '';
+      calcSaveModal.classList.remove('hidden');
+      setTimeout(()=>calcSaveNameInput.focus(), 50);
+    });
+    document.getElementById('calcSaveCancelBtn').addEventListener('click', ()=>{
+      calcSaveModal.classList.add('hidden');
+    });
+    document.getElementById('calcSaveConfirmBtn').addEventListener('click', ()=>{
+      const name = calcSaveNameInput.value.trim();
+      if(!name){ alert('ദയവായി ഒരു പേര് നൽകുക.'); return; }
+      const plots = getSavedPlots();
+      plots[name] = {
+        triangles: calcTriangles, offsets: calcOffsets, deductions: calcDeductions,
+        nextId: calcNextId, savedAt: new Date().toISOString()
+      };
+      setSavedPlots(plots);
+      calcDraftName = name;
+      updateDraftNameLabel();
+      saveDraft();
+      calcSaveModal.classList.add('hidden');
+    });
+
+    const calcLoadModal = document.getElementById('calcLoadModal');
+    const calcSavedListEl = document.getElementById('calcSavedList');
+    function renderSavedList(){
+      const plots = getSavedPlots();
+      const names = Object.keys(plots).sort();
+      if(!names.length){
+        calcSavedListEl.innerHTML = '<p class="calc-empty-note">സേവ് ചെയ്ത കണക്കുകൾ ഒന്നും ഇല്ല.</p>';
+        return;
+      }
+      calcSavedListEl.innerHTML = names.map(n=>{
+        const data = plots[n];
+        const dateStr = data.savedAt ? new Date(data.savedAt).toLocaleDateString('en-GB') : '';
+        return `
+          <div class="calc-saved-item" data-name="${escapeHtml(n)}">
+            <div class="meta"><span class="nm">${escapeHtml(n)}</span><span class="dt">${dateStr}</span></div>
+            <button type="button" class="load-btn">📂 തുറക്കുക</button>
+            <button type="button" class="del-btn">✕</button>
+          </div>
+        `;
+      }).join('');
+    }
+    calcSavedListEl.addEventListener('click', (e)=>{
+      const itemEl = e.target.closest('.calc-saved-item');
+      if(!itemEl) return;
+      const name = itemEl.dataset.name;
+      if(e.target.classList.contains('load-btn')){
+        const plots = getSavedPlots();
+        const data = plots[name];
+        if(data){
+          calcTriangles = (data.triangles||[]).map(t=>({...t}));
+          calcOffsets = (data.offsets||[]).map(o=>({...o}));
+          calcDeductions = (data.deductions||[]).map(d=>({...d}));
+          calcNextId = data.nextId || (1 + Math.max(0,
+            ...calcTriangles.map(t=>t.id||0), ...calcOffsets.map(o=>o.id||0), ...calcDeductions.map(d=>d.id||0)));
+          calcDraftName = name;
+          rebuildAllRows();
+          updateDraftNameLabel();
+          saveDraft();
+          calcLoadModal.classList.add('hidden');
+        }
+      } else if(e.target.classList.contains('del-btn')){
+        if(confirm(`"${name}" ഡിലീറ്റ് ചെയ്യണോ?`)){
+          const plots = getSavedPlots();
+          delete plots[name];
+          setSavedPlots(plots);
+          renderSavedList();
+        }
+      }
+    });
+    document.getElementById('calcLoadBtn').addEventListener('click', ()=>{
+      renderSavedList();
+      calcLoadModal.classList.remove('hidden');
+    });
+    document.getElementById('calcLoadCancelBtn').addEventListener('click', ()=>{
+      calcLoadModal.classList.add('hidden');
+    });
+
+    function rebuildAllRows(){
+      triangleRowsEl.innerHTML=''; offsetRowsEl.innerHTML=''; deductionRowsEl.innerHTML='';
+      calcTriangles.forEach(t=>triangleRowsEl.appendChild(createTriangleRow(t)));
+      calcOffsets.forEach(o=>offsetRowsEl.appendChild(createOffsetRow(o)));
+      calcDeductions.forEach(d=>deductionRowsEl.appendChild(createDeductionRow(d)));
+      renderEmptyNotes();
+      updateCalcTotals();
+    }
+
+    // Load auto-saved draft so refreshing the page never loses field data
+    try{
+      const raw = localStorage.getItem(CALC_DRAFT_KEY);
+      if(raw){
+        const data = JSON.parse(raw);
+        calcTriangles = data.triangles || [];
+        calcOffsets = data.offsets || [];
+        calcDeductions = data.deductions || [];
+        calcNextId = data.nextId || 1;
+        calcDraftName = data.draftName || null;
+      }
+    }catch(e){}
+    rebuildAllRows();
+    updateDraftNameLabel();
+  })();
 
   redraw();
 })();
