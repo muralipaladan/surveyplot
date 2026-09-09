@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>സ്മാർട്ട് ചെയിൻ സർവേയർ CAD</title>
+<meta name="theme-color" content="#1B261A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SurveyCAD">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%231B261A'/%3E%3Cpolygon points='110,380 90,160 360,90 430,340' fill='%23276E2C' fill-opacity='0.25' stroke='%23C59B27' stroke-width='16' stroke-linejoin='round'/%3E%3Cline x1='90' y1='160' x2='430' y2='340' stroke='%23FFFFFF' stroke-width='10' stroke-dasharray='16 12'/%3E%3Cline x1='260' y1='250' x2='360' y2='90' stroke='%2300B4D8' stroke-width='12'/%3E%3Ccircle cx='110' cy='380' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='90' cy='160' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='360' cy='90' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='430' cy='340' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='260' cy='250' r='14' fill='%2300B4D8' stroke='%23FFFFFF' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%231B261A'/%3E%3Cpolygon points='110,380 90,160 360,90 430,340' fill='%23276E2C' fill-opacity='0.25' stroke='%23C59B27' stroke-width='16' stroke-linejoin='round'/%3E%3Cline x1='90' y1='160' x2='430' y2='340' stroke='%23FFFFFF' stroke-width='10' stroke-dasharray='16 12'/%3E%3Cline x1='260' y1='250' x2='360' y2='90' stroke='%2300B4D8' stroke-width='12'/%3E%3Ccircle cx='110' cy='380' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='90' cy='160' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='360' cy='90' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='430' cy='340' r='18' fill='%23FFFFFF' stroke='%23C59B27' stroke-width='6'/%3E%3Ccircle cx='260' cy='250' r='14' fill='%2300B4D8' stroke='%23FFFFFF' stroke-width='4'/%3E%3C/svg%3E">
+
+<link rel="manifest" href='data:application/manifest+json,{"name":"ചെയിൻ സർവേയർ CAD","short_name":"SurveyCAD","description":"A4 Land Sketch, Cross Offset and Area Calculator","start_url":".","display":"standalone","background_color":"%23F2EFE9","theme_color":"%231B261A","orientation":"any","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27%3E%3Crect width=%27512%27 height=%27512%27 rx=%27110%27 fill=%27%231B261A%27/%3E%3Cpolygon points=%27110,380 90,160 360,90 430,340%27 fill=%27%23276E2C%27 fill-opacity=%270.25%27 stroke=%27%23C59B27%27 stroke-width=%2716%27 stroke-linejoin=%27round%27/%3E%3Cline x1=%2790%27 y1=%27160%27 x2=%27430%27 y2=%27340%27 stroke=%27%23FFFFFF%27 stroke-width=%2710%27 stroke-dasharray=%2716 12%27/%3E%3Cline x1=%27260%27 y1=%27250%27 x2=%27360%27 y2=%2790%27 stroke=%27%2300B4D8%27 stroke-width=%2712%27/%3E%3Ccircle cx=%27110%27 cy=%27380%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%2790%27 cy=%27160%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%27360%27 cy=%2790%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%27430%27 cy=%27340%27 r=%2718%27 fill=%27%23FFFFFF%27 stroke=%27%23C59B27%27 stroke-width=%276%27/%3E%3Ccircle cx=%27260%27 cy=%27250%27 r=%2714%27 fill=%27%2300B4D8%27 stroke=%27%23FFFFFF%27 stroke-width=%274%27/%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}'>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#F2EFE9;
+    --paper:#FFFFFF;
+    --grid:#E5DFC9;
+    --ink:#1B261A;
+    --ink-soft:#5A5747;
+    --outer:#111A10;
+    --inner:#7A5E2E;
+    --road:#C0392B;
+    --accent:#276E2C;
+    --accent-dark:#184A1C;
+    --part-color:#0066CC;
+    --brass:#C59B27;
+    --danger:#C0392B;
+    --card:#FFFFFF;
+    --border:#CDC1A7;
+    --shadow:0 3px 10px rgba(0,0,0,0.05);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:'Noto Sans Malayalam', sans-serif;
+    color:var(--ink);
+    padding:6px 6px 20px;
+    overscroll-behavior-y:contain;
+  }
+  .app{max-width:1180px;margin:0 auto;position:relative;}
+  
+  header{
+    display:flex;justify-content:space-between;align-items:center;
+    border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:6px;
+  }
+  h1{margin:0;font-size:16px;font-weight:700;color:var(--ink);}
+  .header-actions{display:flex;align-items:center;gap:6px;}
+  .tag{
+    background:var(--accent);color:#fff;font-size:10px;font-weight:700;
+    padding:2px 6px;border-radius:4px;letter-spacing:0.5px;
+  }
+  .install-btn{
+    background:var(--ink);color:#fff;font-size:10.5px;font-weight:700;
+    padding:3px 7px;border-radius:4px;border:none;cursor:pointer;display:none;
+  }
+
+  .tabs-nav{
+    display:flex;gap:4px;background:#E7E2D4;padding:3px;border-radius:6px;margin-bottom:6px;
+    overflow-x:auto;white-space:nowrap;
+  }
+  .tab-btn{
+    flex:1;text-align:center;padding:5px 8px;font-size:11.5px;font-weight:700;
+    background:transparent;border:none;border-radius:4px;color:var(--ink-soft);cursor:pointer;
+  }
+  .tab-btn.active-tab{
+    background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.08);
+  }
+
+  .tab-panel{
+    display:none;align-items:center;gap:4px;background:var(--card);
+    border:1px solid var(--border);border-radius:6px;padding:5px 8px;margin-bottom:6px;
+    overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;box-shadow:var(--shadow);
+  }
+  .tab-panel.active-panel{display:flex;}
+  .tab-panel::-webkit-scrollbar{height:3px;}
+  .tab-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+  button, select{
+    font-family:inherit;font-size:11px;font-weight:600;
+    padding:5px 8px;border-radius:4px;border:1px solid var(--border);
+    background:#fff;color:var(--ink);cursor:pointer;transition:all .15s ease;
+    flex-shrink:0;
+  }
+  button:hover, select:hover{border-color:var(--accent);color:var(--accent-dark);}
+  button.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  button.active-part{background:var(--part-color);border-color:var(--part-color);color:#fff;}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+  button.primary:hover{background:var(--accent-dark);}
+  button.danger{color:var(--danger);border-color:var(--danger);}
+  button.danger:hover{background:var(--danger);color:#fff;}
+  button.lock-active{background:#444;border-color:#222;color:#fff;}
+  
+  .scale-label{
+    font-family:'JetBrains Mono', monospace;font-size:11px;font-weight:700;
+    padding:2px 4px;color:var(--accent-dark);
+  }
+
+  .a4-sheet-container{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:6px;
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .canvas-box{
+    position:relative;
+    width:100%;
+    height:min(72vh, 640px);
+    background:var(--paper);
+    border-radius:6px;
+    border:1px solid var(--grid);
+    overflow:hidden;
+    touch-action:none;
+  }
+
+  .legend{
+    display:flex;gap:10px;font-size:10.5px;color:var(--ink-soft);padding:2px 2px 4px;flex-wrap:wrap;
+  }
+  .legend span{display:inline-flex;align-items:center;gap:4px;}
+  .swatch{width:14px;height:0;border-top:2.4px solid var(--outer);display:inline-block;}
+  .swatch.part{border-top:2.4px solid var(--part-color);}
+  .swatch.offset{border-top:1.8px dashed var(--road);}
+  .swatch.dot{border-top:1.8px dashed var(--inner);}
+  
+  canvas{
+    display:block;width:100%;height:100%;background:var(--paper);cursor:crosshair;touch-action:none;
+  }
+  .status-bar{
+    font-size:11px;color:var(--brass);margin-top:3px;padding:1px 2px;font-weight:600;
+  }
+
+  .bottom-section{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap:8px;
+    align-items:start;
+  }
+  @media(max-width:768px){
+    .bottom-section{grid-template-columns:1fr;}
+  }
+  .sheet-wrapper{
+    background:#FAFAF7;border:1px solid var(--border);border-radius:6px;
+    padding:8px;
+  }
+  .table-header-block{
+    display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--ink);
+    padding-bottom:3px;margin-bottom:4px;
+  }
+  .table-header-block h2{margin:0;font-size:12.5px;color:var(--ink);}
+  .table-header-block .survey-date{font-size:10.5px;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;}
+
+  table{
+    width:100%;border-collapse:collapse;font-size:10.5px;text-align:left;
+  }
+  th, td{
+    padding:4px 5px;border-bottom:1px solid var(--border);
+  }
+  th{background:#EFECE2;font-weight:600;color:var(--ink);border-top:1px solid var(--border);}
+  td.mono{font-family:'JetBrains Mono', monospace;font-weight:600;}
+  .total-row{
+    background:#EEF4EC;font-weight:700;font-size:11px;color:var(--accent-dark);
+  }
+  
+  .note-box{
+    border:1px dashed var(--border);border-radius:6px;padding:6px;background:#fff;
+    font-size:10.5px;line-height:1.4;color:var(--ink-soft);
+  }
+  .sign-space{
+    margin-top:12px;display:flex;justify-content:space-between;font-weight:600;color:var(--ink);
+  }
+
+  .screen-footer-credits{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-top:8px;
+    padding:3px 6px;
+    background:rgba(255,255,255,0.7);
+    border:1px solid var(--border);
+    border-radius:4px;
+  }
+  .screen-footer-credits span{
+    color:var(--accent-dark);
+    font-weight:700;
+  }
+
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,0.45);
+    display:flex;align-items:center;justify-content:center;z-index:100;
+    padding:10px;
+  }
+  .modal-backdrop.hidden{display:none;}
+  .modal{
+    background:#fff;border-radius:8px;padding:14px;width:100%;max-width:310px;box-shadow:var(--shadow);
+  }
+  .modal h3{margin:0 0 6px;font-size:13.5px;}
+  .modal label{display:block;font-size:11px;color:var(--ink-soft);margin-bottom:2px;font-weight:600;}
+  .modal input, .modal select{
+    width:100%;font-family:'JetBrains Mono', monospace;font-size:13px;
+    padding:6px 8px;border-radius:4px;border:1px solid var(--border);margin-bottom:8px;
+  }
+  .modal-actions{display:flex;justify-content:flex-end;gap:5px;}
+
+  @media print{
+    @page { size: A4 portrait; margin: 8mm; }
+    body{background:#fff;padding:0;}
+    .tabs-nav, .tab-panel, .modal-backdrop, .status-bar, .tag, .install-btn, button, select, .screen-footer-credits{
+      display:none !important;
+    }
+    .a4-sheet-container{
+      border:1.5px solid #333;box-shadow:none;padding:8px;margin:0;border-radius:0;
+      height:280mm;display:flex !important;flex-direction:column;justify-content:space-between;
+    }
+    .calc-section{ display:none !important; }
+    .canvas-box{border:1px solid #777;border-radius:0;height:auto !important;}
+    canvas{width:100% !important;height:auto !important;max-height:165mm;}
+    .bottom-section{grid-template-columns:1.4fr 1fr;gap:6px;margin-top:auto;}
+    .sheet-wrapper{background:#fff;border:1px solid #777;padding:5px;border-radius:0;}
+    .note-box{border:1px solid #777;border-radius:0;padding:5px;}
+    table{font-size:9.5px;}
+    th, td{padding:3px 5px;}
+  }
+
+  button, select, .tab-btn{ touch-action:manipulation; }
+  @media (max-width:640px){
+    button, select, .tab-btn{
+      min-height:38px;
+      padding:7px 10px;
+      font-size:12.5px;
+    }
+    h1{font-size:14.5px;}
+    .table-header-block h2{font-size:12px;}
+  }
+  @media (max-width:640px), (hover:none){
+    .modal input, .modal select{ font-size:16px; }
+  }
+
+  .canvas-box{ position:relative; }
+  .fullscreen-toggle-btn{
+    position:absolute; top:8px; right:8px; z-index:5;
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(255,255,255,0.92); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-size:17px; box-shadow:var(--shadow); cursor:pointer; padding:0;
+    touch-action:manipulation;
+  }
+  .landscape-hint{
+    display:none; text-align:center; font-size:11px; color:var(--brass);
+    margin-top:4px; font-weight:600;
+  }
+
+  body.app-fullscreen{ overflow:hidden; }
+  body.app-fullscreen .app{
+    position:fixed; inset:0; z-index:300; max-width:none; margin:0;
+    background:var(--bg); display:flex; flex-direction:column; padding:6px;
+  }
+  body.app-fullscreen header,
+  body.app-fullscreen .bottom-section,
+  body.app-fullscreen .screen-footer-credits,
+  body.app-fullscreen .legend{ display:none !important; }
+  body.app-fullscreen .a4-sheet-container{ flex:1; min-height:0; padding:4px; }
+  body.app-fullscreen .a4-sheet-container > div:first-child{
+    flex:1; min-height:0; display:flex; flex-direction:column;
+  }
+  body.app-fullscreen .canvas-box{
+    flex:1; min-height:0; height:auto;
+  }
+  body.app-fullscreen canvas{
+    width:100% !important; height:100% !important; max-width:none; max-height:none;
+  }
+  @media (orientation:portrait){
+    body.app-fullscreen .landscape-hint{ display:block; }
+  }
+
+  /* Field Survey Calculator */
+  .calc-section{
+    background:var(--card); border:1px solid var(--border); border-radius:8px;
+    padding:9px; margin-top:8px; flex-direction:column; gap:8px; box-shadow:var(--shadow);
+  }
+  .calc-toolbar{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+  .calc-draft-name{ font-size:11px; color:var(--ink-soft); font-style:italic; margin-left:2px; }
+  .calc-card{
+    border:1px solid var(--border); border-radius:6px; padding:7px; background:#FAFAF7;
+  }
+  .calc-card-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:7px; flex-wrap:wrap; gap:6px; }
+  .calc-card-header h3{ margin:0; font-size:12.5px; color:var(--ink); }
+  .mini-add{
+    background:var(--accent); border-color:var(--accent); color:#fff; font-size:11px; padding:6px 10px;
+  }
+  .mini-add:hover{ background:var(--accent-dark); color:#fff; }
+  .calc-row{
+    border:1px solid var(--border); border-radius:6px; padding:7px; background:#fff; margin-bottom:6px;
+  }
+  .calc-row:last-child{ margin-bottom:0; }
+  .calc-row-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:12px; font-weight:700; color:var(--ink-soft); }
+  .calc-row-actions{ display:flex; gap:5px; }
+  .sign-btn{ width:32px; height:32px; border-radius:50%; font-weight:700; padding:0; font-size:15px; }
+  .sign-btn.sign-add{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .sign-btn.sign-sub{ background:var(--danger); border-color:var(--danger); color:#fff; }
+  .row-del-btn{ color:var(--danger); border-color:var(--danger); padding:6px 10px; font-size:12px; }
+  .calc-inputs{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+  .calc-inputs.two-col{ grid-template-columns:repeat(2,1fr); }
+  .calc-inputs label{ display:block; font-size:9.5px; color:var(--ink-soft); margin-bottom:2px; font-weight:600; }
+  .calc-inputs input{
+    font-family:'JetBrains Mono',monospace; font-size:16px; padding:7px; border-radius:5px;
+    border:1px solid var(--border); width:100%;
+  }
+  .calc-row-area{ margin-top:6px; font-size:12.5px; font-weight:700; font-family:'JetBrains Mono',monospace; min-height:16px; }
+  .calc-empty-note{ font-size:11.5px; color:var(--ink-soft); padding:4px 2px; margin:0; }
+
+  .calc-total-card{
+    position:sticky; top:2px; z-index:3;
+    border:2px solid var(--ink); border-radius:6px; padding:9px 11px; background:#EEF4EC;
+    box-shadow:0 2px 8px rgba(34,48,31,0.18);
+  }
+  .calc-total-row{ display:flex; justify-content:space-between; font-size:12px; padding:1px 0; font-family:'JetBrains Mono',monospace; }
+  .calc-total-row.main{ font-size:17px; font-weight:700; color:var(--accent-dark); border-bottom:1px dashed var(--border); padding-bottom:4px; margin-bottom:2px; }
+  .calc-total-row.deduct{ color:var(--danger); }
+
+  .calc-saved-list{ display:flex; flex-direction:column; gap:6px; max-height:300px; overflow-y:auto; }
+  .calc-saved-item{
+    display:flex; justify-content:space-between; align-items:center; gap:6px;
+    border:1px solid var(--border); border-radius:6px; padding:7px 9px; font-size:12px;
+  }
+  .calc-saved-item .meta{ flex:1; min-width:0; overflow:hidden; }
+  .calc-saved-item .meta .nm{ font-weight:700; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .calc-saved-item .meta .dt{ font-size:10px; color:var(--ink-soft); }
+  .calc-saved-item .load-btn{ background:var(--accent); border-color:var(--accent); color:#fff; font-size:11px; padding:6px 9px; flex-shrink:0; }
+  .calc-saved-item .del-btn{ color:var(--danger); border-color:var(--danger); font-size:11px; padding:6px 8px; flex-shrink:0; }
+
+  @media (max-width:640px){
+    .calc-section{ padding:7px; gap:7px; }
+    .calc-card{ padding:6px; }
+    .calc-row{ padding:6px; }
+    .calc-inputs{ gap:5px; }
+    .calc-toolbar button{ flex:1 1 auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="printArea">
+  <header>
+    <h1>ചെയിൻ സർവേ CAD</h1>
+    <div class="header-actions">
+      <button id="installAppBtn" class="install-btn">📲 ഇൻസ്റ്റാൾ</button>
+      <span class="tag">CAD PRO</span>
+    </div>
+  </header>
+
+  <div class="tabs-nav">
+    <button class="tab-btn active-tab" data-tab="tabDraw">✏️ വരയ്ക്കൽ (Draw)</button>
+    <button class="tab-btn" data-tab="tabEdit">🛠️ എഡിറ്റ് &amp; വ്യൂ (Edit)</button>
+    <button class="tab-btn" data-tab="tabPartition">✂️ പാർട്ടീഷൻ (Part)</button>
+    <button class="tab-btn" data-tab="tabReport">📊 റിപ്പോർട്ട് (Report)</button>
+    <button class="tab-btn" data-tab="tabCalc" id="calcTabBtn">🧮 സർവേ കാൽക്കുലേറ്റർ</button>
+  </div>
+
+  <div class="tab-panel active-panel" id="tabDraw">
+    <button id="modeDraw" class="active">✏️ പ്ലോട്ട്</button>
+    <button id="modeRect">⬛ ചതുരം</button>
+    <button id="modeOffset">⟂ ഓഫ്‌സെറ്റ് (90°)</button>
+    <button id="undoBtn">↩ Undo</button>
+    <button id="clearBtn" class="danger">🗑 ക്ലിയർ</button>
+    <button id="orientToggleBtn" title="ഷീറ്റ് ഓറിയന്റേഷൻ">📄 A4 Portrait</button>
+  </div>
+
+  <div class="tab-panel" id="tabEdit">
+    <button id="modeValue">📏 അളവ് മാറ്റുക</button>
+    <button id="modeColor">🎨 കളർ</button>
+    <button id="modeDelete" class="danger">❌ ഒഴിവാക്കുക</button>
+    <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
+    <button id="zoomOutBtn">🔍 -</button>
+    <span class="scale-label" id="scaleLabel">100%</span>
+    <button id="zoomInBtn">🔍 +</button>
+    <button id="zoomResetBtn">Reset</button>
+  </div>
+
+  <div class="tab-panel" id="tabPartition">
+    <button id="lockMainBtn">🔓 മെയിൻ ലോക്ക്</button>
+    <button id="modePartition">✂️ പാർട്ട് വരയ്ക്കുക</button>
+    <button id="modeMovePart">📦 മൂവ് പാർട്ട്</button>
+  </div>
+
+  <div class="tab-panel" id="tabReport">
+    <button id="calcBtn" class="primary">📐 വിസ്തീർണ്ണം</button>
+    <select id="pdfOrientation">
+      <option value="portrait">📄 A4 Portrait</option>
+      <option value="landscape">📑 A4 Landscape</option>
+    </select>
+    <button id="printBtn" class="primary">🖨️ PDF / Print</button>
+  </div>
+
+  <div class="a4-sheet-container">
+    <div>
+      <div class="legend">
+        <span><span class="swatch"></span> അതിർത്തി</span>
+        <span><span class="swatch part"></span> പാർട്ടീഷൻ</span>
+        <span><span class="swatch offset"></span> ഓഫ്‌സെറ്റ്</span>
+        <span><span class="swatch dot"></span> ചെയിൻ ലൈൻ</span>
+      </div>
+      <div class="canvas-box">
+        <canvas id="canvas"></canvas>
+        <button id="fullscreenToggleBtn" class="fullscreen-toggle-btn" title="വലുതാക്കുക">⤢</button>
+      </div>
+      <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്. (രണ്ട് വിരൽ കൊണ്ട് സൂം/പാൻ ചെയ്യാം)</div>
+      <div class="landscape-hint" id="landscapeHint">📱 കൂടുതൽ ഇടത്തിന് ഫോൺ ലാൻഡ്സ്കേപ്പ് ആക്കൂ</div>
+    </div>
+
+    <div class="bottom-section">
+      <div class="sheet-wrapper">
+        <div class="table-header-block">
+          <h2>വിസ്തീർണ്ണ പട്ടിക (Area Statement)</h2>
+          <div class="survey-date" id="surveyDateLabel">DATE: ---</div>
+        </div>
+        <div id="tableContainer">
+          <p style="color:var(--ink-soft);font-size:11px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>
+        </div>
+      </div>
+
+      <div class="note-box">
+        <b>പ്ലോട്ട് വിവരണം &amp; സർട്ടിഫിക്കറ്റ്:</b><br>
+        ഈ പ്ലോട്ടിലെ അതിർത്തികളും സബ് ഡിവിഷനുകളും കൃത്യമായ ചെയിൻ സർവേ രീതിയിൽ തയ്യാറാക്കിയതാണ്.<br>
+        <div class="sign-space">
+          <span>തയ്യാറാക്കിയത്: സർവേയർ</span>
+          <span>ഉടമസ്ഥന്റെ ഒപ്പ്</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Field Survey Calculator Section -->
+  <div class="calc-section" id="calcSection" style="display:none;">
+    <div class="calc-toolbar">
+      <button id="calcSaveBtn" class="primary">💾 സേവ്</button>
+      <button id="calcLoadBtn">📂 സേവ് ചെയ്തവ</button>
+      <button id="calcNewBtn" class="danger">🆕 പുതിയത്</button>
+      <span class="calc-draft-name" id="calcDraftName"></span>
+    </div>
+
+    <div class="calc-total-card" id="calcTotalCard"></div>
+
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <h3>△ ത്രികോണങ്ങൾ</h3>
+        <button id="addTriangleBtn" class="mini-add">+ ചേർക്കുക</button>
+      </div>
+      <div id="triangleRows"></div>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <h3>⟂ ഓഫ്‌സെറ്റുകൾ</h3>
+        <button id="addOffsetBtn" class="mini-add">+ ചേർക്കുക</button>
+      </div>
+      <div id="offsetRows"></div>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <h3>➖ കിഴിവുകൾ</h3>
+        <button id="addDeductionBtn" class="mini-add">+ ചേർക്കുക</button>
+      </div>
+      <div id="deductionRows"></div>
+    </div>
+  </div>
+
+  <div class="screen-footer-credits">
+    <span>Muraleedharan P</span>,&nbsp;Ph: 9400849115
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="calcSaveModal">
+  <div class="modal">
+    <h3>💾 ഈ കണക്ക് സേവ് ചെയ്യുക</h3>
+    <label for="calcSaveNameInput">പ്ലോട്ട് / സർവേ പേര്:</label>
+    <input type="text" id="calcSaveNameInput" placeholder="ഉദാ: വാർഡ് 5 - രാമൻ പ്ലോട്ട്">
+    <div class="modal-actions">
+      <button id="calcSaveCancelBtn">ക്യാൻസൽ</button>
+      <button id="calcSaveConfirmBtn" class="primary">സേവ് ചെയ്യുക</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="calcLoadModal">
+  <div class="modal">
+    <h3>📂 സേവ് ചെയ്ത കണക്കുകൾ</h3>
+    <div id="calcSavedList" class="calc-saved-list"></div>
+    <div class="modal-actions">
+      <button id="calcLoadCancelBtn">അടയ്ക്കുക</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="lengthModal">
+  <div class="modal">
+    <h3 id="modalTitle">വരയുടെ അളവ് നൽകുക</h3>
+    <label for="lengthInput">പുതിയ അളവ് (മീറ്ററിൽ):</label>
+    <input type="number" id="lengthInput" step="0.01" min="0.01" inputmode="decimal" placeholder="ഉദാ: 15.50">
+    
+    <label for="lockPointSelect">സ്ഥിരമായി ലോക്ക് ചെയ്യേണ്ട പോയിന്റ്:</label>
+    <select id="lockPointSelect"></select>
+    
+    <div class="modal-actions">
+      <button id="cancelModalBtn">ഒഴിവാക്കുക</button>
+      <button id="saveModalBtn" class="primary">അളവ് മാറ്റുക</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="offsetModal">
+  <div class="modal">
+    <h3>⟂ ക്രോസ് ഓഫ്‌സെറ്റ് നൽകുക (90°)</h3>
+    <p id="offsetLineInfo" style="font-size:11px;color:var(--accent-dark);margin:0 0 6px;font-weight:600;"></p>
+    
+    <label for="chainageInput">തുടക്കത്തിൽ നിന്നുള്ള ചെയിനേജ് (m):</label>
+    <input type="number" id="chainageInput" step="0.01" min="0" inputmode="decimal" placeholder="ഉദാ: 12.5">
+
+    <label for="offsetLenInput">ഓഫ്‌സെറ്റ് നീളം (m):</label>
+    <input type="number" id="offsetLenInput" step="0.01" min="0.01" inputmode="decimal" placeholder="ഉദാ: 4.8">
+
+    <label for="offsetSideSelect">ഓഫ്‌സെറ്റ് വശം:</label>
+    <select id="offsetSideSelect">
+      <option value="left">ഇടതുവശത്തേക്ക് (Left 90°)</option>
+      <option value="right">വലതുവശത്തേക്ക് (Right 90°)</option>
+    </select>
+
+    <label for="offsetAreaModeSelect">വിസ്തീർണ്ണത്തിൽ സ്വാധീനം:</label>
+    <select id="offsetAreaModeSelect">
+      <option value="none">ഫീച്ചർ മാത്രം (Area മാറില്ല)</option>
+      <option value="subtract">അകത്തേക്ക് കയറ്റം — Area കുറയ്ക്കുക (−)</option>
+      <option value="add">പുറത്തേക്ക് തള്ളൽ — Area കൂട്ടുക (+)</option>
+    </select>
+
+    <div class="modal-actions">
+      <button id="cancelOffsetBtn">ക്യാൻസൽ</button>
+      <button id="saveOffsetBtn" class="primary">വരയ്ക്കുക</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="colorModal">
+  <div class="modal">
+    <h3>ലൈൻ കളർ മാറ്റുക</h3>
+    <label for="lineColorSelect">നിറം തിരഞ്ഞെടുക്കുക:</label>
+    <select id="lineColorSelect">
+      <option value="#111A10">⚫ കറുപ്പ് (Outer)</option>
+      <option value="#0066CC">🔵 നീല (Partition)</option>
+      <option value="#C0392B">🔴 ചുവപ്പ് (Offset/Road)</option>
+      <option value="#276E2C">🟢 പച്ച (Green Line)</option>
+      <option value="#C59B27">🟡 മഞ്ഞ / സ്വർണ്ണം</option>
+    </select>
+    <div class="modal-actions">
+      <button id="cancelColorBtn">ക്യാൻസൽ</button>
+      <button id="saveColorBtn" class="primary">സേവ്</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active-tab'));
+      tabPanels.forEach(p => p.classList.remove('active-panel'));
+      btn.classList.add('active-tab');
+      const tabId = btn.getAttribute('data-tab');
+      const targetPanel = document.getElementById(tabId);
+      if(targetPanel) targetPanel.classList.add('active-panel');
+
+      const isCalcTab = (tabId === 'tabCalc');
+      const sheet = document.querySelector('.a4-sheet-container');
+      const calcSection = document.getElementById('calcSection');
+      if(sheet) sheet.style.display = isCalcTab ? 'none' : 'flex';
+      if(calcSection) calcSection.style.display = isCalcTab ? 'flex' : 'none';
+    });
+  });
+
+  let deferredPrompt;
+  const installAppBtn = document.getElementById('installAppBtn');
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredPrompt = e;
+    installAppBtn.style.display = 'inline-block';
+  });
+
+  installAppBtn.addEventListener('click', async ()=>{
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if(outcome === 'accepted'){
+        installAppBtn.style.display = 'none';
+      }
+      deferredPrompt = null;
+    }
+  });
+
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  // WORLD_W / WORLD_H = the "paper" (A4) coordinate space, exactly like index.html's
+  // A4_WIDTH/A4_HEIGHT. The canvas's actual pixel size tracks the real on-screen box
+  // (see resizeCanvas), and a camera (cameraZoom/cameraPanX/cameraPanY) maps world -> screen.
+  const A4_PORTRAIT_W = 800, A4_PORTRAIT_H = 1131; // real A4 ratio (210mm x 297mm)
+  let sheetOrientation = 'portrait';
+  let WORLD_W = A4_PORTRAIT_W, WORLD_H = A4_PORTRAIT_H;
+
+  const IS_TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  const SNAP_BASE = IS_TOUCH ? 32 : 24;
+  const LINE_SNAP_BASE = IS_TOUCH ? 24 : 18;
+  const BASE_PIXELS_PER_METER = 12;
+
+  let currentScale = 1.0;
+  let cameraZoom = 1, cameraPanX = 0, cameraPanY = 0;
+  let camInitialized = false;
+  let points = []; 
+  let edges = [];  
+  let undoStack = [];
+  let nextPtId = 1, nextEdgeId = 1;
+  let isMainLocked = false;
+  
+  let activeStartPoint = null;
+  let hoverPoint = null;
+  let snapLinePoint = null;
+  let currentMode = 'draw';
+  let editingEdge = null;
+  let offsetBaseEdge = null;
+
+  let isDragging = false;
+  let dragStartX = 0, dragStartY = 0;
+
+  let isPinching = false;
+  let initialPinchDist = 0;
+  let initialZoom = 1;
+  let pinchMidX = 0, pinchMidY = 0;
+  let lastPinchMidX = 0, lastPinchMidY = 0;
+
+  let isDrawingRect = false;
+  let rectStartX = 0, rectStartY = 0, rectCurX = 0, rectCurY = 0;
+
+  const lockMainBtn = document.getElementById('lockMainBtn');
+  const modeDrawBtn = document.getElementById('modeDraw');
+  const modeRectBtn = document.getElementById('modeRect');
+  const modeOffsetBtn = document.getElementById('modeOffset');
+  const modePartitionBtn = document.getElementById('modePartition');
+  const modeMovePartBtn = document.getElementById('modeMovePart');
+  const modeColorBtn = document.getElementById('modeColor');
+  const modeMoveAllBtn = document.getElementById('modeMoveAll');
+  const modeDeleteBtn = document.getElementById('modeDelete');
+  const modeValueBtn = document.getElementById('modeValue');
+  const scaleLabel = document.getElementById('scaleLabel');
+  const statusBar = document.getElementById('statusBar');
+  const tableContainer = document.getElementById('tableContainer');
+  const surveyDateLabel = document.getElementById('surveyDateLabel');
+
+  const lengthModal = document.getElementById('lengthModal');
+  const lengthInput = document.getElementById('lengthInput');
+  const lockPointSelect = document.getElementById('lockPointSelect');
+  const modalTitle = document.getElementById('modalTitle');
+
+  const offsetModal = document.getElementById('offsetModal');
+  const offsetLineInfo = document.getElementById('offsetLineInfo');
+  const chainageInput = document.getElementById('chainageInput');
+  const offsetLenInput = document.getElementById('offsetLenInput');
+  const offsetSideSelect = document.getElementById('offsetSideSelect');
+  const offsetAreaModeSelect = document.getElementById('offsetAreaModeSelect');
+
+  const colorModal = document.getElementById('colorModal');
+  const lineColorSelect = document.getElementById('lineColorSelect');
+
+  const now = new Date();
+  surveyDateLabel.textContent = `DATE: ${now.toLocaleDateString('en-GB')}`;
+
+  const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
+  function setAppFullscreen(on){
+    document.body.classList.toggle('app-fullscreen', on);
+    fullscreenToggleBtn.textContent = on ? '✕' : '⤢';
+    fullscreenToggleBtn.title = on ? 'എക്സിറ്റ് ചെയ്യുക' : 'വലുതാക്കുക';
+    setTimeout(resizeCanvas, 60);
+  }
+  fullscreenToggleBtn.addEventListener('click', ()=>{
+    setAppFullscreen(!document.body.classList.contains('app-fullscreen'));
+  });
+
+  // ---- Camera (pan/zoom) system, mirrors index.html's approach ----
+  function fitCameraToWorld(marginRatio = 0.04){
+    const availW = canvas.width * (1 - marginRatio * 2);
+    const availH = canvas.height * (1 - marginRatio * 2);
+    if(availW <= 0 || availH <= 0) return;
+    cameraZoom = Math.min(availW / WORLD_W, availH / WORLD_H);
+    cameraPanX = (canvas.width - WORLD_W * cameraZoom) / 2;
+    cameraPanY = (canvas.height - WORLD_H * cameraZoom) / 2;
+  }
+
+  const orientToggleBtn = document.getElementById('orientToggleBtn');
+  const pdfOrientationSelect = document.getElementById('pdfOrientation');
+  function setSheetOrientation(orient, skipSync){
+    sheetOrientation = (orient === 'landscape') ? 'landscape' : 'portrait';
+    if(sheetOrientation === 'landscape'){
+      WORLD_W = A4_PORTRAIT_H; WORLD_H = A4_PORTRAIT_W;
+    } else {
+      WORLD_W = A4_PORTRAIT_W; WORLD_H = A4_PORTRAIT_H;
+    }
+    orientToggleBtn.textContent = sheetOrientation === 'portrait' ? '📄 A4 Portrait' : '📑 A4 Landscape';
+    if(!skipSync && pdfOrientationSelect) pdfOrientationSelect.value = sheetOrientation;
+    fitCameraToWorld();
+    updateScaleLabel();
+    redraw();
+  }
+  orientToggleBtn.addEventListener('click', ()=>{
+    setSheetOrientation(sheetOrientation === 'portrait' ? 'landscape' : 'portrait');
+  });
+  if(pdfOrientationSelect){
+    pdfOrientationSelect.addEventListener('change', ()=>{
+      setSheetOrientation(pdfOrientationSelect.value, true);
+    });
+  }
+
+  function resizeCanvas(){
+    const box = canvas.parentElement; // .canvas-box
+    const w = Math.max(1, Math.round(box.clientWidth));
+    const h = Math.max(1, Math.round(box.clientHeight));
+    if(w === canvas.width && h === canvas.height){ redraw(); return; }
+    canvas.width = w;
+    canvas.height = h;
+    if(!camInitialized){
+      fitCameraToWorld();
+      camInitialized = true;
+    }
+    redraw();
+  }
+  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('orientationchange', ()=> setTimeout(resizeCanvas, 200));
+
+  function zoomAt(screenX, screenY, factor){
+    const worldX = (screenX - cameraPanX) / cameraZoom;
+    const worldY = (screenY - cameraPanY) / cameraZoom;
+    cameraZoom = Math.min(Math.max(0.2, cameraZoom * factor), 8);
+    cameraPanX = screenX - worldX * cameraZoom;
+    cameraPanY = screenY - worldY * cameraZoom;
+    updateScaleLabel();
+    redraw();
+  }
+
+  // ---- High-resolution print snapshot (temporarily swap canvas to a big fixed raster) ----
+  let printModeActive = false;
+  let savedCam = null;
+  function preparePrintCanvas(){
+    if(printModeActive) return;
+    printModeActive = true;
+    savedCam = { w: canvas.width, h: canvas.height, zoom: cameraZoom, panX: cameraPanX, panY: cameraPanY };
+    canvas.width = 1800;
+    canvas.height = Math.round(1800 * (WORLD_H / WORLD_W));
+    fitCameraToWorld(0.01);
+    redraw();
+  }
+  function restoreScreenCanvas(){
+    if(!printModeActive) return;
+    printModeActive = false;
+    canvas.width = savedCam.w;
+    canvas.height = savedCam.h;
+    cameraZoom = savedCam.zoom;
+    cameraPanX = savedCam.panX;
+    cameraPanY = savedCam.panY;
+    redraw();
+  }
+  window.addEventListener('beforeprint', preparePrintCanvas);
+  window.addEventListener('afterprint', restoreScreenCanvas);
+
+  function saveSnapshot(){
+    undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked}));
+    if(undoStack.length > 50) undoStack.shift();
+  }
+
+  function undo(){
+    if(!undoStack.length) return;
+    const data = JSON.parse(undoStack.pop());
+    points = data.points;
+    edges = data.edges;
+    nextPtId = data.nextPtId;
+    nextEdgeId = data.nextEdgeId;
+    currentScale = data.currentScale || 1.0;
+    isMainLocked = !!data.isMainLocked;
+    updateLockUI();
+    updateScaleLabel();
+    activeStartPoint = null;
+    redraw();
+  }
+
+  function dist(x1,y1,x2,y2){ return Math.hypot(x2-x1, y2-y1); }
+
+  function findSnapVertex(x, y, targetGroup=null){
+    const snapDist = SNAP_BASE / cameraZoom;
+    for(const p of points){
+      if(targetGroup && p.group !== targetGroup) continue;
+      if(dist(x, y, p.x, p.y) < snapDist) return p;
+    }
+    return null;
+  }
+
+  function projectPointOnSegment(px, py, ax, ay, bx, by){
+    const dx = bx - ax, dy = by - ay;
+    const lenSq = dx * dx + dy * dy;
+    if(lenSq === 0) return { x: ax, y: ay, dist: dist(px, py, ax, ay), t: 0 };
+    let t = ((px - ax) * dx + (py - ay) * dy) / lenSq;
+    t = Math.max(0, Math.min(1, t));
+    return { x: ax + t * dx, y: ay + t * dy, dist: dist(px, py, ax + t * dx, ay + t * dy), t };
+  }
+
+  function findSnapOnEdge(x, y){
+    let best = null, minD = LINE_SNAP_BASE / cameraZoom;
+    const vertexExclude = SNAP_BASE / cameraZoom;
+    for(const e of edges){
+      const p1 = points.find(p => p.id === e.a);
+      const p2 = points.find(p => p.id === e.b);
+      if(!p1 || !p2) continue;
+      const proj = projectPointOnSegment(x, y, p1.x, p1.y, p2.x, p2.y);
+      if(proj.dist < minD){
+        if(dist(proj.x, proj.y, p1.x, p1.y) > vertexExclude && dist(proj.x, proj.y, p2.x, p2.y) > vertexExclude){
+          minD = proj.dist;
+          best = { edge: e, x: proj.x, y: proj.y, p1, p2 };
+        }
+      }
+    }
+    return best;
+  }
+
+  function edgeExists(p1, p2){
+    return edges.some(e => (e.a === p1 && e.b === p2) || (e.a === p2 && e.b === p1));
+  }
+
+  function getEdge(p1, p2){
+    return edges.find(e => (e.a === p1 && e.b === p2) || (e.a === p2 && e.b === p1));
+  }
+
+  function addEdge(aId, bId, length=null, isPartition=false, isOffset=false){
+    if(aId === bId || edgeExists(aId, bId)) return null;
+    const p1 = points.find(p=>p.id===aId);
+    const p2 = points.find(p=>p.id===bId);
+    if(!length && p1 && p2){
+      const d = dist(p1.x, p1.y, p2.x, p2.y);
+      length = parseFloat((d / (BASE_PIXELS_PER_METER * currentScale)).toFixed(2));
+    }
+    const e = { 
+      id: nextEdgeId++, 
+      a: aId, 
+      b: bId, 
+      length, 
+      isPartition, 
+      isOffset,
+      group: isPartition ? 'partition' : 'main', 
+      customColor: null 
+    };
+    edges.push(e);
+    return e;
+  }
+
+  function applyEdgeLengthAdjustment(edge, newLengthMeters, anchorPointId){
+    const p1 = points.find(p=>p.id===edge.a);
+    const p2 = points.find(p=>p.id===edge.b);
+    if(!p1 || !p2) return;
+
+    let fixedP = p1, movingP = p2;
+    if(anchorPointId === p2.id){
+      fixedP = p2;
+      movingP = p1;
+    }
+
+    const currentPxDist = dist(fixedP.x, fixedP.y, movingP.x, movingP.y);
+    if(currentPxDist === 0) return;
+
+    const targetPxDist = newLengthMeters * (BASE_PIXELS_PER_METER * currentScale);
+    const ratio = targetPxDist / currentPxDist;
+
+    movingP.x = fixedP.x + (movingP.x - fixedP.x) * ratio;
+    movingP.y = fixedP.y + (movingP.y - fixedP.y) * ratio;
+  }
+
+  function updateScaleLabel(){
+    scaleLabel.textContent = `${Math.round(cameraZoom * 100)}%`;
+  }
+
+  function updateLockUI(){
+    if(isMainLocked){
+      lockMainBtn.textContent = '🔒 മെയിൻ ലോക്ക്ഡ്';
+      lockMainBtn.classList.add('lock-active');
+    } else {
+      lockMainBtn.textContent = '🔓 മെയിൻ ലോക്ക്';
+      lockMainBtn.classList.remove('lock-active');
+    }
+  }
+
+  lockMainBtn.addEventListener('click', ()=>{
+    isMainLocked = !isMainLocked;
+    if(isMainLocked){
+      points.forEach(p => { if(!p.group) p.group = 'main'; });
+      edges.forEach(e => { if(!e.group) e.group = 'main'; });
+      setMode('partition');
+    }
+    updateLockUI();
+    redraw();
+  });
+
+  document.getElementById('zoomInBtn').addEventListener('click', ()=> zoomAt(canvas.width/2, canvas.height/2, 1.2));
+  document.getElementById('zoomOutBtn').addEventListener('click', ()=> zoomAt(canvas.width/2, canvas.height/2, 0.8));
+  document.getElementById('zoomResetBtn').addEventListener('click', ()=>{
+    fitCameraToWorld();
+    updateScaleLabel();
+    redraw();
+  });
+
+  canvas.addEventListener('wheel', (e)=>{
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    zoomAt(mx, my, e.deltaY < 0 ? 1.08 : 0.92);
+  }, { passive: false });
+
+  function analyzeTriangles(){
+    const triangles = [];
+    for(let i=0; i<points.length; i++){
+      for(let j=i+1; j<points.length; j++){
+        for(let k=j+1; k<points.length; k++){
+          const p1 = points[i], p2 = points[j], p3 = points[k];
+          const e1 = getEdge(p1.id, p2.id);
+          const e2 = getEdge(p2.id, p3.id);
+          const e3 = getEdge(p3.id, p1.id);
+          if(e1 && e2 && e3){
+            triangles.push({
+              p1, p2, p3,
+              edges: [e1, e2, e3],
+              idx1: points.indexOf(p1)+1,
+              idx2: points.indexOf(p2)+1,
+              idx3: points.indexOf(p3)+1,
+              isPartition: (p1.group === 'partition' && p2.group === 'partition' && p3.group === 'partition')
+            });
+          }
+        }
+      }
+    }
+
+    const edgeUsage = {};
+    triangles.forEach(t=>{
+      t.edges.forEach(e=>{ edgeUsage[e.id] = (edgeUsage[e.id] || 0) + 1; });
+    });
+
+    edges.forEach(e=>{
+      e.isInner = (edgeUsage[e.id] || 0) >= 2;
+    });
+
+    return triangles;
+  }
+
+  function setMode(mode){
+    currentMode = mode;
+    activeStartPoint = null;
+    isDrawingRect = false;
+
+    [modeDrawBtn, modeRectBtn, modeOffsetBtn, modePartitionBtn, modeMovePartBtn, modeColorBtn, modeMoveAllBtn, modeDeleteBtn, modeValueBtn].forEach(b=>b.classList.remove('active', 'active-part'));
+
+    if(mode === 'draw'){
+      modeDrawBtn.classList.add('active');
+      statusBar.textContent = '✏️ മെയിൻ പ്ലോട്ട്: പോയിന്റുകൾ ടച്ച് ചെയ്തു വരയ്ക്കുക.';
+    } else if(mode === 'rect'){
+      modeRectBtn.classList.add('active');
+      statusBar.textContent = '⬛ ചതുരം: ഡ്രാഗ് ചെയ്തു വരയ്ക്കുക.';
+    } else if(mode === 'offset'){
+      modeOffsetBtn.classList.add('active');
+      statusBar.textContent = '⟂ ക്രോസ് ഓഫ്‌സെറ്റ്: ബേസ് ലൈനിൽ ടച്ച് ചെയ്യുക. അകത്തേക്ക്/പുറത്തേക്ക് ആണെങ്കിൽ Area ക്രമീകരണം select ചെയ്യുക.';
+    } else if(mode === 'partition'){
+      modePartitionBtn.classList.add('active-part');
+      statusBar.textContent = '✂️ പാർട്ടീഷൻ: ബ്ലൂ ലൈനിൽ പാർട്ടീഷൻ പ്ലോട്ട് വരയ്ക്കുക.';
+    } else if(mode === 'movePart'){
+      modeMovePartBtn.classList.add('active-part');
+      statusBar.textContent = '📦 മൂവ് പാർട്ട്: പാർട്ടീഷൻ പ്ലോട്ട് ഡ്രാഗ് ചെയ്തു മാറ്റുക.';
+    } else if(mode === 'color'){
+      modeColorBtn.classList.add('active');
+      statusBar.textContent = '🎨 കളർ: വരയിൽ ടച്ച് ചെയ്യുക.';
+    } else if(mode === 'moveAll'){
+      modeMoveAllBtn.classList.add('active');
+      statusBar.textContent = '✋ മൂവ് ഓൾ: പ്ലോട്ടുകൾ ഒരുമിച്ച് നീക്കുക.';
+    } else if(mode === 'delete'){
+      modeDeleteBtn.classList.add('active');
+      statusBar.textContent = '❌ ഒഴിവാക്കുക: വരയിൽ ടച്ച് ചെയ്യുക.';
+    } else if(mode === 'value'){
+      modeValueBtn.classList.add('active');
+      statusBar.textContent = '📏 അളവ് മാറ്റുക: വരയിൽ ടച്ച് ചെയ്യുക.';
+    }
+    redraw();
+  }
+
+  modeDrawBtn.addEventListener('click', ()=>setMode('draw'));
+  modeRectBtn.addEventListener('click', ()=>setMode('rect'));
+  modeOffsetBtn.addEventListener('click', ()=>setMode('offset'));
+  modePartitionBtn.addEventListener('click', ()=>setMode('partition'));
+  modeMovePartBtn.addEventListener('click', ()=>setMode('movePart'));
+  modeColorBtn.addEventListener('click', ()=>setMode('color'));
+  modeMoveAllBtn.addEventListener('click', ()=>setMode('moveAll'));
+  modeDeleteBtn.addEventListener('click', ()=>setMode('delete'));
+  modeValueBtn.addEventListener('click', ()=>setMode('value'));
+
+  function openLengthModal(edge){
+    editingEdge = edge;
+    const pA = points.find(p=>p.id===edge.a);
+    const pB = points.find(p=>p.id===edge.b);
+    const idxA = points.indexOf(pA)+1;
+    const idxB = points.indexOf(pB)+1;
+    
+    modalTitle.textContent = `വര P${idxA} - P${idxB} ന്റെ അളവ്`;
+    lengthInput.value = edge.length || '';
+
+    lockPointSelect.innerHTML = `
+      <option value="${pA.id}">🔒 P${idxA} ലോക്ക് (P${idxB} നീങ്ങും)</option>
+      <option value="${pB.id}">🔒 P${idxB} ലോക്ക് (P${idxA} നീങ്ങും)</option>
+    `;
+
+    lengthModal.classList.remove('hidden');
+    setTimeout(()=>lengthInput.focus(), 50);
+  }
+
+  document.getElementById('saveModalBtn').addEventListener('click', ()=>{
+    if(editingEdge){
+      const val = parseFloat(lengthInput.value);
+      const anchorId = parseInt(lockPointSelect.value);
+      if(!isNaN(val) && val > 0){
+        saveSnapshot();
+        editingEdge.length = val;
+        applyEdgeLengthAdjustment(editingEdge, val, anchorId);
+      }
+    }
+    lengthModal.classList.add('hidden');
+    editingEdge = null;
+    redraw();
+  });
+
+  document.getElementById('cancelModalBtn').addEventListener('click', ()=>{
+    lengthModal.classList.add('hidden');
+    editingEdge = null;
+  });
+
+  function openOffsetModal(edge){
+    offsetBaseEdge = edge;
+    const pA = points.find(p=>p.id===edge.a);
+    const pB = points.find(p=>p.id===edge.b);
+    const idxA = points.indexOf(pA)+1;
+    const idxB = points.indexOf(pB)+1;
+    
+    offsetLineInfo.textContent = `ബേസ് ലൈൻ: P${idxA} ➔ P${idxB} (${edge.length || 0}m)`;
+    chainageInput.value = (edge.length ? (edge.length / 2).toFixed(2) : '');
+    offsetLenInput.value = '';
+    offsetAreaModeSelect.value = 'none';
+    offsetModal.classList.remove('hidden');
+    setTimeout(()=>offsetLenInput.focus(), 50);
+  }
+
+  document.getElementById('saveOffsetBtn').addEventListener('click', ()=>{
+    const ch = parseFloat(chainageInput.value);
+    const offLen = parseFloat(offsetLenInput.value);
+    const side = offsetSideSelect.value;
+    const areaMode = offsetAreaModeSelect.value;
+
+    if(offsetBaseEdge && !isNaN(ch) && !isNaN(offLen) && offLen > 0){
+      const pA = points.find(p=>p.id===offsetBaseEdge.a);
+      const pB = points.find(p=>p.id===offsetBaseEdge.b);
+      if(pA && pB){
+        saveSnapshot();
+        const ppm = BASE_PIXELS_PER_METER * currentScale;
+        const totalPxDist = dist(pA.x, pA.y, pB.x, pB.y);
+        const dx = (pB.x - pA.x) / totalPxDist;
+        const dy = (pB.y - pA.y) / totalPxDist;
+
+        const chainagePx = ch * ppm;
+        const basePtX = pA.x + dx * chainagePx;
+        const basePtY = pA.y + dy * chainagePx;
+
+        const basePt = { id: nextPtId++, x: basePtX, y: basePtY, group: offsetBaseEdge.group || 'main' };
+        points.push(basePt);
+
+        let perpX = -dy, perpY = dx;
+        if(side === 'right'){ perpX = dy; perpY = -dx; }
+
+        const offPx = offLen * ppm;
+        const targetPtX = basePtX + perpX * offPx;
+        const targetPtY = basePtY + perpY * offPx;
+
+        const offsetPt = { id: nextPtId++, x: targetPtX, y: targetPtY, group: offsetBaseEdge.group || 'main' };
+        points.push(offsetPt);
+
+        const newOffEdge = addEdge(basePt.id, offsetPt.id, offLen, false, true);
+        if(newOffEdge && areaMode !== 'none'){
+          newOffEdge.offsetAreaMode = areaMode;
+          newOffEdge.baseEdgeId = offsetBaseEdge.id;
+          newOffEdge.baseEdgeLenAtCreation = offsetBaseEdge.length || null;
+        }
+      }
+    }
+
+    offsetModal.classList.add('hidden');
+    offsetBaseEdge = null;
+    redraw();
+  });
+
+  document.getElementById('cancelOffsetBtn').addEventListener('click', ()=>{
+    offsetModal.classList.add('hidden');
+    offsetBaseEdge = null;
+  });
+
+  document.getElementById('saveColorBtn').addEventListener('click', ()=>{
+    if(editingEdge){
+      saveSnapshot();
+      editingEdge.customColor = lineColorSelect.value;
+    }
+    colorModal.classList.add('hidden');
+    editingEdge = null;
+    redraw();
+  });
+
+  document.getElementById('cancelColorBtn').addEventListener('click', ()=>{
+    colorModal.classList.add('hidden');
+    editingEdge = null;
+  });
+
+  function toWorld(clientX, clientY){
+    const rect = canvas.getBoundingClientRect();
+    const sx = clientX - rect.left;
+    const sy = clientY - rect.top;
+    return {
+      x: (sx - cameraPanX) / cameraZoom,
+      y: (sy - cameraPanY) / cameraZoom
+    };
+  }
+
+  function handlePointerDown(x, y){
+    if(currentMode === 'moveAll' || currentMode === 'movePart'){
+      isDragging = true;
+      dragStartX = x;
+      dragStartY = y;
+      return;
+    }
+
+    if(currentMode === 'rect'){
+      isDrawingRect = true;
+      rectStartX = x;
+      rectStartY = y;
+      rectCurX = x;
+      rectCurY = y;
+      return;
+    }
+
+    if(currentMode === 'offset'){
+      const edgeSnap = findSnapOnEdge(x, y);
+      if(edgeSnap && edgeSnap.edge){
+        openOffsetModal(edgeSnap.edge);
+      }
+      return;
+    }
+
+    if(currentMode === 'delete'){
+      const edge = findSnapOnEdge(x, y)?.edge;
+      if(edge){
+        if(isMainLocked && edge.group === 'main'){
+          alert('മെയിൻ പ്ലോട്ട് ലോക്ക് ചെയ്തിരിക്കുന്നു.');
+          return;
+        }
+        saveSnapshot();
+        edges = edges.filter(item => item.id !== edge.id);
+        points = points.filter(p => edges.some(ed => ed.a === p.id || ed.b === p.id));
+        redraw();
+      }
+      return;
+    }
+
+    if(currentMode === 'value'){
+      const edgeSnap = findSnapOnEdge(x, y);
+      if(edgeSnap && edgeSnap.edge){
+        openLengthModal(edgeSnap.edge);
+      }
+      return;
+    }
+
+    if(currentMode === 'color'){
+      const edgeSnap = findSnapOnEdge(x, y);
+      if(edgeSnap && edgeSnap.edge){
+        editingEdge = edgeSnap.edge;
+        colorModal.classList.remove('hidden');
+      }
+      return;
+    }
+
+    if(currentMode === 'partition'){
+      let clickedPoint = findSnapVertex(x, y, 'partition');
+
+      if(!clickedPoint){
+        const edgeSnap = findSnapOnEdge(x, y);
+        const ptSnap = findSnapVertex(x, y);
+        
+        saveSnapshot();
+        const ptX = ptSnap ? ptSnap.x : (edgeSnap ? edgeSnap.x : x);
+        const ptY = ptSnap ? ptSnap.y : (edgeSnap ? edgeSnap.y : y);
+
+        clickedPoint = { id: nextPtId++, x: ptX, y: ptY, group: 'partition' };
+        points.push(clickedPoint);
+      }
+
+      if(activeStartPoint === null){
+        activeStartPoint = clickedPoint;
+      } else {
+        if(activeStartPoint.id !== clickedPoint.id && !edgeExists(activeStartPoint.id, clickedPoint.id)){
+          saveSnapshot();
+          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, true);
+          if(edge) edge.group = 'partition';
+        }
+        activeStartPoint = clickedPoint;
+      }
+      redraw();
+      return;
+    }
+
+    if(currentMode === 'draw'){
+      let clickedPoint = findSnapVertex(x, y);
+
+      if(!clickedPoint){
+        const edgeSnap = findSnapOnEdge(x, y);
+        saveSnapshot();
+        if(edgeSnap){
+          clickedPoint = { id: nextPtId++, x: edgeSnap.x, y: edgeSnap.y, group: 'main' };
+        } else {
+          clickedPoint = { id: nextPtId++, x, y, group: 'main' };
+        }
+        points.push(clickedPoint);
+      }
+
+      if(activeStartPoint === null){
+        activeStartPoint = clickedPoint;
+      } else {
+        if(activeStartPoint.id !== clickedPoint.id && !edgeExists(activeStartPoint.id, clickedPoint.id)){
+          saveSnapshot();
+          const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, false);
+          if(edge) edge.group = 'main';
+        }
+        activeStartPoint = clickedPoint;
+      }
+      redraw();
+    }
+  }
+
+  function handlePointerMove(x, y){
+    if(isDragging){
+      const dx = x - dragStartX;
+      const dy = y - dragStartY;
+
+      if(currentMode === 'moveAll'){
+        points.forEach(p => { p.x += dx; p.y += dy; });
+      } else if(currentMode === 'movePart'){
+        points.forEach(p => {
+          if(p.group === 'partition'){
+            p.x += dx;
+            p.y += dy;
+          }
+        });
+      }
+
+      dragStartX = x;
+      dragStartY = y;
+      redraw();
+      return;
+    }
+
+    if(isDrawingRect && currentMode === 'rect'){
+      rectCurX = x;
+      rectCurY = y;
+      redraw();
+      return;
+    }
+
+    hoverPoint = findSnapVertex(x, y);
+    snapLinePoint = findSnapOnEdge(x, y);
+    redraw();
+  }
+
+  function handlePointerUp(){
+    if(isDragging){
+      isDragging = false;
+    }
+
+    if(isDrawingRect && currentMode === 'rect'){
+      isDrawingRect = false;
+      const w = Math.abs(rectCurX - rectStartX);
+      const h = Math.abs(rectCurY - rectStartY);
+      if(w > 20 && h > 20){
+        saveSnapshot();
+        const minX = Math.min(rectStartX, rectCurX);
+        const minY = Math.min(rectStartY, rectCurY);
+        const maxX = Math.max(rectStartX, rectCurX);
+        const maxY = Math.max(rectStartY, rectCurY);
+
+        const group = isMainLocked ? 'partition' : 'main';
+        const p1 = { id: nextPtId++, x: minX, y: minY, group };
+        const p2 = { id: nextPtId++, x: maxX, y: minY, group };
+        const p3 = { id: nextPtId++, x: maxX, y: maxY, group };
+        const p4 = { id: nextPtId++, x: minX, y: maxY, group };
+        points.push(p1, p2, p3, p4);
+
+        const ppm = BASE_PIXELS_PER_METER * currentScale;
+        const lenL = parseFloat((w / ppm).toFixed(2));
+        const lenW = parseFloat((h / ppm).toFixed(2));
+        const diag = parseFloat((Math.hypot(lenL, lenW)).toFixed(2));
+
+        const isPart = (group === 'partition');
+        addEdge(p1.id, p2.id, lenL, isPart);
+        addEdge(p2.id, p3.id, lenW, isPart);
+        addEdge(p3.id, p4.id, lenL, isPart);
+        addEdge(p4.id, p1.id, lenW, isPart);
+        addEdge(p1.id, p3.id, diag, isPart);
+      }
+      redraw();
+    }
+  }
+
+  canvas.addEventListener('mousedown', (e)=>{
+    const {x, y} = toWorld(e.clientX, e.clientY);
+    handlePointerDown(x, y);
+  });
+  canvas.addEventListener('mousemove', (e)=>{
+    const {x, y} = toWorld(e.clientX, e.clientY);
+    handlePointerMove(x, y);
+  });
+  window.addEventListener('mouseup', handlePointerUp);
+
+  canvas.addEventListener('touchstart', (e)=>{
+    if(e.touches.length === 1){
+      isPinching = false;
+      const t = e.touches[0];
+      const {x, y} = toWorld(t.clientX, t.clientY);
+      handlePointerDown(x, y);
+    } else if(e.touches.length === 2){
+      isPinching = true;
+      isDragging = false;
+      isDrawingRect = false;
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const rect = canvas.getBoundingClientRect();
+      initialPinchDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
+      initialZoom = cameraZoom;
+      pinchMidX = (t1.clientX + t2.clientX) / 2 - rect.left;
+      pinchMidY = (t1.clientY + t2.clientY) / 2 - rect.top;
+      lastPinchMidX = pinchMidX;
+      lastPinchMidY = pinchMidY;
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  canvas.addEventListener('touchmove', (e)=>{
+    if(e.touches.length === 1 && !isPinching){
+      const t = e.touches[0];
+      const {x, y} = toWorld(t.clientX, t.clientY);
+      handlePointerMove(x, y);
+    } else if(e.touches.length === 2){
+      // Two-finger pinch-zoom AND pan simultaneously, exactly like index.html's camera.
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const rect = canvas.getBoundingClientRect();
+      const curDist = dist(t1.clientX, t1.clientY, t2.clientX, t2.clientY);
+      const curMidX = (t1.clientX + t2.clientX) / 2 - rect.left;
+      const curMidY = (t1.clientY + t2.clientY) / 2 - rect.top;
+      if(initialPinchDist > 0){
+        const zoomRatio = curDist / initialPinchDist;
+        const newZoom = Math.min(Math.max(0.2, initialZoom * zoomRatio), 8);
+
+        const worldX = (lastPinchMidX - cameraPanX) / cameraZoom;
+        const worldY = (lastPinchMidY - cameraPanY) / cameraZoom;
+        cameraZoom = newZoom;
+        cameraPanX = curMidX - worldX * cameraZoom;
+        cameraPanY = curMidY - worldY * cameraZoom;
+
+        lastPinchMidX = curMidX;
+        lastPinchMidY = curMidY;
+
+        updateScaleLabel();
+        redraw();
+      }
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  window.addEventListener('touchend', (e)=>{
+    if(e.touches.length === 0){
+      isPinching = false;
+      handlePointerUp();
+    }
+  });
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      if(document.body.classList.contains('app-fullscreen')) setAppFullscreen(false);
+      activeStartPoint = null;
+      isDrawingRect = false;
+      redraw();
+    }
+  });
+
+  function drawGrid(){
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0,0,WORLD_W,WORLD_H);
+    ctx.strokeStyle = '#EBE5D8';
+    ctx.lineWidth = 1 / cameraZoom;
+    for(let x=0; x<=WORLD_W; x+=30){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,WORLD_H); ctx.stroke(); }
+    for(let y=0; y<=WORLD_H; y+=30){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(WORLD_W,y); ctx.stroke(); }
+  }
+
+  // Every fixed pixel size below (line widths, font sizes, dot radii, dash patterns) is
+  // divided by cameraZoom so it stays a CONSTANT size on screen no matter how far the
+  // user has pinch-zoomed in or out — this is what keeps lines/measurements clearly
+  // readable at any zoom level, same trick used in index.html.
+  function redraw(){
+    const Z = cameraZoom;
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#D9D3C1';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.save();
+    ctx.translate(cameraPanX, cameraPanY);
+    ctx.scale(Z, Z);
+
+    if(!printModeActive){
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.25)';
+      ctx.shadowBlur = 12 / Z;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+      ctx.restore();
+    }
+
+    const triangles = analyzeTriangles();
+    drawGrid();
+
+    triangles.forEach(t=>{
+      if(t.isPartition){
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(t.p1.x, t.p1.y);
+        ctx.lineTo(t.p2.x, t.p2.y);
+        ctx.lineTo(t.p3.x, t.p3.y);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(0, 102, 204, 0.08)';
+        ctx.fill();
+        ctx.restore();
+      }
+    });
+
+    if(isDrawingRect && currentMode === 'rect'){
+      ctx.save();
+      ctx.strokeStyle = isMainLocked ? '#0066CC' : '#276E2C';
+      ctx.lineWidth = 2 / Z;
+      ctx.setLineDash([6 / Z, 6 / Z]);
+      ctx.strokeRect(
+        Math.min(rectStartX, rectCurX),
+        Math.min(rectStartY, rectCurY),
+        Math.abs(rectCurX - rectStartX),
+        Math.abs(rectCurY - rectStartY)
+      );
+      ctx.restore();
+    }
+
+    for(const e of edges){
+      const p1 = points.find(p=>p.id===e.a);
+      const p2 = points.find(p=>p.id===e.b);
+      if(!p1 || !p2) continue;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+
+      if(e.customColor){
+        ctx.strokeStyle = e.customColor;
+        ctx.lineWidth = 2.4 / Z;
+      } else if(e.isOffset){
+        ctx.strokeStyle = '#C0392B';
+        ctx.lineWidth = 1.8 / Z;
+        ctx.setLineDash([4 / Z, 4 / Z]);
+      } else if(e.isPartition || e.group === 'partition' || (p1.group === 'partition' && p2.group === 'partition')){
+        ctx.strokeStyle = '#0066CC';
+        ctx.lineWidth = 2.6 / Z;
+      } else if(e.isInner){
+        ctx.strokeStyle = '#7A5E2E';
+        ctx.lineWidth = 1.6 / Z;
+        ctx.setLineDash([4 / Z, 4 / Z]);
+      } else {
+        ctx.strokeStyle = '#111A10';
+        ctx.lineWidth = 2.2 / Z;
+      }
+
+      if(snapLinePoint && snapLinePoint.edge && snapLinePoint.edge.id === e.id && (currentMode === 'delete' || currentMode === 'value' || currentMode === 'color' || currentMode === 'offset')){
+        ctx.strokeStyle = (currentMode === 'delete') ? '#C0392B' : '#C59B27';
+        ctx.lineWidth = 3.6 / Z;
+      }
+
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    const placedLabels = [];
+    const labelFontPx = 11 / Z;
+    ctx.font = `bold ${labelFontPx}px 'JetBrains Mono', monospace`;
+    for(const e of edges){
+      const p1 = points.find(p=>p.id===e.a);
+      const p2 = points.find(p=>p.id===e.b);
+      if(!p1 || !p2) continue;
+
+      const mx = (p1.x + p2.x) / 2;
+      const my = (p1.y + p2.y) / 2;
+      let angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+      if(angle > Math.PI/2 || angle < -Math.PI/2) angle += Math.PI;
+
+      let text = e.length ? `${e.length} m` : '?';
+      if(e.isOffset && e.offsetAreaMode === 'subtract') text += ' (−)';
+      else if(e.isOffset && e.offsetAreaMode === 'add') text += ' (+)';
+
+      const tw = ctx.measureText(text).width;
+      const hh = 7 / Z;
+      const step = 13 / Z;
+      let boxY = -11 / Z;
+      let cx = mx, cy = my;
+      let tries = 0;
+      while(tries < 12){
+        cx = mx - boxY * Math.sin(angle);
+        cy = my + boxY * Math.cos(angle);
+        const r = Math.max(tw/2, hh) + (3 / Z);
+        let collide = false;
+        for(const L of placedLabels){
+          if(Math.hypot(cx - L.x, cy - L.y) < r + L.r - (3 / Z)){ collide = true; break; }
+        }
+        if(!collide) break;
+        boxY += (boxY < 0 ? -step : step);
+        tries++;
+      }
+      placedLabels.push({ x: cx, y: cy, r: Math.max(tw/2, hh) + (3 / Z) });
+
+      ctx.save();
+      ctx.translate(mx, my);
+      ctx.rotate(angle);
+      const pad = 3 / Z;
+      ctx.fillStyle = 'rgba(255,255,255,0.92)';
+      ctx.fillRect(-tw/2 - pad, boxY - hh, tw + pad*2, hh*2);
+      ctx.fillStyle = e.customColor || (e.isOffset ? '#C0392B' : (e.isPartition ? '#0066CC' : (e.length ? '#184A1C' : '#C0392B')));
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 0, boxY + (1 / Z));
+      ctx.restore();
+    }
+
+    if(snapLinePoint && !hoverPoint && (currentMode === 'draw' || currentMode === 'partition' || currentMode === 'offset')){
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(snapLinePoint.x, snapLinePoint.y, 6 / Z, 0, Math.PI * 2);
+      ctx.fillStyle = currentMode === 'partition' ? '#0066CC' : '#C59B27';
+      ctx.fill();
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1.5 / Z;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    points.forEach((p, idx)=>{
+      const isActive = (activeStartPoint && activeStartPoint.id === p.id);
+      const isPart = (p.group === 'partition');
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, (isActive ? 7 : 5) / Z, 0, Math.PI*2);
+      ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? '#C59B27' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
+      ctx.fill();
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1.6 / Z;
+      ctx.stroke();
+
+      ctx.font = `600 ${10.5 / Z}px sans-serif`;
+      ctx.fillStyle = isPart ? '#0066CC' : '#5A5747';
+      ctx.fillText(`P${idx+1}`, p.x + 6/Z, p.y - 5/Z);
+    });
+
+    ctx.restore();
+  }
+
+  function heronArea(a, b, c){
+    if(a+b<=c || a+c<=b || b+c<=a) return null;
+    const s = (a+b+c)/2;
+    return Math.sqrt(s*(s-a)*(s-b)*(s-c));
+  }
+
+  function calculateTable(){
+    const triangles = analyzeTriangles();
+    if(!triangles.length){
+      tableContainer.innerHTML = '<p style="color:var(--danger);font-size:11px;">പൂർണ്ണമായ ത്രികോണങ്ങളോ പ്ലോട്ടുകളോ കണ്ടെത്തിയില്ല. ഡയഗണലുകൾ നൽകി ബന്ധിപ്പിക്കുക.</p>';
+      return;
+    }
+
+    let totalSqm = 0;
+    let tableHtml = `
+      <table>
+        <thead>
+          <tr>
+            <th>വിവരണം / പാർട്ട്</th>
+            <th>വിസ്തീർണ്ണം (Sq.m)</th>
+            <th>സെന്റ് (Cent)</th>
+            <th>ആർ (Are)</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    triangles.forEach((t, i)=>{
+      const a = t.edges[0].length;
+      const b = t.edges[1].length;
+      const c = t.edges[2].length;
+
+      const partLabel = t.isPartition ? `പാർട്ടീഷൻ പ്ലോട്ട് ${i+1}` : `മെയിൻ പ്ലോട്ട് ${i+1}`;
+
+      if(!a || !b || !c){
+        tableHtml += `
+          <tr>
+            <td><b>${partLabel}</b> (P${t.idx1}-P${t.idx2}-P${t.idx3})</td>
+            <td colspan="3" style="color:var(--danger);">അളവ് പൂർണ്ണമല്ല</td>
+          </tr>
+        `;
+        return;
+      }
+
+      const area = heronArea(a, b, c);
+      if(area !== null){
+        totalSqm += area;
+        const cent = area / 40.4686;
+        const are = area / 100;
+        tableHtml += `
+          <tr>
+            <td><b>${partLabel} ഏരിയ</b> (P${t.idx1}-P${t.idx2}-P${t.idx3})</td>
+            <td class="mono"><b>${area.toFixed(2)} Sq.m</b></td>
+            <td class="mono">${cent.toFixed(3)}</td>
+            <td class="mono">${are.toFixed(3)}</td>
+          </tr>
+        `;
+      }
+    });
+
+    let offsetRowsHtml = '';
+    edges.forEach(e=>{
+      if(!e.isOffset || !e.offsetAreaMode || e.offsetAreaMode === 'none' || !e.length) return;
+      const baseEdge = edges.find(be => be.id === e.baseEdgeId);
+      const baseLen = baseEdge ? baseEdge.length : e.baseEdgeLenAtCreation;
+      if(!baseLen) return;
+
+      const devArea = 0.5 * baseLen * e.length;
+      const pA = points.find(p=>p.id===e.a);
+      const pB = points.find(p=>p.id===e.b);
+      const idxA = pA ? points.indexOf(pA)+1 : '?';
+      const idxB = pB ? points.indexOf(pB)+1 : '?';
+
+      if(e.offsetAreaMode === 'subtract'){
+        totalSqm -= devArea;
+        offsetRowsHtml += `
+          <tr>
+            <td>ഓഫ്‌സെറ്റ് ക്രമീകരണം (P${idxA}→P${idxB}) — അകത്തേക്ക് കയറ്റം</td>
+            <td class="mono" style="color:var(--danger);">−${devArea.toFixed(2)} Sq.m</td>
+            <td class="mono" style="color:var(--danger);">−${(devArea/40.4686).toFixed(3)}</td>
+            <td class="mono" style="color:var(--danger);">−${(devArea/100).toFixed(3)}</td>
+          </tr>
+        `;
+      } else if(e.offsetAreaMode === 'add'){
+        totalSqm += devArea;
+        offsetRowsHtml += `
+          <tr>
+            <td>ഓഫ്‌സെറ്റ് ക്രമീകരണം (P${idxA}→P${idxB}) — പുറത്തേക്ക് തള്ളൽ</td>
+            <td class="mono" style="color:var(--accent-dark);">+${devArea.toFixed(2)} Sq.m</td>
+            <td class="mono" style="color:var(--accent-dark);">+${(devArea/40.4686).toFixed(3)}</td>
+            <td class="mono" style="color:var(--accent-dark);">+${(devArea/100).toFixed(3)}</td>
+          </tr>
+        `;
+      }
+    });
+    tableHtml += offsetRowsHtml;
+
+    const totalCent = totalSqm / 40.4686;
+    const totalAre = totalSqm / 100;
+    const totalSqft = totalSqm * 10.7639;
+
+    tableHtml += `
+        <tr class="total-row">
+          <td>ആകെ വിസ്തീർണ്ണം (Total Area)</td>
+          <td>${totalSqm.toFixed(2)} Sq.m</td>
+          <td>${totalCent.toFixed(3)} Cent</td>
+          <td>${totalAre.toFixed(3)} Are</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:10px;color:var(--ink-soft);margin-top:4px;">ആകെ ചതുരശ്ര അടി: <b>${totalSqft.toFixed(2)} Sq.ft</b></div>
+    `;
+
+    tableContainer.innerHTML = tableHtml;
+    redraw();
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculateTable);
+
+  document.getElementById('printBtn').addEventListener('click', ()=>{
+    calculateTable();
+    const orient = document.getElementById('pdfOrientation').value;
+    let style = document.getElementById('dynamicPrintStyle');
+    if(!style){
+      style = document.createElement('style');
+      style.id = 'dynamicPrintStyle';
+      document.head.appendChild(style);
+    }
+    style.innerHTML = `@page { size: A4 ${orient}; margin: 8mm; }`;
+
+    setTimeout(()=>{
+      window.print();
+    }, 150);
+  });
+
+  document.getElementById('undoBtn').addEventListener('click', undo);
+  document.getElementById('clearBtn').addEventListener('click', ()=>{
+    if(confirm('എല്ലാം ക്ലിയർ ചെയ്യണോ?')){
+      points = []; edges = []; activeStartPoint = null;
+      isMainLocked = false;
+      updateLockUI();
+      currentScale = 1.0;
+      updateScaleLabel();
+      redraw();
+      tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:11px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
+    }
+  });
+
+  // =========================================================
+  // Field Survey Calculator (standalone number-entry mode)
+  // =========================================================
+  (function(){
+    const CALC_DRAFT_KEY = 'chainSurveyCalcDraft_v1';
+    const CALC_SAVED_KEY = 'chainSurveyCalcSavedPlots_v1';
+
+    let calcTriangles = [];
+    let calcOffsets = [];
+    let calcDeductions = [];
+    let calcNextId = 1;
+    let calcDraftName = null;
+
+    const triangleRowsEl = document.getElementById('triangleRows');
+    const offsetRowsEl = document.getElementById('offsetRows');
+    const deductionRowsEl = document.getElementById('deductionRows');
+    const calcTotalCardEl = document.getElementById('calcTotalCard');
+    const calcDraftNameEl = document.getElementById('calcDraftName');
+
+    function heronSafe(a,b,c){
+      if(!a || !b || !c) return null;
+      if(a+b<=c || a+c<=b || b+c<=a) return null;
+      const s = (a+b+c)/2;
+      const val = s*(s-a)*(s-b)*(s-c);
+      return val>0 ? Math.sqrt(val) : null;
+    }
+
+    function saveDraft(){
+      try{
+        localStorage.setItem(CALC_DRAFT_KEY, JSON.stringify({
+          triangles: calcTriangles, offsets: calcOffsets, deductions: calcDeductions,
+          nextId: calcNextId, draftName: calcDraftName
+        }));
+      }catch(e){}
+    }
+
+    function getSavedPlots(){
+      try{ return JSON.parse(localStorage.getItem(CALC_SAVED_KEY) || '{}'); }catch(e){ return {}; }
+    }
+    function setSavedPlots(obj){
+      try{ localStorage.setItem(CALC_SAVED_KEY, JSON.stringify(obj)); }catch(e){}
+    }
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function updateDraftNameLabel(){
+      calcDraftNameEl.textContent = calcDraftName ? ('📄 ' + calcDraftName) : '';
+    }
+
+    function renderEmptyNotes(){
+      if(!calcTriangles.length) triangleRowsEl.innerHTML = '<p class="calc-empty-note">ഇതുവരെ ത്രികോണങ്ങൾ ചേർത്തിട്ടില്ല.</p>';
+      if(!calcOffsets.length) offsetRowsEl.innerHTML = '<p class="calc-empty-note">ഇതുവരെ ഓഫ്‌സെറ്റുകൾ ചേർത്തിട്ടില്ല.</p>';
+      if(!calcDeductions.length) deductionRowsEl.innerHTML = '<p class="calc-empty-note">കിഴിവുകൾ ഒന്നും ഇല്ല.</p>';
+    }
+
+    function updateCalcTotals(){
+      let posArea = 0, negArea = 0;
+      calcTriangles.forEach(t=>{ if(t._area!=null){ if(t.sign===1) posArea += t._area; else negArea += t._area; } });
+      calcOffsets.forEach(o=>{ if(o._area!=null){ if(o.sign===1) posArea += o._area; else negArea += o._area; } });
+      let deductArea = 0;
+      calcDeductions.forEach(d=>{ if(d.area) deductArea += d.area; });
+
+      const total = posArea - negArea - deductArea;
+      calcTotalCardEl.innerHTML = `
+        <div class="calc-total-row main"><span>ആകെ വിസ്തീർണ്ണം</span><span>${total.toFixed(2)} Sq.m</span></div>
+        <div class="calc-total-row" style="font-size:15px;font-weight:700;color:var(--accent-dark);padding-top:4px;"><span>സെന്റ്</span><span>${(total/40.4686).toFixed(3)} Cent</span></div>
+        ${deductArea>0 ? `<div class="calc-total-row deduct" style="margin-top:4px;border-top:1px dashed var(--border);padding-top:4px;"><span>(കിഴിവുകൾ ആകെ)</span><span>−${deductArea.toFixed(2)} Sq.m</span></div>` : ''}
+      `;
+    }
+
+    function createTriangleRow(item){
+      const row = document.createElement('div');
+      row.className = 'calc-row';
+      row.innerHTML = `
+        <div class="calc-row-head">
+          <span>ത്രികോണം</span>
+          <div class="calc-row-actions">
+            <button type="button" class="sign-btn ${item.sign===1?'sign-add':'sign-sub'}">${item.sign===1?'+':'−'}</button>
+            <button type="button" class="row-del-btn">✕</button>
+          </div>
+        </div>
+        <div class="calc-inputs">
+          <div><label>Line A (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-a" value="${item.a ?? ''}"></div>
+          <div><label>Line B (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-b" value="${item.b ?? ''}"></div>
+          <div><label>Line C (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-c" value="${item.c ?? ''}"></div>
+        </div>
+        <div class="calc-row-area"></div>
+      `;
+      const inA = row.querySelector('.in-a'), inB = row.querySelector('.in-b'), inC = row.querySelector('.in-c');
+      const areaEl = row.querySelector('.calc-row-area');
+      const signBtn = row.querySelector('.sign-btn');
+      const delBtn = row.querySelector('.row-del-btn');
+
+      function recompute(){
+        item.a = parseFloat(inA.value) || null;
+        item.b = parseFloat(inB.value) || null;
+        item.c = parseFloat(inC.value) || null;
+        const area = heronSafe(item.a, item.b, item.c);
+        item._area = area;
+        if(area===null){
+          areaEl.textContent = (item.a||item.b||item.c) ? 'അസാധുവായ ത്രികോണം — അളവ് പരിശോധിക്കുക' : '';
+          areaEl.style.color = 'var(--danger)';
+        } else {
+          areaEl.textContent = `= ${area.toFixed(2)} Sq.m ${item.sign===1?'(+)':'(−)'}`;
+          areaEl.style.color = item.sign===1 ? 'var(--accent-dark)' : 'var(--danger)';
+        }
+        saveDraft();
+        updateCalcTotals();
+      }
+      [inA,inB,inC].forEach(inp=>inp.addEventListener('input', recompute));
+      signBtn.addEventListener('click', ()=>{
+        item.sign = item.sign===1 ? -1 : 1;
+        signBtn.textContent = item.sign===1 ? '+' : '−';
+        signBtn.classList.toggle('sign-add', item.sign===1);
+        signBtn.classList.toggle('sign-sub', item.sign===-1);
+        recompute();
+      });
+      delBtn.addEventListener('click', ()=>{
+        calcTriangles = calcTriangles.filter(t=>t.id!==item.id);
+        row.remove();
+        saveDraft(); updateCalcTotals(); renderEmptyNotes();
+      });
+      recompute();
+      return row;
+    }
+
+    function createOffsetRow(item){
+      const row = document.createElement('div');
+      row.className = 'calc-row';
+      row.innerHTML = `
+        <div class="calc-row-head">
+          <span>ഓഫ്‌സെറ്റ്</span>
+          <div class="calc-row-actions">
+            <button type="button" class="sign-btn ${item.sign===1?'sign-add':'sign-sub'}">${item.sign===1?'+':'−'}</button>
+            <button type="button" class="row-del-btn">✕</button>
+          </div>
+        </div>
+        <div class="calc-inputs two-col">
+          <div><label>ബേസ് ലൈൻ (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-base" value="${item.base ?? ''}"></div>
+          <div><label>ഓഫ്‌സെറ്റ് നീളം (m)</label><input type="number" step="0.01" inputmode="decimal" class="in-off" value="${item.offset ?? ''}"></div>
+        </div>
+        <div class="calc-row-area"></div>
+      `;
+      const inBase = row.querySelector('.in-base'), inOff = row.querySelector('.in-off');
+      const areaEl = row.querySelector('.calc-row-area');
+      const signBtn = row.querySelector('.sign-btn');
+      const delBtn = row.querySelector('.row-del-btn');
+
+      function recompute(){
+        item.base = parseFloat(inBase.value) || null;
+        item.offset = parseFloat(inOff.value) || null;
+        const area = (item.base && item.offset) ? 0.5*item.base*item.offset : null;
+        item._area = area;
+        if(area===null){
+          areaEl.textContent = '';
+        } else {
+          areaEl.textContent = `= ${area.toFixed(2)} Sq.m ${item.sign===1?'(+)':'(−)'}`;
+          areaEl.style.color = item.sign===1 ? 'var(--accent-dark)' : 'var(--danger)';
+        }
+        saveDraft();
+        updateCalcTotals();
+      }
+      [inBase,inOff].forEach(inp=>inp.addEventListener('input', recompute));
+      signBtn.addEventListener('click', ()=>{
+        item.sign = item.sign===1 ? -1 : 1;
+        signBtn.textContent = item.sign===1 ? '+' : '−';
+        signBtn.classList.toggle('sign-add', item.sign===1);
+        signBtn.classList.toggle('sign-sub', item.sign===-1);
+        recompute();
+      });
+      delBtn.addEventListener('click', ()=>{
+        calcOffsets = calcOffsets.filter(o=>o.id!==item.id);
+        row.remove();
+        saveDraft(); updateCalcTotals(); renderEmptyNotes();
+      });
+      recompute();
+      return row;
+    }
+
+    function createDeductionRow(item){
+      const row = document.createElement('div');
+      row.className = 'calc-row';
+      row.innerHTML = `
+        <div class="calc-row-head">
+          <span>കിഴിവ്</span>
+          <div class="calc-row-actions">
+            <button type="button" class="row-del-btn">✕</button>
+          </div>
+        </div>
+        <div class="calc-inputs two-col">
+          <div><label>എന്താണ് (ഉദാ: കെട്ടിടം)</label><input type="text" class="in-label" value="${item.label ? escapeHtml(item.label) : ''}"></div>
+          <div><label>വിസ്തീർണ്ണം (Sq.m)</label><input type="number" step="0.01" inputmode="decimal" class="in-area" value="${item.area ?? ''}"></div>
+        </div>
+        <div class="calc-row-area"></div>
+      `;
+      const inLabel = row.querySelector('.in-label'), inArea = row.querySelector('.in-area');
+      const areaEl = row.querySelector('.calc-row-area');
+      const delBtn = row.querySelector('.row-del-btn');
+
+      function recompute(){
+        item.label = inLabel.value || '';
+        item.area = parseFloat(inArea.value) || null;
+        if(item.area){
+          areaEl.textContent = `− ${item.area.toFixed(2)} Sq.m`;
+          areaEl.style.color = 'var(--danger)';
+        } else {
+          areaEl.textContent = '';
+        }
+        saveDraft();
+        updateCalcTotals();
+      }
+      inLabel.addEventListener('input', recompute);
+      inArea.addEventListener('input', recompute);
+      delBtn.addEventListener('click', ()=>{
+        calcDeductions = calcDeductions.filter(d=>d.id!==item.id);
+        row.remove();
+        saveDraft(); updateCalcTotals(); renderEmptyNotes();
+      });
+      recompute();
+      return row;
+    }
+
+    document.getElementById('addTriangleBtn').addEventListener('click', ()=>{
+      if(!calcTriangles.length) triangleRowsEl.innerHTML='';
+      const item = { id: calcNextId++, a:null, b:null, c:null, sign:1 };
+      calcTriangles.push(item);
+      triangleRowsEl.appendChild(createTriangleRow(item));
+      saveDraft();
+    });
+    document.getElementById('addOffsetBtn').addEventListener('click', ()=>{
+      if(!calcOffsets.length) offsetRowsEl.innerHTML='';
+      const item = { id: calcNextId++, base:null, offset:null, sign:1 };
+      calcOffsets.push(item);
+      offsetRowsEl.appendChild(createOffsetRow(item));
+      saveDraft();
+    });
+    document.getElementById('addDeductionBtn').addEventListener('click', ()=>{
+      if(!calcDeductions.length) deductionRowsEl.innerHTML='';
+      const item = { id: calcNextId++, label:'', area:null };
+      calcDeductions.push(item);
+      deductionRowsEl.appendChild(createDeductionRow(item));
+      saveDraft();
+    });
+
+    document.getElementById('calcNewBtn').addEventListener('click', ()=>{
+      if(!confirm('നിലവിലെ കണക്ക് ക്ലിയർ ചെയ്ത് പുതിയത് തുടങ്ങണോ? സേവ് ചെയ്യാത്ത മാറ്റങ്ങൾ നഷ്ടപ്പെടും.')) return;
+      calcTriangles = []; calcOffsets = []; calcDeductions = []; calcDraftName = null;
+      triangleRowsEl.innerHTML=''; offsetRowsEl.innerHTML=''; deductionRowsEl.innerHTML='';
+      renderEmptyNotes();
+      updateCalcTotals();
+      updateDraftNameLabel();
+      saveDraft();
+    });
+
+    const calcSaveModal = document.getElementById('calcSaveModal');
+    const calcSaveNameInput = document.getElementById('calcSaveNameInput');
+    document.getElementById('calcSaveBtn').addEventListener('click', ()=>{
+      calcSaveNameInput.value = calcDraftName || '';
+      calcSaveModal.classList.remove('hidden');
+      setTimeout(()=>calcSaveNameInput.focus(), 50);
+    });
+    document.getElementById('calcSaveCancelBtn').addEventListener('click', ()=>{
+      calcSaveModal.classList.add('hidden');
+    });
+    document.getElementById('calcSaveConfirmBtn').addEventListener('click', ()=>{
+      const name = calcSaveNameInput.value.trim();
+      if(!name){ alert('ദയവായി ഒരു പേര് നൽകുക.'); return; }
+      const plots = getSavedPlots();
+      plots[name] = {
+        triangles: calcTriangles, offsets: calcOffsets, deductions: calcDeductions,
+        nextId: calcNextId, savedAt: new Date().toISOString()
+      };
+      setSavedPlots(plots);
+      calcDraftName = name;
+      updateDraftNameLabel();
+      saveDraft();
+      calcSaveModal.classList.add('hidden');
+    });
+
+    const calcLoadModal = document.getElementById('calcLoadModal');
+    const calcSavedListEl = document.getElementById('calcSavedList');
+    function renderSavedList(){
+      const plots = getSavedPlots();
+      const names = Object.keys(plots).sort();
+      if(!names.length){
+        calcSavedListEl.innerHTML = '<p class="calc-empty-note">സേവ് ചെയ്ത കണക്കുകൾ ഒന്നും ഇല്ല.</p>';
+        return;
+      }
+      calcSavedListEl.innerHTML = names.map(n=>{
+        const data = plots[n];
+        const dateStr = data.savedAt ? new Date(data.savedAt).toLocaleDateString('en-GB') : '';
+        return `
+          <div class="calc-saved-item" data-name="${escapeHtml(n)}">
+            <div class="meta"><span class="nm">${escapeHtml(n)}</span><span class="dt">${dateStr}</span></div>
+            <button type="button" class="load-btn">📂 തുറക്കുക</button>
+            <button type="button" class="del-btn">✕</button>
+          </div>
+        `;
+      }).join('');
+    }
+    calcSavedListEl.addEventListener('click', (e)=>{
+      const itemEl = e.target.closest('.calc-saved-item');
+      if(!itemEl) return;
+      const name = itemEl.dataset.name;
+      if(e.target.classList.contains('load-btn')){
+        const plots = getSavedPlots();
+        const data = plots[name];
+        if(data){
+          calcTriangles = (data.triangles||[]).map(t=>({...t}));
+          calcOffsets = (data.offsets||[]).map(o=>({...o}));
+          calcDeductions = (data.deductions||[]).map(d=>({...d}));
+          calcNextId = data.nextId || (1 + Math.max(0,
+            ...calcTriangles.map(t=>t.id||0), ...calcOffsets.map(o=>o.id||0), ...calcDeductions.map(d=>d.id||0)));
+          calcDraftName = name;
+          rebuildAllRows();
+          updateDraftNameLabel();
+          saveDraft();
+          calcLoadModal.classList.add('hidden');
+        }
+      } else if(e.target.classList.contains('del-btn')){
+        if(confirm(`"${name}" ഡിലീറ്റ് ചെയ്യണോ?`)){
+          const plots = getSavedPlots();
+          delete plots[name];
+          setSavedPlots(plots);
+          renderSavedList();
+        }
+      }
+    });
+    document.getElementById('calcLoadBtn').addEventListener('click', ()=>{
+      renderSavedList();
+      calcLoadModal.classList.remove('hidden');
+    });
+    document.getElementById('calcLoadCancelBtn').addEventListener('click', ()=>{
+      calcLoadModal.classList.add('hidden');
+    });
+
+    function rebuildAllRows(){
+      triangleRowsEl.innerHTML=''; offsetRowsEl.innerHTML=''; deductionRowsEl.innerHTML='';
+      calcTriangles.forEach(t=>triangleRowsEl.appendChild(createTriangleRow(t)));
+      calcOffsets.forEach(o=>offsetRowsEl.appendChild(createOffsetRow(o)));
+      calcDeductions.forEach(d=>deductionRowsEl.appendChild(createDeductionRow(d)));
+      renderEmptyNotes();
+      updateCalcTotals();
+    }
+
+    try{
+      const raw = localStorage.getItem(CALC_DRAFT_KEY);
+      if(raw){
+        const data = JSON.parse(raw);
+        calcTriangles = data.triangles || [];
+        calcOffsets = data.offsets || [];
+        calcDeductions = data.deductions || [];
+        calcNextId = data.nextId || 1;
+        calcDraftName = data.draftName || null;
+      }
+    }catch(e){}
+    rebuildAllRows();
+    updateDraftNameLabel();
+  })();
+
+  resizeCanvas();
+  setTimeout(resizeCanvas, 100);
+})();
+</script>
+</body>
+</html>
