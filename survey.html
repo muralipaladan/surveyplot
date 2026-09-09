@@ -616,10 +616,7 @@
 
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
-  // WORLD_W / WORLD_H = the "paper" (A4) coordinate space, exactly like index.html's
-  // A4_WIDTH/A4_HEIGHT. The canvas's actual pixel size tracks the real on-screen box
-  // (see resizeCanvas), and a camera (cameraZoom/cameraPanX/cameraPanY) maps world -> screen.
-  const A4_PORTRAIT_W = 800, A4_PORTRAIT_H = 1131; // real A4 ratio (210mm x 297mm)
+  const A4_PORTRAIT_W = 800, A4_PORTRAIT_H = 1131;
   let sheetOrientation = 'portrait';
   let WORLD_W = A4_PORTRAIT_W, WORLD_H = A4_PORTRAIT_H;
 
@@ -700,7 +697,6 @@
     setAppFullscreen(!document.body.classList.contains('app-fullscreen'));
   });
 
-  // ---- Camera (pan/zoom) system, mirrors index.html's approach ----
   function fitCameraToWorld(marginRatio = 0.04){
     const availW = canvas.width * (1 - marginRatio * 2);
     const availH = canvas.height * (1 - marginRatio * 2);
@@ -735,7 +731,7 @@
   }
 
   function resizeCanvas(){
-    const box = canvas.parentElement; // .canvas-box
+    const box = canvas.parentElement;
     const w = Math.max(1, Math.round(box.clientWidth));
     const h = Math.max(1, Math.round(box.clientHeight));
     if(w === canvas.width && h === canvas.height){ redraw(); return; }
@@ -760,7 +756,6 @@
     redraw();
   }
 
-  // ---- High-resolution print snapshot (temporarily swap canvas to a big fixed raster) ----
   let printModeActive = false;
   let savedCam = null;
   function preparePrintCanvas(){
@@ -999,7 +994,7 @@
       statusBar.textContent = '✋ മൂവ് ഓൾ: പ്ലോട്ടുകൾ ഒരുമിച്ച് നീക്കുക.';
     } else if(mode === 'delete'){
       modeDeleteBtn.classList.add('active');
-      statusBar.textContent = '❌ ഒഴിവാക്കുക: വരയിൽ ടച്ച് ചെയ്യുക.';
+      statusBar.textContent = '❌ ഒഴിവാക്കുക: വരയിലോ പോയിന്റിലോ ടച്ച് ചെയ്യുക.';
     } else if(mode === 'value'){
       modeValueBtn.classList.add('active');
       statusBar.textContent = '📏 അളവ് മാറ്റുക: വരയിൽ ടച്ച് ചെയ്യുക.';
@@ -1174,6 +1169,22 @@
     }
 
     if(currentMode === 'delete'){
+      // 1. പോയിന്റാണോ ക്ലിക്ക് ചെയ്തതെന്ന് പരിശോധിക്കുന്നു (ഓഫ്‌സെറ്റ് എൻഡ് പോയിന്റ് ഉൾപ്പെടെ)
+      const ptSnap = findSnapVertex(x, y);
+      if(ptSnap){
+        if(isMainLocked && ptSnap.group === 'main'){
+          alert('മെയിൻ പ്ലോട്ട് ലോക്ക് ചെയ്തിരിക്കുന്നു.');
+          return;
+        }
+        saveSnapshot();
+        edges = edges.filter(ed => ed.a !== ptSnap.id && ed.b !== ptSnap.id);
+        points = points.filter(p => p.id !== ptSnap.id);
+        if(activeStartPoint && activeStartPoint.id === ptSnap.id) activeStartPoint = null;
+        redraw();
+        return;
+      }
+
+      // 2. ലൈനാണോ ക്ലിക്ക് ചെയ്തതെന്ന് പരിശോധിക്കുന്നു (ഓഫ്‌സെറ്റ് ലൈൻ ഉൾപ്പെടെ)
       const edge = findSnapOnEdge(x, y)?.edge;
       if(edge){
         if(isMainLocked && edge.group === 'main'){
@@ -1183,7 +1194,9 @@
         saveSnapshot();
         edges = edges.filter(item => item.id !== edge.id);
         points = points.filter(p => edges.some(ed => ed.a === p.id || ed.b === p.id));
+        if(activeStartPoint && !points.some(p => p.id === activeStartPoint.id)) activeStartPoint = null;
         redraw();
+        return;
       }
       return;
     }
@@ -1374,7 +1387,6 @@
       const {x, y} = toWorld(t.clientX, t.clientY);
       handlePointerMove(x, y);
     } else if(e.touches.length === 2){
-      // Two-finger pinch-zoom AND pan simultaneously, exactly like index.html's camera.
       const t1 = e.touches[0];
       const t2 = e.touches[1];
       const rect = canvas.getBoundingClientRect();
@@ -1426,10 +1438,6 @@
     for(let y=0; y<=WORLD_H; y+=30){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(WORLD_W,y); ctx.stroke(); }
   }
 
-  // Every fixed pixel size below (line widths, font sizes, dot radii, dash patterns) is
-  // divided by cameraZoom so it stays a CONSTANT size on screen no matter how far the
-  // user has pinch-zoomed in or out — this is what keeps lines/measurements clearly
-  // readable at any zoom level, same trick used in index.html.
   function redraw(){
     const Z = cameraZoom;
 
@@ -1588,7 +1596,7 @@
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, (isActive ? 7 : 5) / Z, 0, Math.PI*2);
-      ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? '#C59B27' : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
+      ctx.fillStyle = (hoverPoint && hoverPoint.id === p.id) ? ((currentMode === 'delete') ? '#C0392B' : '#C59B27') : (isPart ? '#0066CC' : (isActive ? '#276E2C' : '#111A10'));
       ctx.fill();
       ctx.strokeStyle = '#FFFFFF';
       ctx.lineWidth = 1.6 / Z;
@@ -1751,7 +1759,7 @@
   });
 
   // =========================================================
-  // Field Survey Calculator (standalone number-entry mode)
+  // Field Survey Calculator
   // =========================================================
   (function(){
     const CALC_DRAFT_KEY = 'chainSurveyCalcDraft_v1';
