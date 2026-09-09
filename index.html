@@ -113,7 +113,7 @@
   }
 
   .canvas-box{
-    position:relative;width:100%;height:min(68vh, 600px);
+    position:relative;width:100%;height:min(66vh, 580px);
     background:var(--paper);border-radius:6px;border:1px solid var(--grid);
     overflow:hidden;touch-action:none;
   }
@@ -129,6 +129,16 @@
   
   canvas{display:block;width:100%;height:100%;background:var(--paper);cursor:crosshair;touch-action:none;}
   .status-bar{font-size:11px;color:var(--brass);margin-top:3px;padding:1px 2px;font-weight:600;}
+
+  /* Quick Area Strip directly below the Drawing Canvas */
+  .drawing-quick-area-strip{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#EEF4EC;border:1.5px solid var(--accent);
+    border-radius:6px;padding:6px 12px;margin-top:4px;
+    font-family:'JetBrains Mono', monospace;font-size:12px;font-weight:700;color:var(--accent-dark);
+  }
+  .drawing-quick-area-strip .val-block{display:inline-flex;gap:4px;align-items:center;}
+  .drawing-quick-area-strip span.highlight{color:var(--ink);font-size:13.5px;}
 
   .bottom-section{
     display:grid;grid-template-columns: 1.5fr 1fr;gap:8px;align-items:start;
@@ -178,7 +188,7 @@
   }
   .modal-actions{display:flex;justify-content:flex-end;gap:5px;}
 
-  /* ------------------- PROFESSIONAL PRINT STYLING (FIX FOR SINGLE A4 PAGE) ------------------- */
+  /* ------------------- PROFESSIONAL SINGLE PAGE PRINT ------------------- */
   @media print{
     html, body{
       width:100% !important;height:100% !important;
@@ -208,9 +218,13 @@
     canvas{
       width:100% !important;height:100% !important;max-height:100% !important;object-fit:contain !important;
     }
+    .drawing-quick-area-strip{
+      border:1px solid #333 !important;background:#f5f5f5 !important;
+      color:#111 !important;padding:2mm 4mm !important;margin-top:2mm !important;font-size:9.5pt !important;
+    }
     .bottom-section{
       display:grid !important;grid-template-columns:1.6fr 1fr !important;gap:4mm !important;
-      margin-top:3mm !important;page-break-inside:avoid !important;
+      margin-top:2.5mm !important;page-break-inside:avoid !important;
     }
     .sheet-wrapper{background:#fff !important;border:1px solid #444 !important;padding:3mm !important;border-radius:0 !important;}
     .note-box{border:1px solid #444 !important;border-radius:0 !important;padding:3mm !important;font-size:8.5pt !important;}
@@ -314,6 +328,15 @@
         <canvas id="canvas"></canvas>
         <button id="fullscreenToggleBtn" class="fullscreen-toggle-btn" title="വലുതാക്കുക">⤢</button>
       </div>
+
+      <!-- Quick Area Display Strip directly under Canvas -->
+      <div class="drawing-quick-area-strip" id="quickAreaStrip">
+        <div class="val-block">📐 ആകെ ഏരിയ: <span class="highlight" id="stripSqm">0.00 Sq.m</span></div>
+        <div class="val-block">🌱 സെന്റ്: <span class="highlight" id="stripCent">0.000 Cent</span></div>
+        <div class="val-block">🌾 ആർ: <span class="highlight" id="stripAre">0.000 Are</span></div>
+        <div class="val-block">📏 ചതുരശ്ര അടി: <span class="highlight" id="stripSqft">0.00 Sq.ft</span></div>
+      </div>
+
       <div class="status-bar" id="statusBar">✏️ സ്ക്രീനിൽ ടച്ച് ചെയ്തു വരയ്ക്കുക. Snap ഓൺ ആണ്. (രണ്ട് വിരൽ കൊണ്ട് സൂം/പാൻ ചെയ്യാം)</div>
       <div class="landscape-hint" id="landscapeHint">📱 കൂടുതൽ ഇടത്തിന് ഫോൺ ലാൻഡ്സ്കേപ്പ് ആക്കൂ</div>
     </div>
@@ -428,7 +451,6 @@
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   const A4_PORTRAIT_W = 800, A4_PORTRAIT_H = 1131;
-  // Default to Landscape for survey layouts
   let sheetOrientation = 'landscape';
   let WORLD_W = A4_PORTRAIT_H, WORLD_H = A4_PORTRAIT_W;
 
@@ -447,7 +469,7 @@
     { ratio: 24.0, label: "1:100" },
     { ratio: 48.0, label: "1:50" }
   ];
-  let currentScaleIndex = 5; // 1:200 default
+  let currentScaleIndex = 5; // 1:200
   let BASE_PIXELS_PER_METER = SCALE_STEPS[currentScaleIndex].ratio;
 
   let currentScale = 1.0;
@@ -502,6 +524,11 @@
   const statusBar = document.getElementById('statusBar');
   const tableContainer = document.getElementById('tableContainer');
   const surveyDateLabel = document.getElementById('surveyDateLabel');
+
+  const stripSqm = document.getElementById('stripSqm');
+  const stripCent = document.getElementById('stripCent');
+  const stripAre = document.getElementById('stripAre');
+  const stripSqft = document.getElementById('stripSqft');
 
   const lengthModal = document.getElementById('lengthModal');
   const lengthInput = document.getElementById('lengthInput');
@@ -628,7 +655,6 @@
   scalePlusBtn.addEventListener('click', ()=> changePlotScale(currentScaleIndex + 1));
   scaleMinusBtn.addEventListener('click', ()=> changePlotScale(currentScaleIndex - 1));
 
-  // --- OPTIMIZED PRINT ENGINE WITH AUTO-FIT AND CLEAR READABLE FONT MULTIPLIERS ---
   let printModeActive = false;
   let savedCam = null;
   function preparePrintCanvas(){
@@ -636,13 +662,11 @@
     printModeActive = true;
     savedCam = { w: canvas.width, h: canvas.height, zoom: cameraZoom, panX: cameraPanX, panY: cameraPanY };
 
-    // Set print canvas size proportional to sheet
     const targetW = (sheetOrientation === 'landscape') ? 1200 : 900;
     const targetH = Math.round(targetW * (WORLD_H / WORLD_W));
     canvas.width = targetW;
     canvas.height = targetH;
 
-    // Auto-fit plot into print canvas with optimal margins
     if(points.length > 0){
       let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
       points.forEach(p => {
@@ -699,6 +723,7 @@
     updateLockUI();
     updateScaleLabel();
     activeStartPoint = null;
+    calculateTable();
     redraw();
   }
 
@@ -941,6 +966,7 @@
         saveSnapshot();
         editingEdge.length = val;
         applyEdgeLengthAdjustment(editingEdge, val, anchorId);
+        calculateTable();
       }
     }
     lengthModal.classList.add('hidden');
@@ -1007,6 +1033,7 @@
           newOffEdge.baseEdgeId = offsetBaseEdge.id;
           newOffEdge.baseEdgeLenAtCreation = offsetBaseEdge.length || null;
         }
+        calculateTable();
       }
     }
 
@@ -1081,6 +1108,7 @@
         edges = edges.filter(ed => ed.a !== ptSnap.id && ed.b !== ptSnap.id);
         points = points.filter(p => p.id !== ptSnap.id);
         if(activeStartPoint && activeStartPoint.id === ptSnap.id) activeStartPoint = null;
+        calculateTable();
         redraw();
         return;
       }
@@ -1095,6 +1123,7 @@
         edges = edges.filter(item => item.id !== edge.id);
         points = points.filter(p => edges.some(ed => ed.a === p.id || ed.b === p.id));
         if(activeStartPoint && !points.some(p => p.id === activeStartPoint.id)) activeStartPoint = null;
+        calculateTable();
         redraw();
         return;
       }
@@ -1140,6 +1169,7 @@
           saveSnapshot();
           const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, true);
           if(edge) edge.group = 'partition';
+          calculateTable();
         }
         activeStartPoint = clickedPoint;
       }
@@ -1168,6 +1198,7 @@
           saveSnapshot();
           const edge = addEdge(activeStartPoint.id, clickedPoint.id, null, false);
           if(edge) edge.group = 'main';
+          calculateTable();
         }
         activeStartPoint = clickedPoint;
       }
@@ -1243,6 +1274,7 @@
         addEdge(p3.id, p4.id, lenL, isPart);
         addEdge(p4.id, p1.id, lenW, isPart);
         addEdge(p1.id, p3.id, diag, isPart);
+        calculateTable();
       }
       redraw();
     }
@@ -1397,7 +1429,6 @@
 
   function redraw(){
     const Z = cameraZoom;
-    // Scale factor for crisp, readable text on high-res prints
     const printScaleMultiplier = printModeActive ? 1.6 : 1.0;
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -1579,6 +1610,10 @@
     const triangles = analyzeTriangles();
     if(!triangles.length){
       tableContainer.innerHTML = '<p style="color:var(--danger);font-size:11px;">പൂർണ്ണമായ ത്രികോണങ്ങളോ പ്ലോട്ടുകളോ കണ്ടെത്തിയില്ല. ഡയഗണലുകൾ നൽകി ബന്ധിപ്പിക്കുക.</p>';
+      stripSqm.textContent = "0.00 Sq.m";
+      stripCent.textContent = "0.000 Cent";
+      stripAre.textContent = "0.000 Are";
+      stripSqft.textContent = "0.00 Sq.ft";
       return;
     }
 
@@ -1683,6 +1718,13 @@
     `;
 
     tableContainer.innerHTML = tableHtml;
+
+    // Update Quick Area Strip under the Canvas
+    stripSqm.textContent = `${totalSqm.toFixed(2)} Sq.m`;
+    stripCent.textContent = `${totalCent.toFixed(3)} Cent`;
+    stripAre.textContent = `${totalAre.toFixed(3)} Are`;
+    stripSqft.textContent = `${totalSqft.toFixed(2)} Sq.ft`;
+
     redraw();
   }
 
@@ -1697,7 +1739,6 @@
       style.id = 'dynamicPrintStyle';
       document.head.appendChild(style);
     }
-    // Margin set to 6mm to ensure complete single page containment
     style.innerHTML = `@page { size: A4 ${orient}; margin: 6mm; }`;
 
     setTimeout(()=>{
@@ -1716,8 +1757,12 @@
       BASE_PIXELS_PER_METER = SCALE_STEPS[currentScaleIndex].ratio;
       updatePlotScaleUI();
       updateScaleLabel();
-      redraw();
+      stripSqm.textContent = "0.00 Sq.m";
+      stripCent.textContent = "0.000 Cent";
+      stripAre.textContent = "0.000 Are";
+      stripSqft.textContent = "0.00 Sq.ft";
       tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:11px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
+      redraw();
     }
   });
 
