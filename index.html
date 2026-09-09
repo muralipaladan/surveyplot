@@ -104,6 +104,24 @@
     padding:2px 4px;color:var(--accent-dark);
   }
 
+  .btn-group{
+    display:inline-flex;
+    align-items:center;
+    background:#EFECE2;
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:1px;
+    gap:2px;
+  }
+  .btn-group button{
+    border:none;
+    padding:4px 7px;
+    background:transparent;
+  }
+  .btn-group button:hover{
+    background:#fff;
+  }
+
   .a4-sheet-container{
     background:var(--card);
     border:1px solid var(--border);
@@ -388,16 +406,12 @@
     <button id="modeDelete" class="danger">❌ ഒഴിവാക്കുക</button>
     <button id="modeMoveAll">✋ മൂവ് ഓൾ</button>
     
-    <label for="drawingScaleSelect" style="font-size:11px;font-weight:700;margin-left:4px;color:var(--accent-dark);">സ്കെയിൽ:</label>
-    <select id="drawingScaleSelect" title="ഡ്രോയിംഗ് സ്കെയിൽ മാറ്റുക">
-      <option value="20">1:100 (വലുത്)</option>
-      <option value="16">1:150</option>
-      <option value="12" selected>1:200 (നോർമൽ)</option>
-      <option value="8">1:400</option>
-      <option value="6">1:500</option>
-      <option value="4">1:800</option>
-      <option value="2.5">1:1000 (ചെറുത്)</option>
-    </select>
+    <!-- Drawing Scale Adjustment with + / - Buttons -->
+    <div class="btn-group" title="പ്ലോട്ടിന്റെ സൈസ് സ്കെയിൽ മാറ്റുക">
+      <button id="scaleMinusBtn" title="സ്കെയിൽ കുറയ്ക്കുക (പ്ലോട്ട് ചെറുതാക്കുക)">📐 −</button>
+      <span class="scale-label" id="plotScaleLabel">1:200</span>
+      <button id="scalePlusBtn" title="സ്കെയിൽ കൂട്ടുക (പ്ലോട്ട് വലുതാക്കുക)">📐 +</button>
+    </div>
 
     <button id="zoomOutBtn">🔍 -</button>
     <span class="scale-label" id="scaleLabel">100%</span>
@@ -636,7 +650,20 @@
   const SNAP_BASE = IS_TOUCH ? 32 : 24;
   const LINE_SNAP_BASE = IS_TOUCH ? 24 : 18;
   
-  let BASE_PIXELS_PER_METER = 12;
+  // Supported Survey Scales (pixels-per-meter)
+  const SCALE_STEPS = [
+    { ratio: 2.4, label: "1:1000" },
+    { ratio: 3.0, label: "1:800" },
+    { ratio: 4.8, label: "1:500" },
+    { ratio: 6.0, label: "1:400" },
+    { ratio: 8.0, label: "1:300" },
+    { ratio: 12.0, label: "1:200" },
+    { ratio: 16.0, label: "1:150" },
+    { ratio: 24.0, label: "1:100" },
+    { ratio: 48.0, label: "1:50" }
+  ];
+  let currentScaleIndex = 5; // Default: 1:200 (12.0 ppm)
+  let BASE_PIXELS_PER_METER = SCALE_STEPS[currentScaleIndex].ratio;
 
   let currentScale = 1.0;
   let cameraZoom = 1, cameraPanX = 0, cameraPanY = 0;
@@ -657,11 +684,11 @@
   let isDragging = false;
   let dragStartX = 0, dragStartY = 0;
 
-  // Touch gesture & drag-pan threshold trackers
+  // Touch gesture & threshold trackers
   let touchStartScreenX = 0, touchStartScreenY = 0;
   let isTouchPanning = false;
   let wasPinching = false;
-  const DRAG_THRESHOLD = 6; // pixels
+  const DRAG_THRESHOLD = 6;
 
   let isPinching = false;
   let initialPinchDist = 0;
@@ -683,7 +710,11 @@
   const modeDeleteBtn = document.getElementById('modeDelete');
   const modeValueBtn = document.getElementById('modeValue');
   const scaleLabel = document.getElementById('scaleLabel');
-  const drawingScaleSelect = document.getElementById('drawingScaleSelect');
+  
+  const scaleMinusBtn = document.getElementById('scaleMinusBtn');
+  const scalePlusBtn = document.getElementById('scalePlusBtn');
+  const plotScaleLabel = document.getElementById('plotScaleLabel');
+
   const statusBar = document.getElementById('statusBar');
   const tableContainer = document.getElementById('tableContainer');
   const surveyDateLabel = document.getElementById('surveyDateLabel');
@@ -776,37 +807,50 @@
     redraw();
   }
 
-  if(drawingScaleSelect){
-    drawingScaleSelect.addEventListener('change', (e)=>{
-      const newPpm = parseFloat(e.target.value);
-      if(isNaN(newPpm) || newPpm <= 0) return;
-      
-      const ratio = newPpm / BASE_PIXELS_PER_METER;
-      if(ratio === 1) return;
-
-      saveSnapshot();
-
-      if(points.length > 0){
-        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-        points.forEach(p => {
-          if(p.x < minX) minX = p.x;
-          if(p.x > maxX) maxX = p.x;
-          if(p.y < minY) minY = p.y;
-          if(p.y > maxY) maxY = p.y;
-        });
-        const cx = (minX + maxX) / 2;
-        const cy = (minY + maxY) / 2;
-
-        points.forEach(p => {
-          p.x = cx + (p.x - cx) * ratio;
-          p.y = cy + (p.y - cy) * ratio;
-        });
-      }
-
-      BASE_PIXELS_PER_METER = newPpm;
-      redraw();
-    });
+  // --- Dynamic Drawing Scale Step Functionality (+ / -) ---
+  function updatePlotScaleUI(){
+    plotScaleLabel.textContent = SCALE_STEPS[currentScaleIndex].label;
   }
+
+  function changePlotScale(newIdx){
+    if(newIdx < 0 || newIdx >= SCALE_STEPS.length) return;
+    const oldPpm = BASE_PIXELS_PER_METER;
+    currentScaleIndex = newIdx;
+    BASE_PIXELS_PER_METER = SCALE_STEPS[currentScaleIndex].ratio;
+    updatePlotScaleUI();
+
+    const ratio = BASE_PIXELS_PER_METER / oldPpm;
+    if(ratio === 1 || points.length === 0){ redraw(); return; }
+
+    saveSnapshot();
+
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    points.forEach(p => {
+      if(p.x < minX) minX = p.x;
+      if(p.x > maxX) maxX = p.x;
+      if(p.y < minY) minY = p.y;
+      if(p.y > maxY) maxY = p.y;
+    });
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+
+    points.forEach(p => {
+      p.x = cx + (p.x - cx) * ratio;
+      p.y = cy + (p.y - cy) * ratio;
+    });
+
+    redraw();
+  }
+
+  scalePlusBtn.addEventListener('click', ()=>{
+    // Increasing scale (larger plot on paper, e.g., 1:200 -> 1:100)
+    changePlotScale(currentScaleIndex + 1);
+  });
+
+  scaleMinusBtn.addEventListener('click', ()=>{
+    // Decreasing scale (smaller plot on paper, e.g., 1:200 -> 1:400)
+    changePlotScale(currentScaleIndex - 1);
+  });
 
   let printModeActive = false;
   let savedCam = null;
@@ -833,7 +877,7 @@
   window.addEventListener('afterprint', restoreScreenCanvas);
 
   function saveSnapshot(){
-    undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked, BASE_PIXELS_PER_METER}));
+    undoStack.push(JSON.stringify({points, edges, nextPtId, nextEdgeId, currentScale, isMainLocked, currentScaleIndex, BASE_PIXELS_PER_METER}));
     if(undoStack.length > 50) undoStack.shift();
   }
 
@@ -846,9 +890,10 @@
     nextEdgeId = data.nextEdgeId;
     currentScale = data.currentScale || 1.0;
     isMainLocked = !!data.isMainLocked;
-    if(data.BASE_PIXELS_PER_METER){
-      BASE_PIXELS_PER_METER = data.BASE_PIXELS_PER_METER;
-      if(drawingScaleSelect) drawingScaleSelect.value = BASE_PIXELS_PER_METER;
+    if(data.currentScaleIndex !== undefined){
+      currentScaleIndex = data.currentScaleIndex;
+      BASE_PIXELS_PER_METER = SCALE_STEPS[currentScaleIndex].ratio;
+      updatePlotScaleUI();
     }
     updateLockUI();
     updateScaleLabel();
@@ -1402,7 +1447,7 @@
     }
   }
 
-  // --- MOUSE EVENTS ---
+  // Mouse pan handling
   let isMousePanning = false;
   let mouseStartScreenX = 0, mouseStartScreenY = 0;
 
@@ -1411,7 +1456,6 @@
     mouseStartScreenY = e.clientY;
     isMousePanning = false;
 
-    // Right-click or middle-click for panning
     if(e.button === 1 || e.button === 2){
       isMousePanning = true;
       return;
@@ -1442,7 +1486,7 @@
 
   canvas.addEventListener('contextmenu', e => e.preventDefault());
 
-  // --- SMART TOUCH EVENTS (Anti-accidental drawing during Pan/Zoom) ---
+  // Smart touch events (Pan & Zoom without false points)
   canvas.addEventListener('touchstart', (e)=>{
     if(e.touches.length === 1){
       const t = e.touches[0];
@@ -1476,15 +1520,12 @@
       const t = e.touches[0];
       const moveDist = dist(t.clientX, t.clientY, touchStartScreenX, touchStartScreenY);
 
-      // Check if user is trying to drag/pan canvas or execute drawing
       if(currentMode === 'rect' || currentMode === 'moveAll' || currentMode === 'movePart'){
         const {x, y} = toWorld(t.clientX, t.clientY);
         handlePointerMove(x, y);
       } else {
-        // Draw / Partition / Delete modes: Threshold check prevents unwanted point creation
         if(moveDist > DRAG_THRESHOLD){
           isTouchPanning = true;
-          // Smooth Pan Canvas
           cameraPanX += (t.clientX - touchStartScreenX);
           cameraPanY += (t.clientY - touchStartScreenY);
           touchStartScreenX = t.clientX;
@@ -1522,7 +1563,6 @@
 
   window.addEventListener('touchend', (e)=>{
     if(e.touches.length === 0){
-      // Only place point if it was a real tap without panning or pinch-zooming
       if(!isTouchPanning && !wasPinching && !isPinching){
         const {x, y} = toWorld(touchStartScreenX, touchStartScreenY);
         handlePointerDown(x, y);
@@ -1532,7 +1572,6 @@
       wasPinching = false;
       handlePointerUp();
     } else if(e.touches.length === 1){
-      // Still touching with 1 finger after pinching, update reference
       wasPinching = true;
       touchStartScreenX = e.touches[0].clientX;
       touchStartScreenY = e.touches[0].clientY;
@@ -1871,8 +1910,9 @@
       isMainLocked = false;
       updateLockUI();
       currentScale = 1.0;
-      BASE_PIXELS_PER_METER = 12;
-      if(drawingScaleSelect) drawingScaleSelect.value = "12";
+      currentScaleIndex = 5;
+      BASE_PIXELS_PER_METER = SCALE_STEPS[currentScaleIndex].ratio;
+      updatePlotScaleUI();
       updateScaleLabel();
       redraw();
       tableContainer.innerHTML = '<p style="color:var(--ink-soft);font-size:11px;margin:2px 0;">സ്കെച്ച് പൂർത്തിയാക്കി "വിസ്തീർണ്ണം" ക്ലിക്ക് ചെയ്യുക.</p>';
